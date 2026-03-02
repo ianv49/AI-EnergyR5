@@ -757,3 +757,18 @@ The fetch function now:
 
 [z] Summary of changes today: Fixed database constraint to allow multiple sources per timestamp, completed NASA POWER backfill with 1,036 records, filled OpenWeather gaps achieving 100% hourly coverage from Jan 1 to Feb 13, 2026.
 ================================================
+
+in readme.
+4. **Trigger data collection manually**:
+   ```bash
+   curl -X POST http://localhost:5000/trigger_ingestion
+   ```
+   - This sends a request to collect new sensor data
+   - The response will show how many data points were collected (typically 20 rows: 10 weather + 10 solar irradiance)
+   - **Status**: ✅ Working - Successfully tested and integrated into HTML dashboard
+get latest data by fetch of the new data between latest in database and data on the now time.
+change this to task that fetch data 1row each hour, enhance from the old setting of 10 rows only.
+align the related function codes and files properly.
+
+Resume Task
+Unlock pro models for better quality

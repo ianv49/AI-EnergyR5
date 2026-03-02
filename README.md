@@ -171,7 +171,7 @@ cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"
 
 Then run the connection test:
 ```bash
-python db/test_connection.py
+py db/test_connection.py
 ```
 
 **Expected output:**
@@ -198,7 +198,7 @@ pg_ctl.exe -D "D:\My Documents\tools\postgresql\pgsql\data" stop
 | Start server | `pg_ctl.exe -D "path\to\data" -l logfile start` |
 | Stop server | `pg_ctl.exe -D "path\to\data" stop` |
 | Check status | `pg_ctl.exe -D "path\to\data" status` |
-| Test connection | `python db/test_connection.py` |
+| Test connection | `py db/test_connection.py` |
 | View schema | `"D:\My Documents\tools\postgresql\pgsql\bin\psql.exe" -U postgres -d energy_db -c "\d sensor_data"` |
 
 #### Troubleshooting
@@ -242,7 +242,7 @@ Before starting, make sure you have:
 
 2. **Verify database connection**:
    - Change to your project directory: `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
-   - Run: `python db/test_connection.py`
+   - Run: `py db/test_connection.py`
    - You should see existing sensor data in a table format
 
 ##### Step 2: Test Manual Data Collection
@@ -256,7 +256,7 @@ Manual collection lets you trigger data ingestion instantly via a web API call.
 
 2. **Start the web server**:
    ```bash
-   python ingestion_trigger.py
+   py ingestion_trigger.py
    ```
    - You should see: "Running on http://0.0.0.0:5000"
    - Keep this window open - the server is now running
@@ -280,7 +280,7 @@ Manual collection lets you trigger data ingestion instantly via a web API call.
 
 6. **Verify data was saved to database**:
    - Change to project directory: `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
-   - Run: `python db/test_connection.py`
+   - Run: `py db/test_connection.py`
    - You should see new rows added to your sensor data table
    - Look for recent timestamps in the data
 
@@ -290,7 +290,7 @@ Manual collection lets you trigger data ingestion instantly via a web API call.
 2. **Restart the Flask server**:
    ```bash
    cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5\web"
-   python ingestion_trigger.py
+   py ingestion_trigger.py
    ```
 3. **Run the curl command again**:
    ```bash
@@ -299,7 +299,7 @@ Manual collection lets you trigger data ingestion instantly via a web API call.
 4. **Check if data was saved**:
    ```bash
    cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"
-   python db/test_connection.py
+   py db/test_connection.py
    ```
 
 
@@ -314,7 +314,7 @@ Automatic collection runs daily after 8 PM, but you can test the function direct
 
 2. **Run the test**:
    ```bash
-   python -c "from web.ingestion_trigger import perform_continuous_ingestion; result = perform_continuous_ingestion(); print('Result:', result)"
+   py -c "from web.ingestion_trigger import perform_continuous_ingestion; result = perform_continuous_ingestion(); print('Result:', result)"
    ```
 
 3. **What you'll see**:
@@ -349,7 +349,7 @@ Now that you've collected data, let's see it in the web dashboard!
 
 4. **Alternative: View HTML Table**:
    - Change to project directory: `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
-   - Run: `python web/generate_html_table.py`
+   - Run: `py web/generate_html_table.py`
    - This creates an HTML file you can open in any browser
    - Shows the same data in a formatted table
 
@@ -364,7 +364,7 @@ Now that you've collected data, let's see it in the web dashboard!
 
 2. **Final database check**:
    - Change to project directory: `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
-   - Run: `python db/test_connection.py`
+   - Run: `py db/test_connection.py`
    - Confirm all your new data is there
    - Count should be higher than before you started
 
@@ -386,7 +386,7 @@ For a more user-friendly experience, start directly with the interactive HTML in
 
 2. **Start the Flask web server and open HTML interface**:
    ```bash
-   python ingestion_trigger.py
+   py ingestion_trigger.py
    ```
    - The server will start and run on `http://0.0.0.0:5000`
    - You should see: "Running on http://0.0.0.0:5000"
@@ -478,7 +478,7 @@ If something doesn't work:
 
 
 **Common Issues and Solutions:**
-- **"Flask server not responding"**: Restart `python ingestion_trigger.py`
+- **"Flask server not responding"**: Restart `py ingestion_trigger.py`
 - **"PostgreSQL not running"**: Use "Check PostgreSQL Status" button to diagnose
 - **"API key errors"**: Check `config.py` for valid API keys
 - **"No data collected"**: Verify internet connection and API limits
@@ -494,7 +494,7 @@ pg_ctl.exe -D "D:\My Documents\tools\postgresql\pgsql\data" status
 
 # Start web server for data collection
 cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5\web"
-python ingestion_trigger.py
+py ingestion_trigger.py
 
 # Trigger manual data collection
 curl -X POST http://localhost:5000/trigger_ingestion
@@ -505,11 +505,11 @@ curl -X POST http://localhost:5000/trigger_ingestion
 
 # Check database contents (from project directory)
 cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"
-python db/test_connection.py
+py db/test_connection.py
 
 # Test automatic collection (from project directory)
 cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"
-python -c "from web.ingestion_trigger import perform_continuous_ingestion; print(perform_continuous_ingestion())"
+py -c "from web.ingestion_trigger import perform_continuous_ingestion; print(perform_continuous_ingestion())"
 ```
 
 This complete guide takes you from setting up the environment to collecting data and viewing beautiful charts in your web browser. The Phase 8 system automatically combines simulated sensor data with real weather and solar data, giving you a comprehensive view of your renewable energy system's performance!
