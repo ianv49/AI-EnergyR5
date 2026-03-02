@@ -772,3 +772,40 @@ align the related function codes and files properly.
 
 Resume Task
 Unlock pro models for better quality
+
+================================================
+..notes 260302;
+[a]Step-by-Step: Fix 'Python was not found' Error on Windows 11
+On Windows 11, running `python` command may redirect to Microsoft Store instead of running Python. Here are the solutions:
+
+[b]Option 1: Use py command (recommended)
+Use the Python Launcher that comes with Python on Windows:
+```
+bash
+py db/test_connection.py
+py ingestion_trigger.py
+py -c 'print(1+1)'
+```
+
+[c]Option 2: Use full path to Python
+Run with the full path to Python.exe:
+```
+bash
+C:\Users\ffx3nb\AppData\Local\Python\pythoncore-3.14-64\python.exe db/test_connection.py
+```
+
+[d]Option 3: Disable App execution aliases (permanent fix)
+1. Go to Settings > Apps > Advanced app settings > App execution aliases
+2. Turn off the aliases for python.exe and python3.exe
+
+[e]Updated README commands
+All Python commands in README.md have been updated from `python` to `py`:
+- `python db/test_connection.py` → `py db/test_connection.py`
+- `python ingestion_trigger.py` → `py ingestion_trigger.py`
+- `python -c` → `py -c`
+
+[f]Test result
+Running `py db/test_connection.py` works successfully - shows sensor data in table format.
+
+[z] Summary: On Windows 11, always use `py` instead of `python` to run Python scripts. Updated README.md with this fix. The `py` command is the Python Launcher that comes with Python installations on Windows and works reliably without PATH issues.
+================================================
