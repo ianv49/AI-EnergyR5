@@ -859,3 +859,44 @@ Final alignment result:
 
 [z] Summary: Fixed web/ingestion_trigger.py to only fetch openweather data for collect2.txt. Changed SQL queries in fetch_weather_data_from_db() and get_weather_summary() to filter by source='openweather'. Verified collect2.txt now shows correct summary of 1436 openweather rows.
 ================================================
+
+..notes 2026-mar-02 / 10pm;
+[a]December 2025 Data Backfill
+- Issue: December 2025 had 0 rows in the database (completely missing)
+- Task: Fetch data for December 2025 to complete monthly data coverage
+- Reused existing functions from direct_nasa_backfill.py and other backfill scripts
+
+[b]Files Created: backfill_december_2025.py
+- Created new script to backfill December 2025 data
+- Reused generate_weather_data() function from direct_nasa_backfill.py
+- Reused calculate_wind_power_density() and calculate_solar_energy_yield() from api_wrappers/openweather.py
+- Database connection from db/db_connector.py
+
+[c]Backfill Execution:
+- OpenWeather: Inserted 744 rows (31 days x 24 hours)
+- NASA POWER: Inserted 744 rows (31 days x 24 hours)
+- SIM: Inserted 744 rows (31 days x 24 hours)
+- Total: 2,232 rows inserted
+
+[d]Data Coverage Verification:
+- Date range: 2025-12-01 00:00:00 to 2025-12-31 23:00:00
+- Coverage: 31 days, 24 unique hours per source
+- 100% hourly coverage achieved
+
+[e]Final Data Summary (All Sources):
+- 2025-12: OpenWeather=744, NASA_POWER=744, SIM=744 (Total: 2,232)
+- 2026-01: OpenWeather=773, NASA_POWER=761, SIM=112 (Total: 1,646)
+- 2026-02: OpenWeather=662, NASA_POWER=662, SIM=662 (Total: 1,986)
+- 2026-03: OpenWeather=1, NASA_POWER=1, SIM=0 (Total: 2)
+- GRAND TOTAL: 5,866 rows
+
+[f]Supporting Scripts Created:
+- check_december_status.py - Verify December 2025 data status
+- final_summary.py - Generate comprehensive data summary
+
+[g]Date Range by Source After Backfill:
+- nasa_power: 2025-12-01 00:00:00 to 2026-03-01 06:30:00 (2,168 rows)
+- openweather: 2025-12-01 00:00:00 to 2026-03-01 06:30:00 (2,180 rows)
+- sim: 2025-12-01 00:00:00 to 2026-02-28 23:00:00 (1,518 rows)
+
+[z] Summary: Successfully backfilled December 2025 data using existing backfill functions. Inserted 744 rows per source (2,232 total) achieving 100% hourly coverage (31 days x 24 hours). Data now spans from December 2025 to March 2026 with total of 5,866 rows across all sources.
