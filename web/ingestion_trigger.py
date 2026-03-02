@@ -479,7 +479,7 @@ def get_sim_summary():
         return None
 
 def get_weather_summary():
-    """Get summary statistics for weather data (non-sim sources including NULL)"""
+    """Get summary statistics for OpenWeather data only"""
     try:
         conn = get_connection()
         with conn.cursor() as cur:
@@ -501,7 +501,7 @@ def get_weather_summary():
                     MIN(wind_speed) as min_wind_speed,
                     MAX(wind_speed) as max_wind_speed
                 FROM sensor_data
-                WHERE source != 'sim' OR source IS NULL
+                WHERE source = 'openweather'
             """)
             result = cur.fetchone()
         conn.close()
@@ -669,11 +669,11 @@ def fetch_weather_data_from_db():
 
         conn = get_connection()
         with conn.cursor() as cur:
-            # Get ALL weather data entries (non-sim sources including NULL)
+            # Get ONLY openweather data entries
             cur.execute("""
                 SELECT timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield
                 FROM sensor_data
-                WHERE source != 'sim' OR source IS NULL
+                WHERE source = 'openweather'
                 ORDER BY timestamp DESC
             """)
             rows = cur.fetchall()

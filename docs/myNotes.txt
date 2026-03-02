@@ -774,7 +774,7 @@ Resume Task
 Unlock pro models for better quality
 
 ================================================
-..notes 260302;
+..notes 2026-mar-02 / 6pm;
 [a]Step-by-Step: Fix 'Python was not found' Error on Windows 11
 On Windows 11, running `python` command may redirect to Microsoft Store instead of running Python. Here are the solutions:
 
@@ -807,5 +807,55 @@ All Python commands in README.md have been updated from `python` to `py`:
 [f]Test result
 Running `py db/test_connection.py` works successfully - shows sensor data in table format.
 
-[z] Summary: On Windows 11, always use `py` instead of `python` to run Python scripts. Updated README.md with this fix. The `py` command is the Python Launcher that comes with Python installations on Windows and works reliably without PATH issues.
+[g]February 2026 Timestamp Alignment Fix
+After fixing the Python command issue, I verified the database and found timestamp alignment issues in February 2026 data. All 3 data sources (OpenWeather, NASA_POWER, SIM) had misaligned timestamps.
+
+Initial alignment check showed:
+- OpenWeather unique timestamps: 711
+- NASA_POWER unique timestamps: 675
+- SIM unique timestamps: 676
+- Common across all 3 sources: 654
+- Alignment: 89.2%
+
+Fixed the following issues:
+1. **align_february_timestamps.py** - Fixed 45 misaligned timestamps (seconds precision)
+2. **fix_remaining_align.py** - Fixed 37 remaining timestamps (30-minute offsets)
+3. **delete_sim_only.py** - Deleted 10 SIM-only orphaned timestamps
+
+Final alignment result:
+- OpenWeather unique timestamps: 662
+- NASA_POWER unique timestamps: 662
+- SIM unique timestamps: 662
+- Common across all 3 sources: 662
+- Alignment: 100% PERFECT!
+
+[z] Summary: Fixed Python 'not found' error by using `py` instead of `python` on Windows 11. Updated README.md commands. Fixed February 2026 timestamp alignment achieving 100% alignment across all 3 data sources. Created alignment verification and fix scripts: check_feb_alignment.py, align_february_timestamps.py, fix_remaining_align.py, delete_sim_only.py.
+================================================
+
+..notes 2026-mar-2 / 9pm;
+[a]Fix collect2.txt - Fetch Function and Summary
+- Issue: collect2.txt was showing wrong data (nasa_power included with openweather) and wrong summary count (2860 instead of actual openweather count)
+- Root cause: SQL queries in fetch_weather_data_from_db() and get_weather_summary() used `WHERE source != 'sim' OR source IS NULL` which included nasa_power data
+
+[b]Files Modified: web/ingestion_trigger.py
+1. fetch_weather_data_from_db() function:
+   - Changed SQL query FROM: WHERE source != 'sim' OR source IS NULL
+   - Changed SQL query TO: WHERE source = 'openweather'
+   - Result: collect2.txt now only contains openweather data
+
+2. get_weather_summary() function:
+   - Changed SQL query FROM: WHERE source != 'sim' OR source IS NULL
+   - Changed SQL query TO: WHERE source = 'openweather'
+   - Result: Summary now shows correct count of openweather rows only
+
+[c]Verification Result:
+- collect2.txt now shows: # Summary: weather=1436
+- Previous incorrect value: # Summary: weather=2860
+- Data in collect2.txt now only contains source='openweather' rows (not nasa_power)
+
+[d]Other collect files remain unchanged:
+- collect1.txt: sim data (source='sim')
+- collect3.txt: nasa_power data (source='nasa_power')
+
+[z] Summary: Fixed web/ingestion_trigger.py to only fetch openweather data for collect2.txt. Changed SQL queries in fetch_weather_data_from_db() and get_weather_summary() to filter by source='openweather'. Verified collect2.txt now shows correct summary of 1436 openweather rows.
 ================================================
