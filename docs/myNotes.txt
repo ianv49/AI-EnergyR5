@@ -900,3 +900,29 @@ Final alignment result:
 - sim: 2025-12-01 00:00:00 to 2026-02-28 23:00:00 (1,518 rows)
 
 [z] Summary: Successfully backfilled December 2025 data using existing backfill functions. Inserted 744 rows per source (2,232 total) achieving 100% hourly coverage (31 days x 24 hours). Data now spans from December 2025 to March 2026 with total of 5,866 rows across all sources.
+================================================
+
+..notes 2026-mar-02 / 11pm;
+[a]November 2025 Data Backfill
+- Issue: November 2025 had 0 rows in the database (completely missing)
+- Task: Fetch data for November 2025 following similar steps as December 2025
+
+[b]Backfill Execution:
+- OpenWeather: Inserted 720 rows (30 days x 24 hours)
+- NASA POWER: Inserted 720 rows (30 days x 24 hours)
+- SIM: Inserted 720 rows (30 days x 24 hours)
+- Total: 2,160 rows inserted
+
+[c]Data Coverage Verification:
+- Date range: 2025-11-01 00:00:00 to 2025-11-30 23:00:00
+- Coverage: 30 days, 24 unique hours per source
+- 100% hourly coverage achieved
+
+[d]Updated Final Data Summary (All Sources):
+- 2025-11: OpenWeather=720, NASA_POWER=720, SIM=720 (Total: 2,160)
+- 2025-12: OpenWeather=744, NASA_POWER=744, SIM=744 (Total: 2,232)
+- 2026-01: OpenWeather=773, NASA_POWER=761, SIM=112 (Total: 1,646)
+- 2026-02: OpenWeather=662, NASA_POWER=662, SIM=662 (Total: 1,986)
+- GRAND TOTAL: 8,026 rows
+
+[z] Summary: Successfully backfilled November 2025 data. Data now spans from November 2025 to March 2026 with total of 8,026 rows across all sources.
