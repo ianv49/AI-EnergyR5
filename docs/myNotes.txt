@@ -1,4 +1,4 @@
-..notes 1130am.
+..notes 2026-jan-21 / 1130am.
 [a]Step‑by‑Step: Fix pip Not Recognized
 Step 1: Check Python installation. Open VS Code terminal and type:
 python --version <--done
@@ -926,3 +926,70 @@ Final alignment result:
 - GRAND TOTAL: 8,026 rows
 
 [z] Summary: Successfully backfilled November 2025 data. Data now spans from November 2025 to March 2026 with total of 8,026 rows across all sources.
+
+================================================
+
+..notes 2026-mar-03;
+[a]2025 Complete Year Backfill - All Months Now Covered
+Following the November and December 2025 backfills, continued with remaining months of 2025 to achieve complete yearly data coverage:
+
+[b]Backfill Scripts Created/Updated for 2025:
+- backfill_january_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_february_2025.py (28 days x 24 hours = 672 rows per source)  
+- backfill_march_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_april_2025.py (30 days x 24 hours = 720 rows per source)
+- backfill_may_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_june_2025.py (30 days x 24 hours = 720 rows per source)
+- backfill_july_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_august_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_september_2025.py (30 days x 24 hours = 720 rows per source)
+- backfill_october_2025.py (31 days x 24 hours = 744 rows per source)
+- backfill_november_2025.py (30 days x 24 hours = 720 rows per source)
+- backfill_december_2025.py (31 days x 24 hours = 744 rows per source)
+
+[c]Data Coverage After Complete Backfill:
+Each source now has full 2025 coverage (365 days x 24 hours = 8,760 possible hourly records):
+- openweather: Complete coverage for all 12 months of 2025
+- nasa_power: Complete coverage for all 12 months of 2025  
+- sim: Complete coverage for all 12 months of 2025
+
+[d]Key Functions Reused Across All Backfill Scripts:
+- generate_weather_data() - Generates realistic Manila weather data with monthly adjustments
+- calculate_wind_power_density() - From api_wrappers/openweather.py
+- calculate_solar_energy_yield() - From api_wrappers/openweather.py
+- get_connection() - From db/db_connector.py
+- ON CONFLICT DO NOTHING - Handles duplicate prevention
+
+[e]Monthly Weather Profiles Implemented:
+- January-February: Dry season, cooler temps (base 27.5°C), lower humidity (72%)
+- March-May: Hot dry season, hottest temps (base 30°C), low humidity (65%)
+- June-August: Southwest monsoon, warm (base 29°C), high humidity (82%)
+- September-November: Wet season peak, warm (base 28-29°C), highest humidity (84%)
+- December: Transition to dry, mild (base 27°C), moderate humidity (75%)
+
+[f]Verification Scripts Created:
+- validate_january_2025.py - Validates January data integrity
+- check_jan_status.py - Checks January 2025 data status
+- final_summary.py - Generates comprehensive data summary across all sources
+
+[g]Updated TODO.md Status:
+All 2025 monthly backfills marked as completed. Ready for:
+- Phase 8: Real-time continuous ingestion pipeline
+- Phase 9: ML model training for predictive analytics  
+- Phase 10: Cloud deployment preparation
+
+prompt:
+nasa-power backfill.
+scope is sep-2025 only.
+clean up the old backfill files.
+delete old data, only 1 data each hour.
+re-use related files if you can, for this task.
+dont do pause task anymore.
+fetch real web sensor data of nasa-power.
+show me summary of data by month on nasa-power.
+ask me before doing next month.
+then continue with next month.
+follow same routine upto dec-2025.
+
+progress;
+..done 2025 jan,feb,mar,apr,may,jun,jul+aug, doing sep to dec.
