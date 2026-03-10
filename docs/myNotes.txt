@@ -18,15 +18,17 @@ old data of collect2.txt for cleanup, since it was open-weather.
 move the nasa-power from table3 to table2 in web tool.
 adjust the collect3.txt to collect2.txt for nasa-power.
 
-backfill open-weather.
-give me overview strategy to do backfill of the 2025 months.
+backfill open-meteo.
+give me overview strategy to do backfill of the jan-2026 month.
 need to fetch is real web sensor data. not random data.
 target to fetch 1 set data per row for wind and solar enrgy.
 refer to database schema on target data formats.
-consider the limitations of open-weather api fetch.
-such as 100 data per min, 50k data per day, but do validate this if i am correct.
 show plan first.
 
+backfill open-meteo.
+re-use the py file for backfill and configure.
+use it to fetch in sequence each of the month july, aug, sep- 2025.
+fetch for real web sensor data. not random or sim data.
 
 ..notes 2026-mar-09;
 [a]OpenWeather Cleanup - In Progress

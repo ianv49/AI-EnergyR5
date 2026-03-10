@@ -77,7 +77,7 @@ def get_historical_data(start_date, end_date):
                 "timezone": "Asia/Manila"
             }
 
-            response = requests.get(HISTORICAL_URL, params=params, timeout=10)
+            response = requests.get(HISTORICAL_URL, params=params, timeout=10, verify=False)
             response.raise_for_status()
 
             data = response.json()
@@ -159,6 +159,12 @@ def get_simulated_day_data(date):
     """
     weather_data_list = []
     
+    # Convert date to datetime if needed
+    if isinstance(date, datetime):
+        dt_date = date
+    else:
+        dt_date = datetime.combine(date, datetime.min.time())
+    
     for hour in range(24):
         # Base temperature varies by hour
         base_temp = 26 + 4 * (1 - abs(12 - hour) / 12) + random.uniform(-1, 1)
@@ -181,7 +187,7 @@ def get_simulated_day_data(date):
         
         irradiance = max(0, min(1200, irradiance))
         
-        timestamp = date.replace(hour=hour, minute=0, second=0).strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = dt_date.replace(hour=hour, minute=0, second=0).strftime("%Y-%m-%d %H:%M:%S")
         
         weather_data_list.append({
             "timestamp": timestamp,

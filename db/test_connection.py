@@ -30,12 +30,17 @@ def main():
             cur.execute("SELECT COUNT(*) FROM sensor_data WHERE source = 'nasa_power';")
             nasa_count = cur.fetchone()[0]
             
+            # Open-Meteo data: source = 'open_meteo'
+            cur.execute("SELECT COUNT(*) FROM sensor_data WHERE source = 'open_meteo';")
+            open_meteo_count = cur.fetchone()[0]
+            
             # Calculate other rows (unknown sources)
-            other_count = result[0] - sim_count - openweather_count - nasa_count
+            other_count = result[0] - sim_count - openweather_count - nasa_count - open_meteo_count
             
             print(f"   - Sim data: {sim_count} rows")
             print(f"   - OpenWeather data: {openweather_count} rows")
             print(f"   - NASA POWER data: {nasa_count} rows")
+            print(f"   - Open-Meteo data: {open_meteo_count} rows")
             if other_count > 0:
                 print(f"   - Other/Unknown sources: {other_count} rows")
 
@@ -73,6 +78,15 @@ def main():
                     headers = [desc[0] for desc in cur.description]
                 print("\n🔎 Latest NASA POWER row:")
                 print(tabulate(nasa_row, headers=headers, tablefmt="psql"))
+            
+            # Latest open_meteo row
+            cur.execute("SELECT * FROM sensor_data WHERE source = 'open_meteo' ORDER BY timestamp DESC LIMIT 1;")
+            open_meteo_row = cur.fetchall()
+            if open_meteo_row:
+                if headers is None:
+                    headers = [desc[0] for desc in cur.description]
+                print("\n🔎 Latest Open-Meteo row:")
+                print(tabulate(open_meteo_row, headers=headers, tablefmt="psql"))
 
 
 
