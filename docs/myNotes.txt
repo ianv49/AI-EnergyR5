@@ -1,3 +1,23 @@
+myPrompts;
+open-mateo API.
+replicate the routine use on nasa-power api.
+apply the routine to open-mateo API
+fetch the feb-2026 data of open-mateo api.
+save data into databse, align to database format.
+
+add the data of open-mateo to web tool.
+set table-3 in web tool for data of open-mateo.
+table-3 design is similar to table-2.
+during fetch button on table-3, mirror the api data into a file collect2.txt.
+use collect2.txt for other buttons of table-3.
+
+open-weather cleanup.
+remove all data of open-weather in database.
+remove the open-weather in web tool.
+old data of collect2.txt for cleanup, since it was open-weather.
+move the nasa-power from table3 to table2 in web tool.
+adjust the collect3.txt to collect2.txt for nasa-power.
+
 backfill open-weather.
 give me overview strategy to do backfill of the 2025 months.
 need to fetch is real web sensor data. not random data.
@@ -6,6 +26,43 @@ refer to database schema on target data formats.
 consider the limitations of open-weather api fetch.
 such as 100 data per min, 50k data per day, but do validate this if i am correct.
 show plan first.
+
+
+..notes 2026-mar-09;
+[a]OpenWeather Cleanup - In Progress
+Task: Remove all OpenWeather data from the system and restructure data sources
+
+[b]Cleanup Status:
+- ✅ Database cleanup script created: db/cleanup_openweather.py
+- ✅ collect2.txt cleared (old openweather data removed from file)
+- ⏳ Web tool modifications pending (comment out weather routes in ingestion_trigger.py)
+- ⏳ Database cleanup execution (requires PostgreSQL running)
+
+[c]Data Sources After Cleanup:
+- collect1.txt: sim data (sensor simulation)
+- collect2.txt: [cleared - was openweather, will be repurposed]
+- collect3.txt: nasa_power data (solar irradiance)
+
+[d]Web Tool Updates Needed:
+- Move nasa_power from table3 to table2 in web dashboard
+- Adjust collect3.txt to collect2.txt for nasa-power display
+- Comment out weather routes in web/ingestion_trigger.py
+
+[e]Files Created/Modified:
+- db/cleanup_openweather.py - Database cleanup script
+- db/cleanup_openweather_web.py - Helper script
+- cleanup_openweather.bat - Batch file for easy execution
+- TODO_openweather_cleanup.md - Task tracking
+
+[f]Next Steps:
+- [ ] Execute database cleanup: python db\cleanup_openweather.py
+- [ ] Modify web/ingestion_trigger.py to remove weather routes
+- [ ] Update dashboard.html for new data source layout
+- [ ] Verify cleanup with: python db\test_connection.py
+
+[z] Summary: OpenWeather cleanup in progress. collect2.txt file cleared. Database cleanup script ready. Pending: execute cleanup and update web tool.
+
+================================================
 
 ..notes 2026-mar-05;
 [a]Web Sensor Data Source #2 - Open-Meteo API Research

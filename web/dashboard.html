@@ -96,48 +96,8 @@
         </tbody>
     </table>
 
-    <h2>Table-2: OpenWeather API</h2>
-    <p>This section displays weather data from OpenWeather API.</p>
-    <div id="weatherTimestamp" class="mt-2 mb-2" style="font-size: 0.9em; color: #666;"></div>
-    <div class="mb-3">
-        <button id="fetchWeatherDatabaseBtn" class="btn btn-success" onclick="fetchWeatherDatabase()">
-            Fetch Database
-        </button>
-        <button id="loadWeatherLatestBtn" class="btn btn-primary" onclick="loadWeatherLatestData()">
-            Latest 10 Rows
-        </button>
-        <button id="loadWeatherTopWindBtn" class="btn btn-info" onclick="loadWeatherTopWindSpeed()">
-            Top 10 Wind Speed
-        </button>
-        <button id="loadWeatherTopIrradianceBtn" class="btn btn-warning" onclick="loadWeatherTopIrradiance()">
-            Top 10 Solar Irradiance
-        </button>
-    </div>
-    <div id="weatherDbStatus" class="mt-3" style="display: none;">
-        <div id="weatherDbMessage" class="alert"></div>
-    </div>
-    <table id="weatherTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Timestamp</th>
-                <th>Temperature (°C)</th>
-                <th>Humidity (%)</th>
-                <th>Irradiance (W/m²)</th>
-                <th>Wind Speed (m/s)</th>
-                <th>Wind Power Density</th>
-                <th>Solar Energy Yield</th>
-                <th>Source</th>
-            </tr>
-        </thead>
-        <tbody id="weatherTableBody">
-            <tr>
-                <td colspan="9" style="text-align: center; color: #666;">Click "Fetch Database" to load weather data</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Table-3: NASA POWER API</h2>
+    <h2>Table-2: NASA POWER API</h2>
+    <p>This section displays solar irradiance data from NASA POWER API.</p>
     <p>This section displays solar irradiance data from NASA POWER API.</p>
     <div id="nasaTimestamp" class="mt-2 mb-2" style="font-size: 0.9em; color: #666;"></div>
     <div class="mb-3">
