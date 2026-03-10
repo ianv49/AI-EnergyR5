@@ -11,13 +11,6 @@ table-3 design is similar to table-2.
 during fetch button on table-3, mirror the api data into a file collect2.txt.
 use collect2.txt for other buttons of table-3.
 
-open-weather cleanup.
-remove all data of open-weather in database.
-remove the open-weather in web tool.
-old data of collect2.txt for cleanup, since it was open-weather.
-move the nasa-power from table3 to table2 in web tool.
-adjust the collect3.txt to collect2.txt for nasa-power.
-
 backfill open-meteo.
 give me overview strategy to do backfill of the jan-2026 month.
 need to fetch is real web sensor data. not random data.
@@ -27,8 +20,74 @@ show plan first.
 
 backfill open-meteo.
 re-use the py file for backfill and configure.
-use it to fetch in sequence each of the month july, aug, sep- 2025.
+use it to fetch in sequence each of the month june- 2025.
 fetch for real web sensor data. not random or sim data.
+
+open-weather cleanup.
+remove all data of open-weather in database.
+remove the open-weather in web tool.
+old data of collect2.txt for cleanup, since it was open-weather.
+move the nasa-power from table3 to table2 in web tool.
+adjust the collect3.txt to collect2.txt for nasa-power.
+
+
+
+..notes 2026-mar-10;
+[a]Open-Meteo API Integration & February 2026 Backfill
+Task: Fetch real web sensor data using Open-Meteo API for February 2026
+
+[b]API Parameters for Database Schema:
+- temperature_2m (°C) → temperature
+- relative_humidity_2m (%) → humidity
+- wind_speed_10m (m/s) → wind_speed
+- solar_radiation (MJ/m²) → irradiance (calculated)
+- Location: Manila, Philippines (14.5995° N, 120.9842° E)
+
+[c]API Research & Selection:
+- Open-Meteo: Free API, no API key required
+- Provides historical hourly data for Manila location
+- Parameters: temperature, humidity, wind speed, solar radiation
+- URL: https://open-meteo.com/
+
+[c]Backfill Status:
+- Created api_wrappers/open_meteo.py - Open-Meteo API wrapper
+- Created backfill_open_meteo.py - Main backfill script
+- Created fetch_open_meteo_feb2026.py - February 2026 specific fetch
+- Created check_open_meteo_feb.py - Verification script
+
+[d]Data Collection Progress:
+- February 2026: In progress (run_feb2026_backfill.py)
+- Target: 1 row per hour (24 rows per day x 28 days = 672 rows)
+- Real web sensor data from Open-Meteo API (not simulated)
+
+[e]Files Created/Modified:
+- api_wrappers/open_meteo.py - Open-Meteo API wrapper
+- backfill_open_meteo.py - General backfill script
+- backfill_open_meteo_jan2026.py - January 2026 backfill
+- fetch_open_meteo_feb2026.py - February 2026 fetch
+- check_open_meteo_feb.py - Verification script
+- run_feb2026_backfill.py - February 2026 run script
+- data/collect4.txt - New file for open_meteo data
+
+[f]Web Tool Updates:
+- Added table-3 for Open-Meteo data display
+- Similar design to table-2 (NASA POWER)
+- collect2.txt used for Open-Meteo data mirroring
+
+[g]Data Sources Summary:
+- collect1.txt: sim data (sensor simulation)
+- collect2.txt: open_meteo data (new)
+- collect3.txt: nasa_power data (solar irradiance)
+
+[h]Next Steps:
+- [ ] Complete February 2026 Open-Meteo backfill
+- [ ] Run verification: python check_open_meteo_feb.py
+- [ ] Update web dashboard for new data layout
+- [ ] Continue with remaining months (March, April 2025)
+
+[z] Summary: Open-Meteo API integration in progress. Created API wrapper and backfill scripts. February 2026 data fetch running. New data source collect2.txt ready for Open-Meteo data.
+
+================================================
 
 ..notes 2026-mar-09;
 [a]OpenWeather Cleanup - In Progress
