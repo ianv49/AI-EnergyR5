@@ -8,7 +8,7 @@ This project develops a cross-platform application for predictive maintenance of
 
 ## 🚀 Features
 - Real-time sensor data ingestion (temperature, humidity, irradiance, wind speed).
-- External API integration (OpenWeather, NASA POWER, Tomorrow.io).
+- External API integration (Open-Meteo, NASA POWER, Tomorrow.io).
 - Local PostgreSQL + TimescaleDB storage for time-series data.
 - Preprocessing scripts for normalization, cleaning, and interpolation.
 - Ready for deployment on Raspberry Pi 4, but fully compatible with Mac and Windows laptops during development.
@@ -563,23 +563,40 @@ The project is organized into phases for systematic development. Below is the la
 ### Phase 7: Visualization & Dashboard ✅ Done
 - Generate HTML tables from database data
 - Build simple Flask web interface with data tables
-- Display three data sources (Sim, Weather, NASA) in separate tables
+- Display four data sources (Sim, NASA POWER, Open-Meteo) in separate tables
 
 
-### Phase 8: Real-Time Ingestion 🔄 Partial
+### Phase 8: Real-Time Ingestion ✅ Done
 - Simulate sensor streams (append rows every minute) ✅ Done
 - Implement manual trigger for on-demand ingestion ✅ Done
-- Enable continuous ingestion pipeline ⏳ Pending
+- Enable continuous ingestion pipeline ✅ Done
 - HTML interface integration for Phase 8 steps ✅ Done
+- Backfill scripts for historical data (NASA POWER, Open-Meteo) ✅ Done
 
 
-### Phase 9: Web-Sensor Data Integration 🔄 Partial
-- Connect to OpenWeather API for local weather data ✅ Done
+### Phase 9: Web-Sensor Data Integration ✅ Done
+- Connect to Open-Meteo API for local weather data ✅ Done
 - Ingest NASA POWER API for solar irradiance and climate data ✅ Done
+- Open-Meteo and NASA POWER backfill scripts for historical data ✅ Done
 - Integrate PVOutput API for solar PV system performance ⏳ Pending
-- Optional: Add other APIs (NOAA, Meteostat, etc.) ⏳ Pending
+- Integrate NOAA Climate Data API ⏳ Pending
+- Integrate Meteostat API ⏳ Pending
+- Integrate Solcast API ⏳ Pending
+- Integrate Weatherbit API ⏳ Pending
 - Normalize and store web-sensor data into sensor_data table ✅ Done
-- Combine local sensor + web API data for richer analytics ⏳ Pending
+- Combine local sensor + web API data for richer analytics ✅ Done
+
+#### Available Data Sources
+| Source | Description | Backfill Scripts | Status |
+|--------|-------------|-----------------|--------|
+| sim | Simulated sensor data | N/A (generated locally) | ✅ Active |
+| nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active |
+| open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active |
+| solcast | Solcast solar irradiance forecasts | backfill_solcast*.py (planned) | ⏳ Future |
+| weatherbit | Weatherbit historical weather data | backfill_weatherbit*.py (planned) | ⏳ Future |
+| pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | ⏳ Future |
+| noaa | NOAA Climate Data | backfill_noaa*.py (planned) | ⏳ Future |
+| meteostat | Meteostat historical weather data | backfill_meteostat*.py (planned) | ⏳ Future |
 
 #### Database Table Model
 The `sensor_data` table stores web sensor data with the following 11 headers:
@@ -588,15 +605,15 @@ The `sensor_data` table stores web sensor data with the following 11 headers:
 |--------------|-----------|-------------|------------|
 | Row Number | SERIAL | Auto-incrementing row identifier | Database |
 | Timestamp | TIMESTAMP | Date and time of data collection | System/API |
-| Temperature (°C) | DECIMAL(5,2) | Air temperature in Celsius | OpenWeather |
-| Humidity (%) | DECIMAL(5,2) | Relative humidity percentage | OpenWeather |
-| Wind Speed (m/s) | DECIMAL(5,2) | Wind speed in meters per second | OpenWeather |
-| Cloudiness (%) | DECIMAL(5,2) | Cloud cover percentage | OpenWeather |
-| UV Index | DECIMAL(3,1) | Ultraviolet index value | OpenWeather |
+| Temperature (°C) | DECIMAL(5,2) | Air temperature in Celsius | Open-Meteo |
+| Humidity (%) | DECIMAL(5,2) | Relative humidity percentage | Open-Meteo |
+| Wind Speed (m/s) | DECIMAL(5,2) | Wind speed in meters per second | Open-Meteo |
+| Cloudiness (%) | DECIMAL(5,2) | Cloud cover percentage | Open-Meteo |
+| UV Index | DECIMAL(3,1) | Ultraviolet index value | Open-Meteo |
 | Irradiance (W/m²) | DECIMAL(7,2) | Solar irradiance in watts per square meter | NASA POWER |
 | Wind Power Density (W/m²) | DECIMAL(7,2) | Wind power density | Calculated |
 | Solar Energy Yield (kWh/m²/day) | DECIMAL(7,3) | Solar energy yield | Calculated |
-| Source | VARCHAR(50) | Data source identifier (openweather/nasa_power) | System |
+| Source | VARCHAR(50) | Data source identifier (open_meteo/nasa_power) | System |
 
 ### Phase 10: Predictive Analytics ⏳ Pending
 - Calculate averages/min/max/moving averages

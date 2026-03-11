@@ -661,19 +661,19 @@ def fetch_sim_data_from_db():
             'error': str(e)
         }), 500
 
-@app.route('/fetch_weather_data_from_db', methods=['GET'])
-def fetch_weather_data_from_db():
-    """Fetch weather data from database and update collect2.txt"""
+@app.route('/fetch_nasa_data_from_db', methods=['GET'])
+def fetch_nasa_data_from_db():
+    """Fetch NASA POWER data from database and update collect2.txt"""
     try:
-        logger.info("Fetching weather data from database")
+        logger.info("Fetching NASA POWER data from database")
 
         conn = get_connection()
         with conn.cursor() as cur:
-            # Get ONLY openweather data entries
+            # Get ALL NASA POWER data entries
             cur.execute("""
                 SELECT timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield
                 FROM sensor_data
-                WHERE source = 'openweather'
+                WHERE source = 'nasa_power'
                 ORDER BY timestamp DESC
             """)
             rows = cur.fetchall()
@@ -683,23 +683,23 @@ def fetch_weather_data_from_db():
         if not rows:
             return jsonify({
                 'success': False,
-                'error': 'No weather data found in database'
+                'error': 'No NASA POWER data found in database'
             }), 404
 
         # Format data for JSON response
-        weather_data = []
+        nasa_data = []
         for row in rows:
-            weather_data.append({
+            nasa_data.append({
                 'timestamp': row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else '',
                 'temperature': float(row[1]) if row[1] else 0.0,
                 'humidity': float(row[2]) if row[2] else 0.0,
                 'irradiance': float(row[3]) if row[3] else 0.0,
                 'wind_speed': float(row[4]) if row[4] else 0.0,
-                'source': row[5] if row[5] else 'Database'
+                'source': row[5] if row[5] else 'nasa_power'
             })
 
         # Get summary information
-        summary = get_weather_summary()
+        summary = get_nasa_summary()
 
         # Update collect2.txt with the fetched data
         data_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'collect2.txt')
@@ -708,8 +708,8 @@ def fetch_weather_data_from_db():
         with open(data_file_path, 'w') as f:
             f.write(f'# Data collection last updated: {current_timestamp}\n')
             if summary:
-                f.write(f'# Summary: weather={summary["total_rows"]}\n')
-            f.write('[weather]\n')
+                f.write(f'# Summary: nasa_power={summary["total_rows"]}\n')
+            f.write('[nasa_power]\n')
             f.write('id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield\n')
             for idx, row in enumerate(rows):
                 timestamp_str = row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else current_timestamp
@@ -718,24 +718,24 @@ def fetch_weather_data_from_db():
                 hum_val = row[2] if row[2] is not None else 0.0
                 irr_val = row[3] if row[3] is not None else 0.0
                 wind_val = row[4] if row[4] is not None else 0.0
-                source_val = row[5] if row[5] else 'Database'
+                source_val = row[5] if row[5] else 'nasa_power'
                 wind_power_density_val = row[6] if row[6] is not None else ''
                 solar_energy_yield_val = row[7] if row[7] is not None else ''
                 f.write(f'{id_val},{timestamp_str},{temp_val},{hum_val},{irr_val},{wind_val},{source_val},{wind_power_density_val},{solar_energy_yield_val}\n')
 
 
-        logger.info(f"Weather data fetched and collect2.txt updated: {len(rows)} rows")
+        logger.info(f"NASA POWER data fetched and collect2.txt updated: {len(rows)} rows")
 
         return jsonify({
             'success': True,
             'rows_fetched': len(rows),
-            'data': weather_data,
+            'data': nasa_data,
             'summary': summary,
-            'message': f'Weather data fetched and collect2.txt updated with {len(rows)} rows'
+            'message': f'NASA POWER data fetched and collect2.txt updated with {len(rows)} rows'
         })
 
     except Exception as e:
-        logger.error(f"Failed to fetch weather data from database: {e}")
+        logger.error(f"Failed to fetch NASA POWER data from database: {e}")
         return jsonify({
             'success': False,
             'error': str(e)
@@ -859,45 +859,103 @@ def get_open_meteo_summary():
         logger.error(f"Failed to get Open-Meteo summary: {e}")
         return None
 
-@app.route('/fetch_nasa_data_from_db', methods=['GET'])
-def fetch_nasa_data_from_db():
-    """Fetch NASA POWER data from database and update collect3.txt"""
+def get_solcast_summary():
+    """Get summary statistics for Solcast data"""
     try:
-        logger.info("Fetching NASA POWER data from database")
+        conn = get_connection()
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    COUNT(*) as total_rows,
+                    MIN(timestamp) as earliest_timestamp,
+                    MAX(timestamp) as latest_timestamp,
+                    ROUND(AVG(temperature)::numeric, 2) as avg_temperature,
+                    MIN(temperature) as min_temperature,
+                    MAX(temperature) as max_temperature,
+                    ROUND(AVG(humidity)::numeric, 2) as avg_humidity,
+                    MIN(humidity) as min_humidity,
+                    MAX(humidity) as max_humidity,
+                    ROUND(AVG(irradiance)::numeric, 2) as avg_irradiance,
+                    MIN(irradiance) as min_irradiance,
+                    MAX(irradiance) as max_irradiance,
+                    ROUND(AVG(wind_speed)::numeric, 2) as avg_wind_speed,
+                    MIN(wind_speed) as min_wind_speed,
+                    MAX(wind_speed) as max_wind_speed
+                FROM sensor_data
+                WHERE source = 'solcast'
+            """)
+            result = cur.fetchone()
+        conn.close()
+
+        if result and result[0] > 0:
+            return {
+                'total_rows': result[0],
+                'time_range': f"{result[1].strftime('%Y-%m-%d %H:%M:%S') if result[1] else 'N/A'} to {result[2].strftime('%Y-%m-%d %H:%M:%S') if result[2] else 'N/A'}",
+                'temperature': {
+                    'avg': float(result[3]) if result[3] else 0.0,
+                    'min': float(result[4]) if result[4] else 0.0,
+                    'max': float(result[5]) if result[5] else 0.0
+                },
+                'humidity': {
+                    'avg': float(result[6]) if result[6] else 0.0,
+                    'min': float(result[7]) if result[7] else 0.0,
+                    'max': float(result[8]) if result[8] else 0.0
+                },
+                'irradiance': {
+                    'avg': float(result[9]) if result[9] else 0.0,
+                    'min': float(result[10]) if result[10] else 0.0,
+                    'max': float(result[11]) if result[11] else 0.0
+                },
+                'wind_speed': {
+                    'avg': float(result[12]) if result[12] else 0.0,
+                    'min': float(result[13]) if result[13] else 0.0,
+                    'max': float(result[14]) if result[14] else 0.0
+                }
+            }
+        else:
+            return None
+    except Exception as e:
+        logger.error(f"Failed to get Solcast summary: {e}")
+        return None
+
+@app.route('/fetch_open_meteo_data_from_db', methods=['GET'])
+def fetch_open_meteo_data_from_db():
+    """Fetch Open-Meteo data from database and update collect3.txt"""
+    try:
+        logger.info("Fetching Open-Meteo data from database")
 
         conn = get_connection()
         with conn.cursor() as cur:
-            # Get ALL NASA POWER data entries
+            # Get ALL open_meteo data entries
             cur.execute("""
                 SELECT timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield
                 FROM sensor_data
-                WHERE source = 'nasa_power'
+                WHERE source = 'open_meteo'
                 ORDER BY timestamp DESC
             """)
             rows = cur.fetchall()
         conn.close()
 
-
         if not rows:
             return jsonify({
                 'success': False,
-                'error': 'No NASA POWER data found in database'
+                'error': 'No Open-Meteo data found in database'
             }), 404
 
         # Format data for JSON response
-        nasa_data = []
+        open_meteo_data = []
         for row in rows:
-            nasa_data.append({
+            open_meteo_data.append({
                 'timestamp': row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else '',
                 'temperature': float(row[1]) if row[1] else 0.0,
                 'humidity': float(row[2]) if row[2] else 0.0,
                 'irradiance': float(row[3]) if row[3] else 0.0,
                 'wind_speed': float(row[4]) if row[4] else 0.0,
-                'source': row[5] if row[5] else 'nasa_power'
+                'source': row[5] if row[5] else 'open_meteo'
             })
 
         # Get summary information
-        summary = get_nasa_summary()
+        summary = get_open_meteo_summary()
 
         # Update collect3.txt with the fetched data
         data_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'collect3.txt')
@@ -906,8 +964,8 @@ def fetch_nasa_data_from_db():
         with open(data_file_path, 'w') as f:
             f.write(f'# Data collection last updated: {current_timestamp}\n')
             if summary:
-                f.write(f'# Summary: nasa_power={summary["total_rows"]}\n')
-            f.write('[nasa_power]\n')
+                f.write(f'# Summary: open_meteo={summary["total_rows"]}\n')
+            f.write('[open_meteo]\n')
             f.write('id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield\n')
             for idx, row in enumerate(rows):
                 timestamp_str = row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else current_timestamp
@@ -916,24 +974,23 @@ def fetch_nasa_data_from_db():
                 hum_val = row[2] if row[2] is not None else 0.0
                 irr_val = row[3] if row[3] is not None else 0.0
                 wind_val = row[4] if row[4] is not None else 0.0
-                source_val = row[5] if row[5] else 'nasa_power'
+                source_val = row[5] if row[5] else 'open_meteo'
                 wind_power_density_val = row[6] if row[6] is not None else ''
                 solar_energy_yield_val = row[7] if row[7] is not None else ''
                 f.write(f'{id_val},{timestamp_str},{temp_val},{hum_val},{irr_val},{wind_val},{source_val},{wind_power_density_val},{solar_energy_yield_val}\n')
 
-
-        logger.info(f"NASA POWER data fetched and collect3.txt updated: {len(rows)} rows")
+        logger.info(f"Open-Meteo data fetched and collect3.txt updated: {len(rows)} rows")
 
         return jsonify({
             'success': True,
             'rows_fetched': len(rows),
-            'data': nasa_data,
+            'data': open_meteo_data,
             'summary': summary,
-            'message': f'NASA POWER data fetched and collect3.txt updated with {len(rows)} rows'
+            'message': f'Open-Meteo data fetched and collect3.txt updated with {len(rows)} rows'
         })
 
     except Exception as e:
-        logger.error(f"Failed to fetch NASA POWER data from database: {e}")
+        logger.error(f"Failed to fetch Open-Meteo data from database: {e}")
         return jsonify({
             'success': False,
             'error': str(e)
@@ -1045,19 +1102,18 @@ def serve_collect3():
         logger.error(f"Failed to serve collect3.txt: {e}")
         return 'Error serving file', 500
 
-@app.route('/fetch_open_meteo_data_from_db', methods=['GET'])
-def fetch_open_meteo_data_from_db():
-    """Fetch Open-Meteo data from database and update collect4.txt"""
+@app.route('/fetch_solcast_data_from_db', methods=['GET'])
+def fetch_solcast_data_from_db():
+    """Fetch Solcast data from database and update collect4.txt"""
     try:
-        logger.info("Fetching Open-Meteo data from database")
+        logger.info("Fetching Solcast data from database")
 
         conn = get_connection()
         with conn.cursor() as cur:
-            # Get ALL open_meteo data entries
             cur.execute("""
                 SELECT timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield
                 FROM sensor_data
-                WHERE source = 'open_meteo'
+                WHERE source = 'solcast'
                 ORDER BY timestamp DESC
             """)
             rows = cur.fetchall()
@@ -1066,23 +1122,21 @@ def fetch_open_meteo_data_from_db():
         if not rows:
             return jsonify({
                 'success': False,
-                'error': 'No Open-Meteo data found in database'
+                'error': 'No Solcast data found in database'
             }), 404
 
-        # Format data for JSON response
-        open_meteo_data = []
+        solcast_data = []
         for row in rows:
-            open_meteo_data.append({
+            solcast_data.append({
                 'timestamp': row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else '',
                 'temperature': float(row[1]) if row[1] else 0.0,
                 'humidity': float(row[2]) if row[2] else 0.0,
                 'irradiance': float(row[3]) if row[3] else 0.0,
                 'wind_speed': float(row[4]) if row[4] else 0.0,
-                'source': row[5] if row[5] else 'open_meteo'
+                'source': row[5] if row[5] else 'solcast'
             })
 
-        # Get summary information
-        summary = get_open_meteo_summary()
+        summary = get_solcast_summary()
 
         # Update collect4.txt with the fetched data
         data_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'collect4.txt')
@@ -1091,8 +1145,8 @@ def fetch_open_meteo_data_from_db():
         with open(data_file_path, 'w') as f:
             f.write(f'# Data collection last updated: {current_timestamp}\n')
             if summary:
-                f.write(f'# Summary: open_meteo={summary["total_rows"]}\n')
-            f.write('[open_meteo]\n')
+                f.write(f'# Summary: solcast={summary["total_rows"]}\n')
+            f.write('[solcast]\n')
             f.write('id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield\n')
             for idx, row in enumerate(rows):
                 timestamp_str = row[0].strftime('%Y-%m-%d %H:%M:%S') if row[0] else current_timestamp
@@ -1101,23 +1155,23 @@ def fetch_open_meteo_data_from_db():
                 hum_val = row[2] if row[2] is not None else 0.0
                 irr_val = row[3] if row[3] is not None else 0.0
                 wind_val = row[4] if row[4] is not None else 0.0
-                source_val = row[5] if row[5] else 'open_meteo'
+                source_val = row[5] if row[5] else 'solcast'
                 wind_power_density_val = row[6] if row[6] is not None else ''
                 solar_energy_yield_val = row[7] if row[7] is not None else ''
                 f.write(f'{id_val},{timestamp_str},{temp_val},{hum_val},{irr_val},{wind_val},{source_val},{wind_power_density_val},{solar_energy_yield_val}\n')
 
-        logger.info(f"Open-Meteo data fetched and collect4.txt updated: {len(rows)} rows")
+        logger.info(f"Solcast data fetched and collect4.txt updated: {len(rows)} rows")
 
         return jsonify({
             'success': True,
             'rows_fetched': len(rows),
-            'data': open_meteo_data,
+            'data': solcast_data,
             'summary': summary,
-            'message': f'Open-Meteo data fetched and collect4.txt updated with {len(rows)} rows'
+            'message': f'Solcast data fetched and collect4.txt updated with {len(rows)} rows'
         })
 
     except Exception as e:
-        logger.error(f"Failed to fetch Open-Meteo data from database: {e}")
+        logger.error(f"Failed to fetch Solcast data from database: {e}")
         return jsonify({
             'success': False,
             'error': str(e)
@@ -1125,7 +1179,7 @@ def fetch_open_meteo_data_from_db():
 
 @app.route('/data/collect4.txt', methods=['GET'])
 def serve_collect4():
-    """Serve the collect4.txt file (open_meteo data)"""
+    """Serve the collect4.txt file (solcast data)"""
     try:
         data_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'collect4.txt')
         if os.path.exists(data_file_path):

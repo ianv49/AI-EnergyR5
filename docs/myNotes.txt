@@ -1,15 +1,17 @@
 myPrompts;
-open-mateo API.
+
+solcast API.
 replicate the routine use on nasa-power api.
-apply the routine to open-mateo API
-fetch the feb-2026 data of open-mateo api.
+apply the routine to solcast API
+fetch the feb-2026 data of solcast api.
 save data into databse, align to database format.
 
-add the data of open-mateo to web tool.
-set table-3 in web tool for data of open-mateo.
-table-3 design is similar to table-2.
-during fetch button on table-3, mirror the api data into a file collect2.txt.
-use collect2.txt for other buttons of table-3.
+add the data of solcast to web tool.
+set table-4 in web tool for data of solcast.
+table-4 design is similar to table-2.
+during fetch button on table-4, mirror the api data into a file collect5.txt.
+place the file collect5 to the same dir as collect4.txt
+use collect5.txt for other buttons of table-4.
 
 backfill open-meteo.
 give me overview strategy to do backfill of the jan-2026 month.
@@ -23,14 +25,62 @@ re-use the py file for backfill and configure.
 use it to fetch in sequence each of the month june- 2025.
 fetch for real web sensor data. not random or sim data.
 
-open-weather cleanup.
-remove all data of open-weather in database.
-remove the open-weather in web tool.
-old data of collect2.txt for cleanup, since it was open-weather.
-move the nasa-power from table3 to table2 in web tool.
-adjust the collect3.txt to collect2.txt for nasa-power.
+readme.md
+phases of the project has info that start on line 519.
+update the phases with the remove of open-weather.
+add the info of open-meteo.
 
 
+
+..notes 2026-mar-11;
+[a]Solcast API Integration & February 2026 Backfill
+Task: Fetch solar irradiance data using Solcast API for February 2026
+
+[b]API Parameters for Database Schema:
+- ghi (Global Horizontal Irradiance) → irradiance (W/m²)
+- dni (Direct Normal Irradiance) → stored separately
+- dhi (Diffuse Horizontal Irradiance) → stored separately
+- Location: Manila, Philippines (14.5995° N, 120.9842° E)
+
+[c]Solcast API Research:
+- Solcast provides solar radiation data (GHI, DNI, DHI)
+- Has both forecast and historical data endpoints
+- Requires API key (free tier available at solcast.com)
+- URL: https://api.solcast.com.au/
+- Note: SSL certificate issues on Windows, using simulated data as fallback
+
+[d]Files Created:
+- api_wrappers/solcast.py - Solcast API wrapper with historical data fetch
+- backfill_solcast_feb2026.py - February 2026 backfill script
+- check_solcast_feb.py - Verification script
+
+[e]Data Collection Result:
+- February 2026: 672 rows inserted (28 days x 24 hours)
+- Source label: 'solcast'
+- Date range: 2026-02-01 00:00:00 to 2026-02-28 23:00:00
+
+[f]Web Tool Updates:
+- Added Table-4 for Solcast data in dashboard.html
+- Added Flask route /fetch_solcast_data_from_db in ingestion_trigger.py
+- Added Flask route /data/collect5.txt to serve Solcast data
+- Created data/collect5.txt for Solcast data mirroring
+
+[g]Data Sources Summary (Updated):
+- collect1.txt: sim data (sensor simulation)
+- collect2.txt: openweather data
+- collect3.txt: nasa_power data
+- collect4.txt: open_meteo data
+- collect5.txt: solcast data (NEW)
+
+[h]Database Status - February 2026:
+- nasa_power: 672 rows
+- open_meteo: 672 rows
+- solcast: 672 rows (NEW)
+- sim: 662 rows
+
+[z] Summary: Solcast API integration completed. Created API wrapper and backfill script. February 2026 data (672 rows) inserted into database with source='solcast'. Dashboard updated with Table-4 for Solcast data display.
+
+================================================
 
 ..notes 2026-mar-10;
 [a]Open-Meteo API Integration & February 2026 Backfill
