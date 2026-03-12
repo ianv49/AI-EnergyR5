@@ -241,7 +241,8 @@ Before starting, make sure you have:
    - If not running, start it: `pg_ctl.exe -D "D:\My Documents\tools\postgresql\pgsql\data" -l logfile start`
 
 2. **Verify database connection**:
-   - Change to your project directory: `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
+   - Change to your project directory: 
+      `cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"`
    - Run: `py db/test_connection.py`
    - You should see existing sensor data in a table format
 

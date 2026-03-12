@@ -30,7 +30,12 @@ phases of the project has info that start on line 519.
 update the phases with the remove of open-weather.
 add the info of open-meteo.
 
-
+open-meteo api.
+focus on open-meteo. use data from the file collect3.txt.
+need to fix the web tool table-3 buttons of open-meteo.
+need to fix the buttons for latest 10, not showing data.
+need to fix button for top 10 wind, not showing data.
+need to fix button for top 10 soldar, not showing data.
 
 ..notes 2026-mar-11;
 [a]Solcast API Integration & February 2026 Backfill

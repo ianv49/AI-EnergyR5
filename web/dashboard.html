@@ -332,10 +332,11 @@
             }
         }
 
-        // Parse collect3.txt for NASA POWER data
+// Parse collect2.txt for NASA POWER data (fixed to use correct file)
         async function loadNasaDataFromFile() {
             try {
-                const response = await fetch('/data/collect3.txt');
+                const response = await fetch('/data/collect2.txt');
+
                 if (!response.ok) {
                     throw new Error('HTTP error! status: ' + response.status);
                 }
@@ -730,7 +731,7 @@
             }
         }
 
-        // Load and display latest 10 NASA POWER rows
+// Load and display latest 10 NASA POWER rows from collect2.txt
         async function loadNasaLatestData() {
             const btn = document.getElementById('loadNasaLatestBtn');
             const tableBody = document.getElementById('nasaTableBody');
@@ -761,17 +762,18 @@
                         '</tr>'
                     ).join('');
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found in collect2.txt</td></tr>';
                 }
             } catch (error) {
-                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data from collect2.txt</td></tr>';
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = 'Latest 10 Rows';
             }
         }
 
-        // Load and display top 10 wind speed NASA rows
+
+// Load and display top 10 wind speed NASA rows from collect2.txt
         async function loadNasaTopWindSpeed() {
             const btn = document.getElementById('loadNasaTopWindBtn');
             const tableBody = document.getElementById('nasaTableBody');
@@ -802,17 +804,18 @@
                         '</tr>'
                     ).join('');
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found in collect2.txt</td></tr>';
                 }
             } catch (error) {
-                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data from collect2.txt</td></tr>';
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = 'Top 10 Wind Speed';
             }
         }
 
-        // Load and display top 10 irradiance NASA rows
+
+// Load and display top 10 irradiance NASA rows from collect2.txt
         async function loadNasaTopIrradiance() {
             const btn = document.getElementById('loadNasaTopIrradianceBtn');
             const tableBody = document.getElementById('nasaTableBody');
@@ -843,24 +846,25 @@
                         '</tr>'
                     ).join('');
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No NASA POWER data found in collect2.txt</td></tr>';
                 }
             } catch (error) {
-                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading NASA data from collect2.txt</td></tr>';
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = 'Top 10 Solar Irradiance';
             }
         }
 
+
         // Open-Meteo data variables
         let openMeteoData = [];
         let openMeteoRowCount = 0;
 
-        // Parse collect4.txt for Open-Meteo data
+        // Parse collect3.txt for Open-Meteo data
         async function loadOpenMeteoDataFromFile() {
             try {
-                const response = await fetch('/data/collect4.txt');
+                const response = await fetch('/data/collect3.txt');
                 if (!response.ok) {
                     throw new Error('HTTP error! status: ' + response.status);
                 }
@@ -874,7 +878,8 @@
                 for (let i = 0; i < lines.length; i++) {
                     const line = lines[i].trim();
                     
-                    if (line.startsWith('# Summary:')) {
+                // Note: collect3.txt format confirmed to match exactly
+                if (line.startsWith('# Summary:')) {
                         const match = line.match(/open_meteo=(\d+)/);
                         if (match) {
                             openMeteoRowCount = parseInt(match[1]);
