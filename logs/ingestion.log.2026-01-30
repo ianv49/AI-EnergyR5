@@ -1,0 +1,47 @@
+2026-01-30 12:23:28,493 [ERROR] Insert failed: column "source" of relation "sensor_data" does not exist
+LINE 2: ...tamp, temperature, humidity, irradiance, wind_speed, source)
+                                                                ^
+
+2026-01-30 12:23:28,499 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,502 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,505 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,510 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,515 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,518 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,522 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,525 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,528 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,531 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,534 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,537 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,540 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,543 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,546 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,549 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,551 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,554 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 12:23:28,557 [ERROR] Insert failed: current transaction is aborted, commands ignored until end of transaction block
+
+2026-01-30 17:24:23,065 [INFO] Rows before ingestion: 107
+2026-01-30 17:24:23,151 [INFO] Text file ingestion complete.
+2026-01-30 17:24:23,154 [INFO] CSV ingestion complete.
+2026-01-30 17:24:23,155 [INFO] Rows after ingestion: 147
+2026-01-30 17:24:23,155 [INFO] New rows added: 40

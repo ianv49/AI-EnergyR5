@@ -1,9 +1,11 @@
 myPrompts;
 
-solcast API.
-replicate the routine use on nasa-power api.
-apply the routine to solcast API
-fetch the feb-2026 data of solcast api.
+NOAA Climate Data API.
+replicate the routine use on nasa-power api to use for NOAA api.
+reconfigure the files as needed to work for fetch of NOAA api.
+fetch the historical 2 days data of NOAA api.
+only use real web sensor data, skip if not real data.
+dont use sim / random data.
 save data into databse, align to database format.
 
 add the data of solcast to web tool.
@@ -13,17 +15,10 @@ during fetch button on table-4, mirror the api data into a file collect5.txt.
 place the file collect5 to the same dir as collect4.txt
 use collect5.txt for other buttons of table-4.
 
-backfill open-meteo.
-give me overview strategy to do backfill of the jan-2026 month.
-need to fetch is real web sensor data. not random data.
-target to fetch 1 set data per row for wind and solar enrgy.
-refer to database schema on target data formats.
-show plan first.
-
-backfill open-meteo.
-re-use the py file for backfill and configure.
-use it to fetch in sequence each of the month june- 2025.
+fetch solcast.
+get data of the date feb28-2026.
 fetch for real web sensor data. not random or sim data.
+skip if error, report info which row.
 
 readme.md
 phases of the project has info that start on line 519.
@@ -37,7 +32,61 @@ need to fix the buttons for latest 10, not showing data.
 need to fix button for top 10 wind, not showing data.
 need to fix button for top 10 soldar, not showing data.
 
+
+
+..notes 2026-mar-13;
+[a]March 13, 2026 - Web Tool Fixes & Solcast Feb 28 Data
+Task: Fix Open-Meteo Table-3 buttons, fetch Solcast Feb 28 data, NOAA progress
+
+[b]Web Tool Fixes:
+- Fixed Table-3 buttons (latest 10, top 10 wind/solar) using collect3.txt
+- Updated ingestion_trigger.py Flask routes for proper data filtering
+
+[c]Solcast Feb 28, 2026:
+- Fetched specific date data (real web sensor data only)
+- Error handling implemented (skip on error, report row info)
+- Data inserted with source='solcast'
+
+[d]README.md Updates:
+- Updated project phases starting line 519
+- Removed open-weather references
+- Added open-meteo and solcast information
+
+[e]NOAA Progress:
+- Station data alignment completed
+- Multiple test scripts created for API verification
+
+[z] Summary: Fixed Open-Meteo web tool Table-3 buttons. Fetched Solcast Feb 28 data. Updated README.md phases. NOAA integration progressing with station alignment.
+
+================================================
+
+..notes 2026-mar-12;
+[a]March 12, 2026 - NOAA Climate Data API Integration
+Task: Replicate NASA POWER routine for NOAA API, fetch historical 2 days data
+
+[b]Progress Today:
+- Created api_wrappers/noaa.py - NOAA API wrapper
+- Created backfill_noaa_2days.py - 2 days historical data backfill
+- test_noaa.py, test_noaa_simple.py, test_noaa_fixed.py - NOAA API testing scripts
+- temp_find_noaa_stations.py - Station finding utility
+
+[c]Data Status:
+- NOAA data inserted with source='noaa'
+- Historical 2 days data only (real web sensor data, no simulation)
+- Files: backfill_noaa_success.py, backfill_noaa_2days.py
+
+[d]Web Tool:
+- NOAA data ready for Table-5 integration
+- collect6.txt planned for NOAA data mirroring
+
+[e]Issues:
+- Station selection and data format alignment in progress
+
+[z] Summary: NOAA Climate Data API integration started. Created wrapper and backfill scripts. Historical 2 days data collection completed. Ready for web tool integration.
+
+================================================
 ..notes 2026-mar-11;
+
 [a]Solcast API Integration & February 2026 Backfill
 Task: Fetch solar irradiance data using Solcast API for February 2026
 
