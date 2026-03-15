@@ -599,6 +599,80 @@ The project is organized into phases for systematic development. Below is the la
 | noaa | NOAA Climate Data | backfill_noaa*.py (planned) | ⏳ Future |
 | meteostat | Meteostat historical weather data | backfill_meteostat*.py (planned) | ⏳ Future |
 
+Here is a list of the API sources mentioned in your `README.md`, along with the data they provide that is relevant to your database schema:
+
+### Actively Used APIs:
+
+1.  **Open-Meteo**
+    *   **Data Fetched:** This is one of your active data sources for weather data.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `cloudiness`
+        *   `uv_index`
+        *   `irradiance` (as Shortwave Radiation)
+
+2.  **NASA POWER**
+    *   **Data Fetched:** This is an active source for solar and meteorological data.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `irradiance` (as Direct solar irradiance)
+
+3.  **Tomorrow.io**
+    *   **Data Fetched:** Mentioned as a feature, this API provides a wide array of data.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `irradiance` (as GHI, DNI, and DHI)
+        *   `cloudiness`
+        *   `uv_index`
+
+### Planned or Future APIs:
+
+4.  **Solcast**
+    *   **Data to be Fetched:** A planned API for solar irradiance forecasts.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `wind_speed`
+        *   `irradiance` (as GHI, DNI, and DHI)
+        *   `cloudiness`
+
+5.  **Weatherbit**
+    *   **Data to be Fetched:** A planned API for historical weather data.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `cloudiness`
+        *   `uv_index`
+        *   `irradiance` (Solar Radiation)
+
+6.  **PVOutput**
+    *   **Data to be Fetched:** A planned API for community-sourced PV system performance.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `wind_speed`
+        *   `irradiance` (Solar Radiation)
+
+7.  **NOAA Climate Data**
+    *   **Data to be Fetched:** A planned API for climate data from the National Oceanic and Atmospheric Administration.
+    *   **Database Column Mapping:**
+        *   `temperature` (Max and Min)
+        *   `wind_speed` (in some datasets)
+        *   `precipitation` (not a direct column in your DB, but related to cloudiness/humidity)
+
+8.  **Meteostat**
+    *   **Data to be Fetched:** A planned API for historical weather data.
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `sunshine duration` (related to irradiance)
+
 #### Database Table Model
 The `sensor_data` table stores web sensor data with the following 11 headers:
 
@@ -621,5 +695,10 @@ The `sensor_data` table stores web sensor data with the following 11 headers:
 - Train ML model for forecasting (scikit-learn)
 
 ### Phase 11: Deployment & Scaling ⏳ Pending
-- Containerize with Docker
-- Deploy to cloud (AWS/Azure/GCP)
+- **Containerize the Application:** Use Docker to package the Flask web application, ingestion scripts, and all dependencies into a portable container.
+- **Migrate to a Cloud Database:**
+    - **Choose a Cloud Provider:** Select a managed PostgreSQL service (e.g., Amazon RDS, Azure Database for PostgreSQL, Google Cloud SQL, or Supabase).
+    - **Use Supabase (Optional):** Supabase provides a hosted PostgreSQL database with a web UI and REST/API access. It can be used as a drop-in replacement for the local database.
+    - **Export and Import:** Export the schema and data from the local PostgreSQL database and import it into the new cloud-hosted instance.
+    - **Update Configuration:** Update the `.env` file with the new database credentials (host, port, user, password, database) for the cloud instance.
+- **Deploy to Cloud:** Deploy the containerized application to a cloud platform like AWS, Azure, GCP, or any container hosting service that supports Docker.
