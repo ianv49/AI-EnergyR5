@@ -693,6 +693,19 @@ The `sensor_data` table stores web sensor data with the following 11 headers:
 ### Phase 10: Predictive Analytics ⏳ Pending
 - Calculate averages/min/max/moving averages
 - Train ML model for forecasting (scikit-learn)
+- **ML Options for Forecasting (10 Options):**
+  - **[1] Linear Regression with Lag Features:** Create lag features (e.g., t-1, t-24 hours) + time features (hour, day). Use LinearRegression for interpretable predictions.
+  - **[2] Random Forest Regressor:** Handles non-linear patterns; robust to outliers with built-in feature importance.
+  - **[3] Gradient Boosting (XGBoost):** High accuracy for tabular data; requires hyperparameter tuning.
+  - **[4] Time-Series Models (ARIMA/SARIMA):** Use statsmodels for univariate forecasting with seasonality.
+  - **[5] Prophet:** Facebook's library for seasonal decomposition and easy forecasting.
+  - **[6] Neural Networks (MLPRegressor/TensorFlow):** For complex patterns; scalable but requires more data/tuning.
+  - **[7] Support Vector Regression (SVR):** Effective for non-linear regression with kernel tricks; good for small datasets.
+  - **[8] K-Nearest Neighbors (KNN) Regressor:** Simple instance-based learning; useful for local patterns in time-series.
+  - **[9] AdaBoost Regressor:** Boosting ensemble method; improves weak learners iteratively.
+  - **[10] Gaussian Process Regression:** Probabilistic model for uncertainty quantification in predictions.
+- **Recommended Start:** Linear Regression as a baseline, evaluated with MAE/RMSE on held-out test data.
+- **Cost Note:** All listed ML libraries are open-source and free to use, even for students (e.g., scikit-learn, statsmodels, Prophet, TensorFlow).
 
 ### Phase 11: Deployment & Scaling ⏳ Pending
 - **Containerize the Application:** Use Docker to package the Flask web application, ingestion scripts, and all dependencies into a portable container.
