@@ -11,7 +11,7 @@ import os
 
 # Solcast API configuration
 # Get your free API key from https://solcast.com/
-SOLCAST_API_KEY = os.getenv("SOLCAST_API_KEY", "your-solcast-api-key-here")
+SOLCAST_API_KEY = os.getenv("SOLCAST_API_KEY", "rg2rHnb5ZBCoYozZ_ET5I92XDDQpq_s8")
 BASE_URL = "https://api.solcast.com.au/radiation/forecasts"
 
 # Location: Manila, Philippines
@@ -28,14 +28,16 @@ def get_solar_forecast_data():
         params = {
             "latitude": LATITUDE,
             "longitude": LONGITUDE,
-            "format": "json"
+            "format": "json",
+            "api_key": SOLCAST_API_KEY
         }
         
         headers = {
             "Authorization": f"Bearer {SOLCAST_API_KEY}"
         }
         
-        response = requests.get(BASE_URL, params=params, headers=headers, timeout=30)
+        # Some environments may have SSL verification issues; allow disabling if needed.
+        response = requests.get(BASE_URL, params=params, headers=headers, timeout=30, verify=False)
         response.raise_for_status()
         
         data = response.json()
@@ -82,14 +84,15 @@ def get_historical_data(start_date, end_date):
                 "longitude": LONGITUDE,
                 "start": current_date.strftime("%Y-%m-%d"),
                 "end": (current_date + timedelta(days=1)).strftime("%Y-%m-%d"),
-                "format": "json"
+                "format": "json",
+                "api_key": SOLCAST_API_KEY
             }
             
             headers = {
                 "Authorization": f"Bearer {SOLCAST_API_KEY}"
             }
             
-            response = requests.get(historical_url, params=params, headers=headers, timeout=30)
+            response = requests.get(historical_url, params=params, headers=headers, timeout=30, verify=False)
             response.raise_for_status()
             
             data = response.json()

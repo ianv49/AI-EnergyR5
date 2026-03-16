@@ -1,1 +1,36 @@
 2026-03-13 16:46:04,130 [INFO] Scheduled ingestion skipped - not yet 8 PM
+2026-03-16 17:08:05,956 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-16 18:00:16,889 [INFO] Connected to PostgreSQL successfully.
+2026-03-16 18:00:16,890 [INFO] NOAA fetch for 2025-01-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:24,402 [ERROR] NOAA timeout for 2025-01-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:24,405 [INFO] NOAA fetch for 2025-02-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:30,284 [ERROR] NOAA timeout for 2025-02-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:30,285 [INFO] NOAA fetch for 2025-03-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:36,251 [ERROR] NOAA timeout for 2025-03-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:36,251 [INFO] NOAA fetch for 2025-04-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:42,027 [ERROR] NOAA timeout for 2025-04-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:42,029 [INFO] NOAA fetch for 2025-05-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:47,994 [ERROR] NOAA timeout for 2025-05-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:47,995 [INFO] NOAA fetch for 2025-06-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:53,957 [ERROR] NOAA timeout for 2025-06-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:53,958 [INFO] NOAA fetch for 2025-07-15 (station=GHCND:RPW00041224)
+2026-03-16 18:00:59,898 [ERROR] NOAA timeout for 2025-07-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:00:59,899 [INFO] NOAA fetch for 2025-08-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:05,841 [ERROR] NOAA timeout for 2025-08-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:05,842 [INFO] NOAA fetch for 2025-09-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:11,823 [ERROR] NOAA timeout for 2025-09-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:11,823 [INFO] NOAA fetch for 2025-10-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:17,735 [ERROR] NOAA timeout for 2025-10-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:17,735 [INFO] NOAA fetch for 2025-11-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:23,728 [ERROR] NOAA timeout for 2025-11-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:23,729 [INFO] NOAA fetch for 2025-12-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:29,773 [ERROR] NOAA timeout for 2025-12-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:29,773 [INFO] NOAA fetch for 2026-01-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:35,765 [ERROR] NOAA timeout for 2026-01-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:35,767 [INFO] NOAA fetch for 2026-02-15 (station=GHCND:RPW00041224)
+2026-03-16 18:01:41,709 [ERROR] NOAA timeout for 2026-02-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
+2026-03-16 18:01:41,711 [INFO] NOAA backfill complete: inserted=0, skipped=14

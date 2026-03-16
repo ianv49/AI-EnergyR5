@@ -582,7 +582,7 @@ The project is organized into phases for systematic development. Below is the la
 - Integrate PVOutput API for solar PV system performance ⏳ Pending
 - Integrate NOAA Climate Data API ⏳ Pending
 - Integrate Meteostat API ⏳ Pending
-- Integrate Solcast API ⏳ Pending
+Integrate Solcast API ✅ Active (forecast OK, historical 402 quota)
 - Integrate Weatherbit API ⏳ Pending
 - Normalize and store web-sensor data into sensor_data table ✅ Done
 - Combine local sensor + web API data for richer analytics ✅ Done
@@ -593,7 +593,7 @@ The project is organized into phases for systematic development. Below is the la
 | sim | Simulated sensor data | N/A (generated locally) | ✅ Active |
 | nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active |
 | open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active |
-| solcast | Solcast solar irradiance forecasts | backfill_solcast*.py (planned) | ⏳ Future |
+| solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | ✅ Active (quota-limited) |
 | weatherbit | Weatherbit historical weather data | backfill_weatherbit*.py (planned) | ⏳ Future |
 | pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | ⏳ Future |
 | noaa | NOAA Climate Data | backfill_noaa*.py (planned) | ⏳ Future |

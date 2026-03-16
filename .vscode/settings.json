@@ -1,0 +1,28 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"d:\\\\My Documents\\\\ee\\\\1_Tester_cee\\\\AI\\\\AI-EnergyR5\"; py -c \"from scripts\\.capture_weather_data import fetch_weather_data; print\\(fetch_weather_data\\(\\)\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"d:\\\\My Documents\\\\ee\\\\1_Tester_cee\\\\AI\\\\AI-EnergyR5\"; py -c \"from api_wrappers\\.solcast import get_solar_forecast_data; print\\(get_solar_forecast_data\\(\\)\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"d:\\\\My Documents\\\\ee\\\\1_Tester_cee\\\\AI\\\\AI-EnergyR5\"; py backfill_solcast_feb2026\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"d:\\\\My Documents\\\\ee\\\\1_Tester_cee\\\\AI\\\\AI-EnergyR5\"; py -c \"from datetime import datetime, timedelta; from api_wrappers\\.pvoutput import fetch_pvoutput_daily; import traceback; d=datetime\\.now\\(\\)-timedelta\\(days=1\\); \ntry:\n    print\\(fetch_pvoutput_daily\\(d\\)\\)\nexcept Exception as e:\n    traceback\\.print_exc\\(\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^cd \"d:\\\\My Documents\\\\ee\\\\1_Tester_cee\\\\AI\\\\AI-EnergyR5\"; py -c \"from api_wrappers\\.noaa import get_historical_data; import traceback; \ntry:\n    data = get_historical_data\\(1\\)\n    print\\(data\\)\nexcept Exception as e:\n    traceback\\.print_exc\\(\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^exit\\(\\)$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

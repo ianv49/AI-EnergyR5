@@ -6,40 +6,27 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 - Keep the file organized for easy AI reference and updates.
 
-myPrompts;
-NOAA Climate Data API.
-replicate the routine use on nasa-power api to use for NOAA api.
-reconfigure the files as needed to work for fetch of NOAA api.
-fetch the historical 2 days data of NOAA api.
-only use real web sensor data, skip if not real data.
-dont use sim / random data.
-save data into databse, align to database format.
+..notes 2026-mar-16;
+[a]March 16, 2026 - Fixing NOAA/Solcast/PVOutput web sensor ingestion
+- NOAA: fixed API wrapper syntax + query params, added env config for station/dataset, validated token works.
+- Selected Manila station: `GHCND:RPW00041224` (SANGLEY POINT, RP) using bounding box around Open-Meteo coordinates (14.5995, 120.9842); confirmed this station returns data for Feb 2026.
+- Verified data fetch: February 20–28 2026 returned TAVG+AWND records successfully from NOAA API.
+- Solcast: updated wrapper to send `api_key` param & allowed SSL verify bypass; now fails only because API key is placeholder ("your-solcast-api-key-here"); next: add real key to env and rerun.
+- PVOutput: switched to correct `/service/r2/getstatus.jsp` endpoint and header auth; now failing 401 Unauthorized until valid `PVOUTPUT_API_KEY`/`PVOUTPUT_SYSTEM_ID` provided.
 
-add the data of solcast to web tool.
-set table-4 in web tool for data of solcast.
-table-4 design is similar to table-2.
-during fetch button on table-4, mirror the api data into a file collect5.txt.
-place the file collect5 to the same dir as collect4.txt
-use collect5.txt for other buttons of table-4.
+================================================
 
-fetch solcast.
-get data of the date feb28-2026.
-fetch for real web sensor data. not random or sim data.
-skip if error, report info which row.
+[b]March 16, 2026 - NOAA fetch/save validation (current API instability)
+- `backfill_noaa_monthly.py`: **runs** and connects to DB OK (✅) but **all NOAA requests timeout** (read timeout 5s) so **no rows inserted**.
+- `backfill_noaa_2days.py`: **fails to run** (syntax error / truncated code) so no fetch/save possible (❌).
+- `backfill_noaa_mar2026.py`: **fails to run** (indentation error) so no fetch/save possible (❌).
+- `backfill_noaa_success.py`: **runs**, but NOAA returns **502 / empty body**, causing JSON parse failure (❌).
+- `test_noaa*.py` scripts: **fail due to empty/invalid API response** (JSON decode errors) (❌).
+- `temp_find_noaa_stations.py`: **works**, returns Manila station list (✅).
 
-readme.md
-phases of the project has info that start on line 519.
-update the phases with the remove of open-weather.
-add the info of open-meteo.
+[z] Summary: NOAA ingestion is currently blocked by NOAA API returning timeouts/502 errors. Several local scripts also contain syntax/indentation bugs. Once NOAA stabilizes, re-run scripts and/or add retry/backoff + response validation.
 
-open-meteo api.
-focus on open-meteo. use data from the file collect3.txt.
-need to fix the web tool table-3 buttons of open-meteo.
-need to fix the buttons for latest 10, not showing data.
-need to fix button for top 10 wind, not showing data.
-need to fix button for top 10 soldar, not showing data.
-
-
+================================================
 
 ..notes 2026-mar-15;
 [a]March 15, 2026 - Optimal Plan for Phase 8 + Phase 11 with Predictive Exercise

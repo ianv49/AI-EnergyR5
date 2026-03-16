@@ -18,7 +18,7 @@ if r.status_code == 200:
     stations = data.get('results', [])
     print(f'Found {len(stations)} ACTIVE GSOD stations')
     for i, s in enumerate(stations[:10], 1):
-print(f\"{i}. stationid={s.get('id', 'N/A')}, name={s.get('name', 'N/A')}, mindate={s.get('mindate', 'N/A')}, maxdate={s.get('maxdate', 'N/A')} \")
+        print(f"{i}. stationid={s.get('id', 'N/A')}, name={s.get('name', 'N/A')}, mindate={s.get('mindate', 'N/A')}, maxdate={s.get('maxdate', 'N/A')} ")
     if stations:
         best_id = stations[0]['id']
         print(f'\nRECOMMENDED: stationid={best_id}')
@@ -37,7 +37,7 @@ print(f\"{i}. stationid={s.get('id', 'N/A')}, name={s.get('name', 'N/A')}, minda
             temps = [r for r in results if r['datatype']=='TAVG']
             if temps:
                 latest = temps[0]
-                print(f'Latest TAVG {latest[\"date\"]}: value={latest[\"value\"]/10} C (raw/10)')
+                print(f"Latest TAVG {latest['date']}: value={latest['value']/10} C (raw/10)")
             print('Sample datatypes:', [r['datatype'] for r in results[:5]])
         else:
             print(r_data.text[:500])

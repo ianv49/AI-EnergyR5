@@ -10,23 +10,26 @@ logger = logging.getLogger(__name__)
 
 BASE_DATA_URL = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/data'
 
-STATION_ID = '482170-99999'  # Manila Ninoy Aquino GSOD
+# NOAA station ID should include the dataset prefix and be a station with recent data for Manila.
+# Recommended: GHCND:RPW00041224 (SANGLEY POINT, RP) — maxdate 2026-02-28 as of March 2026.
+STATION_ID = os.getenv('NOAA_STATION_ID', 'GHCND:RPW00041224')
+DATASET_ID = os.getenv('NOAA_DATASET', 'GHCND')
 
 def get_historical_data(target_days_back=2):
-    \"\"\"
+    """
     Fetch historical daily GSOD from fixed past range, return latest target_days_back good days.
     Real only, no future dates.
-    \"\"\"
+    """
     headers = {'token': os.getenv('NOAA_TOKEN')}
     if not headers['token']:
         raise ValueError('NOAA_TOKEN not set')
     start_date = '2024-06-01'
     end_date = '2024-10-10'
     params = {
-        'datasetid': 'GSOD',
+        'datasetid': DATASET_ID,
         'stationid': STATION_ID,
-        'startDate': start_date,
-        'endDate': end_date,
+        'startdate': start_date,
+        'enddate': end_date,
         'limit': 500,
         'datatypeid': 'TAVG,RHAVG,AWND'
     }
@@ -76,7 +79,7 @@ if __name__ == '__main__':
         data = get_historical_data(2)
         print('NOAA GSOD historical 2 days (real sensor data):')
         for d in data:
-            print(f'{d[0].strftime(\"%Y-%m-%d\")}: temp={d[1]:.1f}C, hum={d[2]:.1f}%, wind={d[3]:.1f}m/s')
+            print(f'{d[0].strftime("%Y-%m-%d")}: temp={d[1]:.1f}C, hum={d[2]:.1f}%, wind={d[3]:.1f}m/s')
     except Exception as e:
         print(f'Error: {e}')
 

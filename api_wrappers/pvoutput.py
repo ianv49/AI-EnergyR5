@@ -3,12 +3,20 @@ from datetime import datetime, timedelta
 from xml.etree import ElementTree as ET
 
 # PVOutput API parameters
-BASE_URL = "https://pvoutput.org/getsystem.jsp"
+# NOTE: PVOutput uses a custom header-based auth and a service endpoint under /service/r2
+BASE_URL = "https://pvoutput.org/service/r2/getstatus.jsp"
 LATITUDE = 14.5995  # Manila latitude
 LONGITUDE = 120.9842  # Manila longitude
 import config
 SYSTEM_ID = config.PVOUTPUT_SYSTEM_ID
 API_KEY = config.PVOUTPUT_API_KEY
+
+# PVOutput requires API key + system ID in headers
+PVOUTPUT_HEADERS = {
+    "X-Pvoutput-Apikey": API_KEY,
+    "X-Pvoutput-SystemId": SYSTEM_ID,
+    "User-Agent": "AI-EnergyR5/1.0"
+}
 
 def fetch_pvoutput_daily(target_date):
     """
@@ -19,12 +27,10 @@ def fetch_pvoutput_daily(target_date):
     try:
         date_str = target_date.strftime("%Y%m%d")
         params = {
-            "id": SYSTEM_ID,
-            "key": API_KEY,
-            "date": date_str
+            "d": date_str
         }
 
-        response = requests.get(BASE_URL, params=params, timeout=30, verify=False)
+        response = requests.get(BASE_URL, params=params, headers=PVOUTPUT_HEADERS, timeout=30, verify=False)
         response.raise_for_status()
 
         # Parse XML
