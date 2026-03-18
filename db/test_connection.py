@@ -22,8 +22,8 @@ def main():
         data = cur.fetchall()
         print(tabulate(data, headers=headers, tablefmt='grid'))
         
-        # Latest rows by source (added noaa)
-        sources = ['sim', 'nasa_power', 'open_meteo', 'solcast', 'pvoutput', 'noaa']
+# Latest rows by source (added meteostat)
+        sources = ['sim', 'nasa_power', 'open_meteo', 'meteostat', 'solcast', 'pvoutput', 'noaa']
         for src in sources:
             print(f"\n🔎 Latest '{src}' row:")
             cur.execute("""

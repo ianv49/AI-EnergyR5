@@ -6,6 +6,29 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 - Keep the file organized for easy AI reference and updates.
 
+..notes 2026-mar-17;
+[a] March 17, 2026 - Updated README.md Phase 9 per API limitations
+- NOAA: Marked **Skip** (unable to fetch 2025 data due to API timeouts/502 errors)
+- PVOutput: Marked **Skip** (no free historical data access, 401 auth fails)
+- Solcast: Marked **Skip** (student API key quota too low for backfills)
+- Phase 9 header → ⏳ Partial (Open-Meteo/NASA active)
+- Data Sources table: Updated NOAA/PVOutput/Solcast status to **Skip** with reasons
+- All changes verified via diffs; aligns with prior myNotes issues
+
+[c] March 17, 2026 - Meteostat March 2026 Progress (RapidAPI + Txt ingest)
+- **RapidAPI** (`fetch_meteostat_march2026.py`): Hourly 2026-03-01~31 fetched → data/meteostat_march2026.txt (JSON raw, ~744 rows preview)
+  - Fields: time/temp/dwpt/rhum/prcp/wdir/wspd/pres/coco (no rsds/tsun full → irradiance NULL)
+  - Daily summary: tavg/tmin/tmax/prcp/wspd (31 days)
+- **Txt→DB** (`ingest_meteostat_march2026.py`): Parsed hourly → inserted matching (temp/hum/wspd), skip dupes
+  - Result: 0 new (prior manual), total meteostat=6 rows (Mar1 00-05h, temp 26.7-30.2°C, hum 67-60%, wind 1.0-2.6 m/s)
+  - DB: irradiance/wpd/sey NULL (no solar match)
+- **Backfills**: RapidAPI/native no full (fields/quota/missing), limited to 6 rows.
+- Status: **Limited success** (txt ingest OK, API solar gap). NASA/Open-Meteo primary.
+
+================================================
+
+
+
 ..notes 2026-mar-16;
 [a]March 16, 2026 - Fixing NOAA/Solcast/PVOutput web sensor ingestion
 - NOAA: fixed API wrapper syntax + query params, added env config for station/dataset, validated token works.

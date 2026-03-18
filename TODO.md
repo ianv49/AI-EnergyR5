@@ -1,11 +1,14 @@
-# Task Tracking: Validate and Fix DB Connection Test Guide
+# Phase 9 README Update Tracker - COMPLETED ✓
 
 ## Steps:
-- [x] Step 1: Confirm previous working version of db/test_connection.py via search_files or analysis
-- [x] Step 2: Restore/recreate working test_connection.py to match expected output (tabulate tables, row counts by source)
-- [x] Step 3: Test `py db/test_connection.py` - verify ✅ success + data tables
-- [x] Step 4: Update README.md if command changes needed (unlikely)
-- [x] Step 5: attempt_completion with validation result
+- [✓] 1. Create TODO.md
+- [✓] 2. Edit Phase 9 header to ⏳ Partial
+- [✓] 3. Update NOAA bullet: Add Skip reason (2025 fetch fail)
+- [✓] 4. Update PVOutput bullet: Add Skip reason (no free historical)
+- [✓] 5. Update Solcast bullet: Add Skip reason (student quota low)
+- [✓] 6. Update Data Sources table: NOAA/PVOutput/Solcast → **Skip**
+- [✓] 7. Verify changes & attempt_completion
 
-Status: Complete ✅ Guide now works: `py db/test_connection.py` shows connection success + data tables as expected.
+All edits applied successfully to README.md. Phase 9 now reflects **Skip** status for NOAA, PVOutput, Solcast per myNotes.txt issues.
+
 

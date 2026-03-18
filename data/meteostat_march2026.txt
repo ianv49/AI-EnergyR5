@@ -1,0 +1,224 @@
+# Meteostat March 2026 (2026-03-17 15:02:16.823346)
+Lat/Lon: 14.5995/120.9842
+
+
+=== HOURLY ===
+{
+  "meta": {
+    "generated": "2026-03-17 07:02:15",
+    "stations": [
+      "98425",
+      "98429",
+      "98430",
+      "98428"
+    ]
+  },
+  "data": [
+    {
+      "time": "2026-03-01 00:00:00",
+      "temp": 26.7,
+      "dwpt": 20.1,
+      "rhum": 67.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 38.0,
+      "wspd": 3.7,
+      "wpgt": null,
+      "pres": 1011.3,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 01:00:00",
+      "temp": 27.4,
+      "dwpt": 20.5,
+      "rhum": 66.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 310.0,
+      "wspd": 5.5,
+      "wpgt": null,
+      "pres": 1011.2,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 02:00:00",
+      "temp": 28.1,
+      "dwpt": 20.9,
+      "rhum": 65.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 286.0,
+      "wspd": 7.4,
+      "wpgt": null,
+      "pres": 1011.1,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 03:00:00",
+      "temp": 28.8,
+      "dwpt": 21.3,
+      "rhum": 64.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 279.0,
+      "wspd": 9.3,
+      "wpgt": null,
+      "pres": 1011.0,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 04:00:00",
+      "temp": 29.5,
+      "dwpt": 21.4,
+      "rhum": 62.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 270.0,
+      "wspd": 9.3,
+      "wpgt": null,
+      "pres": 1010.0,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 05:00:00",
+      "temp": 30.2,
+      "dwpt": 21.6,
+      "rhum": 60.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 259.0,
+      "wspd": 9.3,
+      "wpgt": null,
+      "pres": 1009.1,
+      "tsun": null,
+      "coco": 2
+    },
+    {
+      "time": "2026-03-01 06:00:00",
+      "temp": 30.9,
+      "dwpt": 21.7,
+      "rhum": 58.0,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": 248.0,
+      "wspd": 9.3,
+      "wpgt": null,
+      "pres": 1008.1,
+      "tsun": null,
+ 
+...
+=== DAILY ===
+{
+  "meta": {
+    "generated": "2026-03-17 07:02:16",
+    "stations": [
+      "98425",
+      "98429",
+      "98430",
+      "98428"
+    ]
+  },
+  "data": [
+    {
+      "date": "2026-03-01 00:00:00",
+      "tavg": 28.2,
+      "tmin": 25.6,
+      "tmax": 30.9,
+      "prcp": 0.3,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.2,
+      "wpgt": null,
+      "pres": 1009.6,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-02 00:00:00",
+      "tavg": 28.6,
+      "tmin": 26.3,
+      "tmax": 31.2,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.0,
+      "wpgt": null,
+      "pres": 1010.0,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-03 00:00:00",
+      "tavg": 28.9,
+      "tmin": 26.4,
+      "tmax": 31.6,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.4,
+      "wpgt": null,
+      "pres": 1010.2,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-04 00:00:00",
+      "tavg": 28.6,
+      "tmin": 26.5,
+      "tmax": 31.1,
+      "prcp": 0.0,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.8,
+      "wpgt": null,
+      "pres": 1010.4,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-05 00:00:00",
+      "tavg": 28.5,
+      "tmin": 26.3,
+      "tmax": 31.2,
+      "prcp": 0.3,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.6,
+      "wpgt": null,
+      "pres": 1010.3,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-06 00:00:00",
+      "tavg": 28.5,
+      "tmin": 26.0,
+      "tmax": 31.0,
+      "prcp": 0.9,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.6,
+      "wpgt": null,
+      "pres": 1010.3,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-07 00:00:00",
+      "tavg": 28.4,
+      "tmin": 26.2,
+      "tmax": 30.8,
+      "prcp": 0.8,
+      "snow": null,
+      "wdir": null,
+      "wspd": 7.2,
+      "wpgt": null,
+      "pres": 1011.0,
+      "tsun": null
+    },
+    {
+      "date": "2026-03-08 00:00:00",
+      "tavg": 27.9,
+      "tmin": 26.1,
+      "tmax": 29.6,
+
+...

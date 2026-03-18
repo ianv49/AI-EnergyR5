@@ -575,14 +575,14 @@ The project is organized into phases for systematic development. Below is the la
 - Backfill scripts for historical data (NASA POWER, Open-Meteo) ✅ Done
 
 
-### Phase 9: Web-Sensor Data Integration ✅ Done
+### Phase 9: Web-Sensor Data Integration ⏳ Partial
 - Connect to Open-Meteo API for local weather data ✅ Done
 - Ingest NASA POWER API for solar irradiance and climate data ✅ Done
 - Open-Meteo and NASA POWER backfill scripts for historical data ✅ Done
-- Integrate PVOutput API for solar PV system performance ⏳ Pending
-- Integrate NOAA Climate Data API ⏳ Pending
+- Integrate PVOutput API for solar PV system performance **Skip** (no free use of historical API) ⏳ Skipped
+- Integrate NOAA Climate Data API **Skip** (not able to fetch API for 2025) ⏳ Skipped
+- Integrate Solcast API **Skip** (student API key has very low fetch limit) ⏳ Skipped
 - Integrate Meteostat API ⏳ Pending
-Integrate Solcast API ✅ Active (forecast OK, historical 402 quota)
 - Integrate Weatherbit API ⏳ Pending
 - Normalize and store web-sensor data into sensor_data table ✅ Done
 - Combine local sensor + web API data for richer analytics ✅ Done
@@ -593,10 +593,10 @@ Integrate Solcast API ✅ Active (forecast OK, historical 402 quota)
 | sim | Simulated sensor data | N/A (generated locally) | ✅ Active |
 | nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active |
 | open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active |
-| solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | ✅ Active (quota-limited) |
+| solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | **Skip** (student quota low) |
 | weatherbit | Weatherbit historical weather data | backfill_weatherbit*.py (planned) | ⏳ Future |
-| pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | ⏳ Future |
-| noaa | NOAA Climate Data | backfill_noaa*.py (planned) | ⏳ Future |
+| pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** (no free historical) |
+| noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** (2025 fetch fail) |
 | meteostat | Meteostat historical weather data | backfill_meteostat*.py (planned) | ⏳ Future |
 
 Here is a list of the API sources mentioned in your `README.md`, along with the data they provide that is relevant to your database schema:
