@@ -1291,6 +1291,263 @@
                 btn.innerHTML = 'Top 10 Solar Irradiance';
             }
         }
+
+        // Meteostat Table-5 (replicate Table-1 pattern)
+        let meteostatData = [];
+        let meteostatRowCount = 0;
+
+        // Parse collect5.txt for Meteostat data
+        async function loadMeteostatDataFromFile() {
+            try {
+                const response = await fetch('/data/collect5.txt');
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+                const text = await response.text();
+                const lines = text.split('\\n');
+                
+                meteostatData = [];
+                let currentSection = '';
+                meteostatRowCount = 0;
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    
+                    if (line.startsWith('# Summary:')) {
+                    const match = line.match(/meteostat=(\d+)/);
+                        if (match) {
+                            meteostatRowCount = parseInt(match[1]);
+                        }
+                    }
+                    
+                    if (line.startsWith('[') && line.endsWith(']')) {
+                        currentSection = line.slice(1, -1).toLowerCase();
+                    }
+                    
+                    if (line && !line.startsWith('#') && !line.startsWith('[') && !line.startsWith('id,')) {
+                        const parts = line.split(',');
+                        if (parts.length >= 6 && currentSection === 'meteostat') {
+                            meteostatData.push({
+                                id: parts[0] || '',
+                                timestamp: parts[1] || '',
+                                temperature: parseFloat(parts[2]) || 0,
+                                humidity: parseFloat(parts[3]) || 0,
+                                irradiance: parseFloat(parts[4]) || 0,
+                                wind_speed: parseFloat(parts[5]) || 0,
+                                source: 'meteostat',
+                                wind_power_density: '',
+                                solar_energy_yield: ''
+                            });
+                        }
+                    }
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error loading Meteostat data:', error);
+                return false;
+            }
+        }
+
+        // Fetch Meteostat data from database (add /fetch_meteostat_data_from_db route in Flask later)
+        async function fetchMeteostatDatabase() {
+            const btn = document.getElementById('fetchMeteostatDatabaseBtn');
+            const statusDiv = document.getElementById('meteostatDbStatus');
+            const statusMessage = document.getElementById('meteostatDbMessage');
+            const timestampDiv = document.getElementById('meteostatTimestamp');
+
+            btn.disabled = true;
+            btn.innerHTML = 'Fetching...';
+            statusDiv.style.display = 'block';
+            statusMessage.className = 'alert alert-info';
+            statusMessage.innerHTML = 'Fetching Meteostat data from database...';
+
+            try {
+                const response = await fetch('/fetch_meteostat_data_from_db');
+                const result = await response.json();
+
+                if (result.success) {
+                    await loadMeteostatDataFromFile();
+                    statusMessage.className = 'alert alert-success';
+                    statusMessage.innerHTML = 'Meteostat Data Fetched: ' + result.rows_fetched + ' rows';
+                    timestampDiv.innerHTML = 'Rows: ' + meteostatRowCount;
+                    await loadMeteostatLatestData();
+                } else {
+                    statusMessage.className = 'alert alert-warning';
+                    statusMessage.innerHTML = 'Error: ' + (result.error || 'Failed to fetch');
+                }
+            } catch (error) {
+                statusMessage.className = 'alert alert-danger';
+                statusMessage.innerHTML = 'Error: ' + error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Fetch Database';
+            }
+        }
+
+        // Load and display latest 10 Meteostat rows (replicate loadLatestData)
+        async function loadMeteostatLatestData() {
+            const btn = document.getElementById('loadMeteostatLatestBtn');
+            const tableBody = document.getElementById('meteostatTableBody');
+            const timestampDiv = document.getElementById('meteostatTimestamp');
+
+            btn.disabled = true;
+            btn.innerHTML = 'Loading...';
+
+            try {
+                const success = await loadMeteostatDataFromFile();
+                if (success && meteostatData.length > 0) {
+                    timestampDiv.innerHTML = 'Rows: ' + meteostatRowCount;
+
+                    const sortedData = meteostatData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    const last10Rows = sortedData.slice(0, 10);
+
+                    tableBody.innerHTML = last10Rows.map((row, index) => 
+                        '<tr>' +
+                        '<td>' + (row.id || index + 1) + '</td>' +
+                        '<td>' + (row.timestamp || 'N/A') + '</td>' +
+                        '<td>' + (row.temperature ? row.temperature.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.humidity ? row.humidity.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.irradiance ? row.irradiance.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_speed ? row.wind_speed.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_power_density || '') + '</td>' +
+                        '<td>' + (row.solar_energy_yield || '') + '</td>' +
+                        '<td>' + (row.source || 'meteostat') + '</td>' +
+                        '</tr>'
+                    ).join('');
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No Meteostat data found</td></tr>';
+                }
+            } catch (error) {
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading Meteostat data</td></tr>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Latest 10 Rows';
+            }
+        }
+
+        // Top Wind Speed Meteostat (replicate loadTopWindSpeed)
+        async function loadMeteostatTopWindSpeed() {
+            const btn = document.getElementById('loadMeteostatTopWindBtn');
+            const tableBody = document.getElementById('meteostatTableBody');
+            const timestampDiv = document.getElementById('meteostatTimestamp');
+
+            btn.disabled = true;
+            btn.innerHTML = 'Loading...';
+
+            try {
+                const success = await loadMeteostatDataFromFile();
+                if (success && meteostatData.length > 0) {
+                    timestampDiv.innerHTML = 'Rows: ' + meteostatRowCount;
+
+                    const sortedData = meteostatData.sort((a, b) => b.wind_speed - a.wind_speed);
+                    const top10Rows = sortedData.slice(0, 10);
+
+                    tableBody.innerHTML = top10Rows.map((row, index) => 
+                        '<tr>' +
+                        '<td>' + (row.id || index + 1) + '</td>' +
+                        '<td>' + (row.timestamp || 'N/A') + '</td>' +
+                        '<td>' + (row.temperature ? row.temperature.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.humidity ? row.humidity.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.irradiance ? row.irradiance.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_speed ? row.wind_speed.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_power_density || '') + '</td>' +
+                        '<td>' + (row.solar_energy_yield || '') + '</td>' +
+                        '<td>' + (row.source || 'meteostat') + '</td>' +
+                        '</tr>'
+                    ).join('');
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No Meteostat data found</td></tr>';
+                }
+            } catch (error) {
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading Meteostat data</td></tr>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Top 10 Wind Speed';
+            }
+        }
+
+        // Top Irradiance Meteostat
+        async function loadMeteostatTopIrradiance() {
+            const btn = document.getElementById('loadMeteostatTopIrradianceBtn');
+            const tableBody = document.getElementById('meteostatTableBody');
+            const timestampDiv = document.getElementById('meteostatTimestamp');
+
+            btn.disabled = true;
+            btn.innerHTML = 'Loading...';
+
+            try {
+                const success = await loadMeteostatDataFromFile();
+                if (success && meteostatData.length > 0) {
+                    timestampDiv.innerHTML = 'Rows: ' + meteostatRowCount;
+
+                    const sortedData = meteostatData.sort((a, b) => b.irradiance - a.irradiance);
+                    const top10Rows = sortedData.slice(0, 10);
+
+                    tableBody.innerHTML = top10Rows.map((row, index) => 
+                        '<tr>' +
+                        '<td>' + (row.id || index + 1) + '</td>' +
+                        '<td>' + (row.timestamp || 'N/A') + '</td>' +
+                        '<td>' + (row.temperature ? row.temperature.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.humidity ? row.humidity.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.irradiance ? row.irradiance.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_speed ? row.wind_speed.toFixed(2) : 'N/A') + '</td>' +
+                        '<td>' + (row.wind_power_density || '') + '</td>' +
+                        '<td>' + (row.solar_energy_yield || '') + '</td>' +
+                        '<td>' + (row.source || 'meteostat') + '</td>' +
+                        '</tr>'
+                    ).join('');
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">No Meteostat data found</td></tr>';
+                }
+            } catch (error) {
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Error loading Meteostat data</td></tr>';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Top 10 Solar Irradiance';
+            }
+        }
     </script>
 </body>
 </html>
+    <h2>Table-5: Meteostat API</h2>
+    <p>This section displays weather data from Meteostat API (temp, humidity, wind).</p>
+    <div id="meteostatTimestamp" class="mt-2 mb-2" style="font-size: 0.9em; color: #666;"></div>
+    <div class="mb-3">
+        <button id="fetchMeteostatDatabaseBtn" class="btn btn-success" onclick="fetchMeteostatDatabase()">
+            Fetch Database
+        </button>
+        <button id="loadMeteostatLatestBtn" class="btn btn-primary" onclick="loadMeteostatLatestData()">
+            Latest 10 Rows
+        </button>
+        <button id="loadMeteostatTopWindBtn" class="btn btn-info" onclick="loadMeteostatTopWindSpeed()">
+            Top 10 Wind Speed
+        </button>
+        <button id="loadMeteostatTopIrradianceBtn" class="btn btn-warning" onclick="loadMeteostatTopIrradiance()">
+            Top 10 Solar Irradiance
+        </button>
+    </div>
+    <div id="meteostatDbStatus" class="mt-3" style="display: none;">
+        <div id="meteostatDbMessage" class="alert"></div>
+    </div>
+    <table id="meteostatTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>Temperature (°C)</th>
+                <th>Humidity (%)</th>
+                <th>Irradiance (W/m²)</th>
+                <th>Wind Speed (m/s)</th>
+                <th>Wind Power Density</th>
+                <th>Solar Energy Yield</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        <tbody id="meteostatTableBody">
+            <tr>
+                <td colspan="9" style="text-align: center; color: #666;">Click "Fetch Database" to load Meteostat data</td>
+            </tr>
+        </tbody>
+    </table>
+

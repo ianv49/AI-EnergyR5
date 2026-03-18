@@ -8,3 +8,275 @@
 2026-01-28 19:09:52,709 [WARNING] data/sensor_data.csv not found.
 2026-01-28 19:09:52,710 [INFO] Rows after ingestion: 27
 2026-01-28 19:09:52,710 [INFO] New rows added: 1
+2026-03-18 18:42:32,339 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 18:42:32,339 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 18:42:47,363 [INFO] Manual ingestion triggered via web
+2026-03-18 18:42:53,649 [INFO] NASA POWER: 2 rows
+2026-03-18 18:42:54,727 [INFO] Open-Meteo: 5 rows
+2026-03-18 18:42:54,728 [INFO] Meteostat: Use py backfill_meteostat.py for bulk data
+2026-03-18 18:42:54,731 [INFO] 127.0.0.1 - - [18/Mar/2026 18:42:54] "POST /trigger_ingestion HTTP/1.1" 200 -
+2026-03-18 18:45:16,898 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 18:45:16,899 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 18:47:22,999 [INFO] Manual ingestion triggered via web
+2026-03-18 18:47:28,364 [INFO] NASA POWER: 2 rows
+2026-03-18 18:47:29,253 [INFO] Open-Meteo: 5 rows
+2026-03-18 18:47:29,254 [INFO] Meteostat: Use py backfill_meteostat.py for bulk data
+2026-03-18 18:47:29,256 [INFO] 127.0.0.1 - - [18/Mar/2026 18:47:29] "POST /trigger_ingestion HTTP/1.1" 200 -
+2026-03-18 18:48:17,583 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 18:48:17,583 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 18:50:47,326 [INFO] 127.0.0.1 - - [18/Mar/2026 18:50:47] "GET / HTTP/1.1" 200 -
+2026-03-18 18:50:47,396 [INFO] 127.0.0.1 - - [18/Mar/2026 18:50:47] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-18 19:00:38,264 [INFO] 127.0.0.1 - - [18/Mar/2026 19:00:38] "GET / HTTP/1.1" 200 -
+2026-03-18 19:00:41,081 [INFO] 127.0.0.1 - - [18/Mar/2026 19:00:41] "[31m[1mGET /trigger_ingestion HTTP/1.1[0m" 405 -
+2026-03-18 19:12:45,103 [INFO] 127.0.0.1 - - [18/Mar/2026 19:12:45] "GET / HTTP/1.1" 200 -
+2026-03-18 19:19:15,426 [INFO] 127.0.0.1 - - [18/Mar/2026 19:19:15] "[33mGET /dashboard.html HTTP/1.1[0m" 404 -
+2026-03-18 19:22:01,388 [INFO] 127.0.0.1 - - [18/Mar/2026 19:22:01] "GET / HTTP/1.1" 200 -
+2026-03-18 19:22:01,492 [INFO] 127.0.0.1 - - [18/Mar/2026 19:22:01] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-18 19:25:53,812 [INFO] 127.0.0.1 - - [18/Mar/2026 19:25:53] "GET / HTTP/1.1" 200 -
+2026-03-18 19:44:08,382 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:44:08,383 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:58:02,946 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:58:02,947 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:58:09,152 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:09] "GET / HTTP/1.1" 200 -
+2026-03-18 19:58:11,074 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:58:11,185 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:58:11,202 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:58:11,202 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:11] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:58:12,855 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:58:12,973 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:58:12,985 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:58:12,986 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:12] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:58:14,297 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:58:14,425 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:58:14,437 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:58:14,437 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:14] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:58:15,139 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:58:15,249 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:58:15,262 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:58:15,262 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:15] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:58:16,220 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:58:16,314 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:58:16,326 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:58:16,327 [INFO] 127.0.0.1 - - [18/Mar/2026 19:58:16] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:22,457 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:22,617 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:22,630 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:22,630 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:22] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:23,614 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:23,740 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:23,752 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:23,753 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:23] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:24,886 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:25,100 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:25,115 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:25,116 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:25] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:26,337 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:26] "[36mGET / HTTP/1.1[0m" 304 -
+2026-03-18 19:59:28,397 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:28,515 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:28,527 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:28,528 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:28] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:29,468 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:29,481 [ERROR] Exception on /data/collect5.txt [GET]
+Traceback (most recent call last):
+  File "C:\Users\ffx3nb\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\ffx3nb\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\ffx3nb\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\ffx3nb\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5\web\ingestion_trigger.py", line 64, in collect5_txt
+    elif os.path.exists(project_file):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5\web\ingestion_trigger.py", line 116, in generate_collect_txt
+    cur.close()
+        ~~~~~^^
+ValueError: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:29,486 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:29] "[35m[1mGET /data/collect5.txt HTTP/1.1[0m" 500 -
+2026-03-18 19:59:30,764 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:30,866 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:30,879 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:30,880 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:30] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:31,657 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:31] "[33mGET /fetch_solcast_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:59:33,128 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:33] "[33mGET /fetch_solcast_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:59:33,963 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:33] "[33mGET /fetch_solcast_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:59:36,688 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:36,840 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:36,852 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:36,853 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:36] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:37,645 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:37,770 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:37,783 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:37,783 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:37] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:38,883 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:38,996 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:39,008 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:39,008 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:39] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:39,956 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:40,076 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:40,089 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:40,090 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:40] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:41,207 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:41,347 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:41,360 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:41,361 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:41] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:59:42,365 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:59:42,489 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:59:42,502 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:59:42,503 [INFO] 127.0.0.1 - - [18/Mar/2026 19:59:42] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:04,091 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:04,225 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:04,238 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:04,238 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:04] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:05,189 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:05,336 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:05,349 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:05,350 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:05] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:06,439 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:06,547 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:06,559 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:06,560 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:06] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:07,705 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:07] "[36mGET / HTTP/1.1[0m" 304 -
+2026-03-18 20:02:09,512 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:09,713 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:09,726 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:09,726 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:09] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:10,513 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:10,631 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:10,643 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:10,644 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:10] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:26,818 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 20:02:26,819 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 20:02:39,233 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:39] "[36mGET / HTTP/1.1[0m" 304 -
+2026-03-18 20:02:41,432 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:41,539 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:41,551 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:41,551 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:41] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:42,382 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:42,487 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:42,500 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:42,500 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:42] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:43,356 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:43,482 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:43,495 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:43,495 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:43] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:43,973 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:44,087 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:44,100 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:44,100 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:44] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:02:44,947 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:02:45,079 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:02:45,092 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:02:45,093 [INFO] 127.0.0.1 - - [18/Mar/2026 20:02:45] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:04:18,591 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:04:18,717 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:04:18,731 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:04:18,731 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:18] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:04:19,404 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:04:19,623 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:04:19,636 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:04:19,636 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:19] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:04:29,012 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:29] "GET /data/collect5.txt HTTP/1.1" 200 -
+2026-03-18 20:04:30,053 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:30] "[36mGET /data/collect5.txt HTTP/1.1[0m" 304 -
+2026-03-18 20:04:31,774 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:31] "[36mGET /data/collect5.txt HTTP/1.1[0m" 304 -
+2026-03-18 20:04:32,597 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:32] "[36mGET /data/collect5.txt HTTP/1.1[0m" 304 -
+2026-03-18 20:04:34,878 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:04:35,009 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:04:35,021 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:04:35,021 [INFO] 127.0.0.1 - - [18/Mar/2026 20:04:35] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:06:53,404 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:06:53,513 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:06:53,530 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:06:53,531 [INFO] 127.0.0.1 - - [18/Mar/2026 20:06:53] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:07:29,665 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:07:29,799 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:07:29,813 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:07:29,813 [INFO] 127.0.0.1 - - [18/Mar/2026 20:07:29] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:10:24,121 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:10:24,242 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:10:24,255 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:10:24,256 [INFO] 127.0.0.1 - - [18/Mar/2026 20:10:24] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:10:25,539 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:10:25,661 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:10:25,674 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:10:25,674 [INFO] 127.0.0.1 - - [18/Mar/2026 20:10:25] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:10:43,102 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 20:10:43,103 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 20:11:48,389 [INFO] 127.0.0.1 - - [18/Mar/2026 20:11:48] "[31m[1mGET /trigger_ingestion HTTP/1.1[0m" 405 -
+2026-03-18 20:11:55,313 [INFO] 127.0.0.1 - - [18/Mar/2026 20:11:55] "GET / HTTP/1.1" 200 -
+2026-03-18 20:11:58,932 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:11:59,044 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:11:59,057 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:11:59,058 [INFO] 127.0.0.1 - - [18/Mar/2026 20:11:59] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:00,156 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:00,270 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:00,283 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:00,284 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:00] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:00,865 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:00,985 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:00,999 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:00,999 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:00] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:01,855 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:01,980 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:01,994 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:01,994 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:01] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:02,510 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:02,622 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:02,634 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:02,634 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:02] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:03,748 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:03,861 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:03,873 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:03,874 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:03] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:04,400 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:04,521 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:04,536 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:04,536 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:04] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:05,370 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:05,490 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:05,505 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:05,506 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:05] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:05,991 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:06,105 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:06,119 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:06,120 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:06] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:06,959 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:07,077 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:07,090 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:07,090 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:07] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:07,591 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:07,702 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:07,715 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:07,716 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:07] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:12:08,816 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 20:12:08,940 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 20:12:08,952 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 20:12:08,953 [INFO] 127.0.0.1 - - [18/Mar/2026 20:12:08] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 20:13:07,272 [INFO] Manual ingestion triggered via web
+2026-03-18 20:13:12,853 [INFO] NASA POWER: 2 rows
+2026-03-18 20:13:13,929 [INFO] Open-Meteo: 5 rows
+2026-03-18 20:13:13,929 [INFO] Meteostat: Use py backfill_meteostat.py for bulk data
+2026-03-18 20:13:13,930 [INFO] 127.0.0.1 - - [18/Mar/2026 20:13:13] "POST /trigger_ingestion HTTP/1.1" 200 -

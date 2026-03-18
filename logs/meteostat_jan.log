@@ -1,0 +1,2 @@
+INFO:meteostat_jan:Fetching Jan 2026 hourly Meteostat native (real data)
+ERROR:meteostat_jan:Error: 'Point' object has no attribute 'hourly'

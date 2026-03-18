@@ -34,17 +34,26 @@ AI-EnergyR5/
 ├── check_schema.py       # Schema validation script
 ├── temp_summary.py       # Temporary data summary script
 │
-├── api_wrappers/         # External API integration modules
-│   ├── nasa_power.py     # NASA POWER API wrapper for solar irradiance data
-│   └── openweather.py    # OpenWeather API wrapper with wind/solar calculations
+├── api_wrappers/         # API wrappers (active + Skip)
+│   ├── meteostat.py      # Meteostat RapidAPI (collect5.txt)
+│   ├── meteostat_native.py # Meteostat lib
+│   ├── nasa_power.py     # NASA (collect2.txt, 10k+)
+│   ├── noaa.py           # NOAA (Skip)
+│   ├── open_meteo.py     # Open-Meteo (collect3.txt)
+│   ├── openweather.py    # Legacy
+│   ├── pvoutput.py       # PVOutput (Skip)
+│   └── solcast.py        # Solcast (collect4.txt, Skip quota)
 │
-├── data/                 # Data files and logs
-│   ├── collect1.txt      # Simulated sensor data (with wind_power_density, solar_energy_yield)
-│   ├── collect2.txt      # OpenWeather API data (with wind_power_density, solar_energy_yield)
-│   ├── collect3.txt      # NASA POWER data (with wind_power_density, solar_energy_yield)
-│   ├── collectAll.txt    # All collected data combined
-│   ├── sensor_data.csv   # CSV file for sensor data
-│   └── sensor_logs.txt   # Plain text sensor log file
+├── data/                 # Data files and logs (collectN.txt = source mapping)
+│   ├── collect1.txt      # sim sensor data
+│   ├── collect2.txt      # nasa_power data (10k+ rows)
+│   ├── collect3.txt      # open_meteo data
+│   ├── collect4.txt      # solcast data (limited)
+│   ├── collect5.txt      # meteostat data (6 rows)
+│   ├── collectAll.txt    # All combined
+│   ├── meteostat_march2026.txt # raw JSON
+│   ├── sensor_data.csv   # CSV sensor data
+│   └── sensor_logs.txt   # Plain text sensor logs
 │
 ├── db/                   # Database setup and connectors
 │   ├── api_ingest_openweather.py # OpenWeather API ingestion with energy calculations
@@ -214,11 +223,7 @@ pg_ctl.exe -D "D:\My Documents\tools\postgresql\pgsql\data" stop
 
 ---
 
-## 📖 User Guide
-
-
-
-### Complete Step-by-Step Guide: Test Phase 8 Real-Time Data Collection and View Results in Web Interface
+## 📖 User Guide (Quick Start: Open Dashboard)
 
 #### Overview
 This guide walks you through testing Phase 8's real-time data collection features and viewing the results in the web interface. Phase 8 includes two data collection methods: manual trigger and scheduled ingestion. By the end of this guide, you'll see your collected data displayed in interactive charts and tables. Choose between the Command-Line Method for step-by-step terminal instructions or the HTML Interface Method for a user-friendly button-based experience.
@@ -269,6 +274,7 @@ Manual collection lets you trigger data ingestion instantly via a web API call.
    ```bash
    curl -X POST http://localhost:5000/trigger_ingestion
    ```
+   click this: http://localhost:5000
    - This sends a request to collect new sensor data
    - The response will show how many data points were collected (typically 20 rows: 10 weather + 10 solar irradiance)
    - **Status**: ✅ Working - Successfully tested and integrated into HTML dashboard
@@ -513,7 +519,23 @@ cd "d:\My Documents\ee\1_Tester_cee\AI\AI-EnergyR5"
 py -c "from web.ingestion_trigger import perform_continuous_ingestion; print(perform_continuous_ingestion())"
 ```
 
-This complete guide takes you from setting up the environment to collecting data and viewing beautiful charts in your web browser. The Phase 8 system automatically combines simulated sensor data with real weather and solar data, giving you a comprehensive view of your renewable energy system's performance!
+### Prerequisites
+- PostgreSQL running (see Development Setup)
+- `pip install -r requirements.txt`
+- Internet for APIs
+
+### 5 Steps to Dashboard:
+1. **Start PostgreSQL**: `cd "D:\My Documents\tools\postgresql\pgsql\bin" && pg_ctl.exe -D "D:\My Documents\tools\postgresql\pgsql\data" start`
+
+2. **Start Flask**: `cd "d:/My Documents/ee/1_Tester_cee/AI/AI-EnergyR5/web" && py ingestion_trigger.py` (keep open, http://localhost:5000)
+
+3. **Trigger Data** (optional): New terminal `cd web && curl -X POST http://localhost:5000/trigger_ingestion`
+
+4. **Open Dashboard**: `start web/dashboard.html` or browser localhost:5000 (tables for Sim/NASA/Open-Meteo/etc.)
+
+5. **Verify**: `py db/test_connection.py`
+
+**Logs**: logs/ingestion.log
 
 ---
 
@@ -597,7 +619,7 @@ The project is organized into phases for systematic development. Below is the la
 | weatherbit | Weatherbit historical weather data | backfill_weatherbit*.py (planned) | ⏳ Future |
 | pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** (no free historical) |
 | noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** (2025 fetch fail) |
-| meteostat | Meteostat historical weather data | backfill_meteostat*.py (planned) | ⏳ Future |
+| meteostat | Meteostat historical weather data (temp/hum/wind) | backfill_meteostat.py, fetch_meteostat_feb2026.py, ingest_meteostat_feb2026.py | ✅ Feb 2026: 672 hourly rows |
 
 Here is a list of the API sources mentioned in your `README.md`, along with the data they provide that is relevant to your database schema:
 

@@ -34,3 +34,115 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 2026-03-16 18:01:35,767 [INFO] NOAA fetch for 2026-02-15 (station=GHCND:RPW00041224)
 2026-03-16 18:01:41,709 [ERROR] NOAA timeout for 2026-02-15: HTTPSConnectionPool(host='www.ncdc.noaa.gov', port=443): Read timed out. (read timeout=5)
 2026-03-16 18:01:41,711 [INFO] NOAA backfill complete: inserted=0, skipped=14
+2026-03-18 19:18:15,860 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:18:15,861 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:18:56,763 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:18:56,763 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:20:36,330 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:20:36,331 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:21:55,688 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:21:55,689 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:24:53,727 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:24:53,728 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:27:01,639 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:27:01,639 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:27:20,467 [INFO] 127.0.0.1 - - [18/Mar/2026 19:27:20] "GET /dashboard.html HTTP/1.1" 200 -
+2026-03-18 19:27:26,123 [INFO] 127.0.0.1 - - [18/Mar/2026 19:27:26] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:27:27,487 [INFO] 127.0.0.1 - - [18/Mar/2026 19:27:27] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:27:28,863 [INFO] 127.0.0.1 - - [18/Mar/2026 19:27:28] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:31:55,722 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:31:55,722 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:32:05,883 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:05] "[36mGET /dashboard.html HTTP/1.1[0m" 304 -
+2026-03-18 19:32:06,940 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:06] "[36mGET /dashboard.html HTTP/1.1[0m" 304 -
+2026-03-18 19:32:09,442 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:09] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:10,939 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:10] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:12,033 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:12] "[33mGET /fetch_nasa_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:13,090 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:13] "[33mGET /fetch_nasa_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:15,353 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:15] "[33mGET /fetch_open_meteo_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:16,089 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:16] "[33mGET /fetch_open_meteo_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:18,291 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:18] "[33mGET /fetch_solcast_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:18,687 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:18] "[33mGET /fetch_solcast_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:32:21,347 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:32:21,462 [INFO] Connected to PostgreSQL successfully.
+2026-03-18 19:32:21,491 [ERROR] Meteostat fetch error: not enough values to unpack (expected 11, got 9)
+2026-03-18 19:32:21,492 [INFO] 127.0.0.1 - - [18/Mar/2026 19:32:21] "[35m[1mGET /fetch_meteostat_data_from_db HTTP/1.1[0m" 500 -
+2026-03-18 19:39:32,282 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 19:39:32,283 [INFO] [33mPress CTRL+C to quit[0m
+2026-03-18 19:39:36,665 [INFO] 127.0.0.1 - - [18/Mar/2026 19:39:36] "GET / HTTP/1.1" 200 -
+2026-03-18 19:39:42,347 [INFO] 127.0.0.1 - - [18/Mar/2026 19:39:42] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:45:35,501 [INFO] 127.0.0.1 - - [18/Mar/2026 19:45:35] "[36mGET / HTTP/1.1[0m" 304 -
+2026-03-18 19:45:36,392 [INFO] 127.0.0.1 - - [18/Mar/2026 19:45:36] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:45:37,460 [INFO] 127.0.0.1 - - [18/Mar/2026 19:45:37] "[33mGET /fetch_sim_data_from_db HTTP/1.1[0m" 404 -
+2026-03-18 19:46:27,146 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:46:31,243 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:50:10,123 [INFO] 127.0.0.1 - - [18/Mar/2026 19:50:10] "[36mGET / HTTP/1.1[0m" 304 -
+2026-03-18 19:50:11,854 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:50:15,984 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:50:15,986 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:50:20,091 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:50:20,410 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:50:24,523 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:50:45,976 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:50:50,076 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:50:50,391 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:50:54,492 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:53:04,951 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:53:09,084 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+2026-03-18 19:53:12,710 [INFO] Fetch Meteostat DB \u2192 collect5.txt
+2026-03-18 19:53:16,837 [ERROR] Database connection failed: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
