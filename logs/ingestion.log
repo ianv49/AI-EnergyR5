@@ -146,3 +146,8 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
 	Is the server running on that host and accepting TCP/IP connections?
 
+2026-03-18 20:21:21,362 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.243.120.143:5000
+2026-03-18 20:21:21,362 [INFO] [33mPress CTRL+C to quit[0m
