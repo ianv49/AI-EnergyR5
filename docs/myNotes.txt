@@ -6,6 +6,16 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 - Keep the file organized for easy AI reference and updates.
 
+..notes 2026-mar-19;
+[a] March 19, 2026 - Weatherbit 2025 Bulk Fetch + DB Mirror
+- Created `fetch_weatherbit_2025.py` to fetch hourly Weatherbit historical data for Jan-Dec 2025 and append to `data/collect7.txt` in the 9-field schema (id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield).
+- Ran `fetch_weatherbit_2025.py --api-key <key> --append` using provided Master API Key; successfully fetched full 2025 hourly history.
+- Ran `sort_collect7.py` to ensure `collect7.txt` is chronological and IDs are sequential.
+- Updated ingestion logic in `db/db_ingest.py` to use `ON CONFLICT (timestamp, source) DO UPDATE`, making ingestion truly mirror `collect7.txt`.
+- Ran `ingest_collect7.py` to mirror file contents into DB; confirmed `source='weatherbit'` row count matches file (10905 rows).
+
+[z] Summary: Successfully pulled full 2025 Weatherbit history, appended to collect7, sorted/renumbered file, and mirrored it into DB with upsert behavior. Data is now consistent between file and database.
+
 ..notes 2026-mar-18;
 [a] March 18, 2026 - NOAA API Final Assessment & Phase 9 Cleanup
 - Reviewed NOAA integration scripts (api_wrappers/noaa.py, test_noaa.py, test_noaa_simple.py, backfill_noaa_monthly.py, backfill_noaa_2days.py etc.): All attempts fail due to consistent API timeouts (502 errors, 5s read timeout).

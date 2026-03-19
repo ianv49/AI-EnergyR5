@@ -58,12 +58,23 @@ def insert_sensor_data(conn, timestamp, temperature, humidity, irradiance, wind_
                 """
                 INSERT INTO sensor_data (timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                ON CONFLICT (timestamp) DO NOTHING;
+                ON CONFLICT (timestamp, source) DO UPDATE
+                    SET temperature = EXCLUDED.temperature,
+                        humidity = EXCLUDED.humidity,
+                        irradiance = EXCLUDED.irradiance,
+                        wind_speed = EXCLUDED.wind_speed,
+                        wind_power_density = EXCLUDED.wind_power_density,
+                        solar_energy_yield = EXCLUDED.solar_energy_yield;
                 """,
                 (ts, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield)
             )
         conn.commit()
     except Exception as e:
+        # Roll back the current transaction so subsequent inserts can proceed.
+        try:
+            conn.rollback()
+        except Exception:
+            pass
         logger.error(f"Insert failed: {e}")
 
 

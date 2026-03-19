@@ -604,8 +604,8 @@ The project is organized into phases for systematic development. Below is the la
 - Integrate PVOutput API for solar PV system performance **Skip** (no free use of historical API) ⏳ Skipped
 - Integrate NOAA Climate Data API **Skip** (not able to fetch API for 2025) ⏳ Skipped
 - Integrate Solcast API **Skip** (student API key has very low fetch limit) ⏳ Skipped
-- Integrate Meteostat API ⏳ Pending
-- Integrate Weatherbit API ⏳ Pending
+- Integrate Meteostat API ⏳ Partial (limited historical data ingested)
+- Integrate Weatherbit API ✅ Done (2025 historical data fetched + stored)
 - Normalize and store web-sensor data into sensor_data table ✅ Done
 - Combine local sensor + web API data for richer analytics ✅ Done
 
@@ -616,7 +616,7 @@ The project is organized into phases for systematic development. Below is the la
 | nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active |
 | open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active |
 | solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | **Skip** (student quota low) |
-| weatherbit | Weatherbit historical weather data | backfill_weatherbit*.py (planned) | ⏳ Future |
+| weatherbit | Weatherbit historical weather data | fetch_weatherbit_2025.py (2025 history) | ✅ Active |
 | pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** (no free historical) |
 | noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** (2025 fetch fail) |
 | meteostat | Meteostat historical weather data (temp/hum/wind) | backfill_meteostat.py, fetch_meteostat_feb2026.py, ingest_meteostat_feb2026.py | ✅ Feb 2026: 672 hourly rows |
@@ -672,6 +672,18 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `cloudiness`
         *   `uv_index`
         *   `irradiance` (Solar Radiation)
+        Plan: Free Trial (21 Days)
+            1,500 req/day
+            1,500 historical req/day
+            Current weather + alerts
+            25 years historical
+            Daily forecasts
+            Hourly forecasts
+            60 minute forecasts
+            + Energy / Air Quality / Agweather / Climate Normals API
+            Non-Commercial use only
+            95.0% Uptime
+            Price: $0/mo
 
 6.  **PVOutput**
     *   **Data to be Fetched:** A planned API for community-sourced PV system performance.
