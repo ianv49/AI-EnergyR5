@@ -14,9 +14,12 @@ def generate_full_collect5():
     cur.execute("SELECT MIN(timestamp), MAX(timestamp) FROM sensor_data WHERE source=%s", ('meteostat',))
     min_ts, max_ts = cur.fetchone()
     
-# All 678 rows ASC, 11 fields with COALESCE 0
+# All rows ASC, 9 fields (id + core fields, no cloud/uv)
     cur.execute("""
-        SELECT * FROM sensor_data WHERE source='meteostat' ORDER BY timestamp ASC
+        SELECT id, timestamp, temperature, humidity, irradiance, wind_speed, source, wind_power_density, solar_energy_yield
+        FROM sensor_data
+        WHERE source LIKE 'meteostat%'
+        ORDER BY timestamp ASC
     """)
     rows = cur.fetchall()
     
@@ -29,7 +32,7 @@ def generate_full_collect5():
 # Summary: meteostat=%s rows %s to %s
 
 [meteostat]
-id,timestamp,temperature,humidity,wind_speed,cloudiness,uv_index,irradiance,wind_power_density,solar_energy_yield,source''' % (count, gen_time, count, min_ts, max_ts)
+id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield''' % (count, gen_time, count, min_ts, max_ts)
     
     csv_lines = []
     for row in rows:
