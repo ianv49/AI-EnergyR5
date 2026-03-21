@@ -617,6 +617,7 @@ The project is organized into phases for systematic development. Below is the la
 - Integrate Weatherbit API ✅ Done (2025 historical data fetched + stored)
 - Normalize and store web-sensor data into sensor_data table ✅ Done
 - Combine local sensor + web API data for richer analytics ✅ Done
+- Ingest Tomorrow.io (real sensor) data ✅ Done (24 rows in collect6.txt)
 
 #### Available Data Sources
 | Source | Description | Backfill Scripts | Status | Reason |
@@ -626,9 +627,11 @@ The project is organized into phases for systematic development. Below is the la
 | open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active | Free API, no key required |
 | weatherbit | Weatherbit historical weather data | fetch_weatherbit_2025.py (2025 history) | ✅ Active | Full 2025 history integrated |
 | meteostat | Meteostat historical weather data (temp/hum/wind) | backfill_meteostat.py, fetch_meteostat_feb2026.py, ingest_meteostat_feb2026.py | ✅ Limited | Partial 2026 data available |
+| tomorrow | Tomorrow.io real web sensor data | fetch_tomorrowio_march2026.py | ✅ Active | 24 rows in collect6.txt |
 | solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | **Skip** | Student API key quota too low |
 | pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** | No free historical data access (401 auth) |
 | noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** | Consistent API timeouts/502 errors |
+| tomorrow | Tomorrow.io real web sensor data | fetch_tomorrowio_march2026.py | ✅ Active | 24 rows in collect6.txt |
 
 #### API Status Details
 **Active APIs:**
@@ -636,6 +639,7 @@ The project is organized into phases for systematic development. Below is the la
 - **Open-Meteo** ✅: Free API with no API key needed. Delivers hourly historical weather data including temperature, humidity, wind speed, and solar radiation.
 - **Weatherbit** ✅: Successfully integrated with full 2025 historical hourly data (10,909 records).
 - **Meteostat** ⏳: Limited integration with partial data for early 2026 periods.
+- **Tomorrow.io** ✅: Live web sensor data ingest from Tomorrow.io (24 rows in collect6.txt).
 
 **Skipped APIs:**
 - **NOAA**: Consistent API timeouts and 502 errors. Unable to fetch 2025 historical data reliably.
@@ -691,9 +695,21 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `wind_speed`
         *   `sunshine duration` (related to irradiance)
 
+5.  **Tomorrow.io** ✅ Active
+    *   **Status:** Real web sensor data ingest complete (March 2026 subset).
+    *   **Data Collected:** 24 hourly rows from 2026-03-19 to 2026-03-20.
+    *   **Row Count:** 24 rows in collect6.txt
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `humidity`
+        *   `wind_speed`
+        *   `irradiance`
+        *   `wind_power_density`
+        *   `solar_energy_yield`
+
 ### Skipped/Inactive APIs:
 
-5.  **Solcast** ❌ Skip
+6.  **Solcast** ❌ Skip
     *   **Status:** Not operational. Student API key has quota restrictions too low for full backfills.
     *   **Reason:** Student API key quota too low
     *   **Attempted Data:** Solar irradiance forecasts (GHI, DNI, DHI)
@@ -703,7 +719,7 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `irradiance` (as GHI, DNI, and DHI)
         *   `cloudiness`
 
-6.  **PVOutput** ❌ Skip
+7.  **PVOutput** ❌ Skip
     *   **Status:** Not operational. No free historical data access available.
     *   **Reason:** API requires authentication but free tier doesn't support historical data queries (returns 401 Unauthorized).
     *   **Attempted Data:** Community-sourced PV system performance data
@@ -712,7 +728,7 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `wind_speed`
         *   `irradiance` (Solar Radiation)
 
-7.  **NOAA Climate Data** ❌ Skip
+8.  **NOAA Climate Data** ❌ Skip
     *   **Status:** Not operational. Consistent API timeouts and 502 errors prevent data retrieval.
     *   **Reason:** Consistent API timeouts/502 errors. Unable to fetch 2025 historical data reliably.
     *   **Attempted Data:** Climate data from the National Oceanic and Atmospheric Administration.
@@ -721,7 +737,7 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `wind_speed` (in some datasets)
         *   `precipitation` (not a direct column in your DB, but related to cloudiness/humidity)
 
-8.  **OpenWeather** ❌ Removed
+9.  **OpenWeather** ❌ Removed
     *   **Status:** Removed from pipeline. Authorization issues with One Call API 3.0.
     *   **Reason:** One Call API 3.0 returns 401 Unauthorized on historical endpoints. Legacy implementation removed.
     *   **Note:** Previously simulated data was used, but no real API access available for production use.
