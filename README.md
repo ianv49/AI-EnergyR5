@@ -610,16 +610,29 @@ The project is organized into phases for systematic development. Below is the la
 - Combine local sensor + web API data for richer analytics ✅ Done
 
 #### Available Data Sources
-| Source | Description | Backfill Scripts | Status |
-|--------|-------------|-----------------|--------|
-| sim | Simulated sensor data | N/A (generated locally) | ✅ Active |
-| nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active |
-| open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active |
-| solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | **Skip** (student quota low) |
-| weatherbit | Weatherbit historical weather data | fetch_weatherbit_2025.py (2025 history) | ✅ Active |
-| pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** (no free historical) |
-| noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** (2025 fetch fail) |
-| meteostat | Meteostat historical weather data (temp/hum/wind) | backfill_meteostat.py, fetch_meteostat_feb2026.py, ingest_meteostat_feb2026.py | ✅ Feb 2026: 672 hourly rows |
+| Source | Description | Backfill Scripts | Status | Reason |
+|--------|-------------|-----------------|--------|--------|
+| sim | Simulated sensor data | N/A (generated locally) | ✅ Active | Testing & validation |
+| nasa_power | NASA POWER solar irradiance data | backfill_nasa_*.py, run_nasa_ingestion.py | ✅ Active | Free API, reliable data |
+| open_meteo | Open-Meteo weather data | backfill_open_meteo*.py, fetch_open_meteo*.py | ✅ Active | Free API, no key required |
+| weatherbit | Weatherbit historical weather data | fetch_weatherbit_2025.py (2025 history) | ✅ Active | Full 2025 history integrated |
+| meteostat | Meteostat historical weather data (temp/hum/wind) | backfill_meteostat.py, fetch_meteostat_feb2026.py, ingest_meteostat_feb2026.py | ✅ Limited | Partial 2026 data available |
+| solcast | Solcast solar irradiance (GHI/DNI/DHI + wind/temp) | backfill_solcast_feb2026.py | **Skip** | Student API key quota too low |
+| pvoutput | PVOutput solar PV system data | backfill_pvoutput*.py (planned) | **Skip** | No free historical data access (401 auth) |
+| noaa | NOAA Climate Data | backfill_noaa*.py (planned) | **Skip** | Consistent API timeouts/502 errors |
+
+#### API Status Details
+**Active APIs:**
+- **NASA POWER** ✅: Free, no authentication required. Provides comprehensive solar irradiance and meteorological data for historical periods.
+- **Open-Meteo** ✅: Free API with no API key needed. Delivers hourly historical weather data including temperature, humidity, wind speed, and solar radiation.
+- **Weatherbit** ✅: Successfully integrated with full 2025 historical hourly data (10,909 records).
+- **Meteostat** ⏳: Limited integration with partial data for early 2026 periods.
+
+**Skipped APIs:**
+- **NOAA**: Consistent API timeouts and 502 errors. Unable to fetch 2025 historical data reliably.
+- **PVOutput**: No free historical data access. API requires authentication but free tier doesn't support historical data queries (returns 401 Unauthorized).
+- **Solcast**: Student API key has quota restrictions too low for full backfills. Limited to minimal requests per month.
+- **OpenWeather**: Removed from pipeline due to authorization issues with One Call API 3.0 (401 Unauthorized on historical endpoints).
 
 Here is a list of the API sources mentioned in your `README.md`, along with the data they provide that is relevant to your database schema:
 
