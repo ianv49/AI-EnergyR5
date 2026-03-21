@@ -548,53 +548,62 @@ The project is organized into phases for systematic development. Below is the la
 - Initialize database cluster (initdb)
 - Start PostgreSQL manually (pg_ctl)
 - Connect with psql
+- **APIs Used:** None (foundational setup only)
 
 ### Phase 2: Database Schema ✅ Done
 - Create energy_db database
-- Define sensor_data table schema
+- Define sensor_data table schema with 11 columns (timestamp, temperature, humidity, irradiance, wind_speed, source, etc.)
 - Verify schema with \d sensor_data
+- **APIs Used:** None (database foundation only)
 
 ### Phase 3: Python Integration ✅ Done
-- Install psycopg2 driver
-- Create db_ingest.py script
-- Connect Python to PostgreSQL
+- Install psycopg2 driver for PostgreSQL connectivity
+- Create db_ingest.py script for data ingestion
+- Connect Python to PostgreSQL database
 - Insert test row via Python
 - Fetch and display rows via Python
+- **APIs Used:** None (local testing only)
 
 ### Phase 4: Log Ingestion ✅ Done
-- Adapt script to read sensor_logs.txt
-- Insert multiple rows from file
+- Adapt script to read sensor_logs.txt (local sensor simulation data)
+- Insert multiple rows from file into database
 - Verify ingestion with query output
+- **APIs Used:** None (local file ingestion only)
 
 ### Phase 5: Enhancements ✅ Done
-- Handle duplicate entries (unique timestamp + ON CONFLICT)
-- Format timestamp output (seconds only)
-- Optional: pretty table output
-- Row count before/after ingestion
-- Skip header line in text ingestion
-- Modularize connection into db_connector.py
-- Add test_connection.py script
-- Show top/bottom rows in test script
+- Handle duplicate entries with unique timestamp constraint and ON CONFLICT logic
+- Format timestamp output (seconds precision)
+- Optional: pretty table output for display
+- Row count tracking before/after ingestion
+- Skip header line in text file ingestion
+- Modularize connection logic into db_connector.py
+- Add test_connection.py script for connectivity verification
+- Show top/bottom rows in test script output
+- **APIs Used:** None (enhancements to local ingestion pipeline)
 
 ### Phase 6: Next Steps ✅ Done
-- Automate ingestion (batch file or cron job)
-- Extend ingestion for CSV/real sensor streams
-- Dashboard/visualization integration
+- Automate ingestion with batch file or cron job scheduling
+- Extend ingestion for CSV and real sensor stream handling
+- Dashboard/visualization integration with Flask
 - Add permanent log file output (logs/ingestion.log)
-- Daily log rotation (TimedRotatingFileHandler)
+- Daily log rotation using TimedRotatingFileHandler
+- **APIs Used:** None (automation and logging infrastructure)
 
 ### Phase 7: Visualization & Dashboard ✅ Done
-- Generate HTML tables from database data
-- Build simple Flask web interface with data tables
-- Display four data sources (Sim, NASA POWER, Open-Meteo) in separate tables
+- Generate HTML tables from database data (collect1.txt: sim data)
+- Build simple Flask web interface with interactive data tables
+- Display multiple data sources in separate organized tables
+- Implement real-time data refresh capability
+- **APIs Used:** SIM (simulated sensor data only, no external APIs yet)
 
 
 ### Phase 8: Real-Time Ingestion ✅ Done
-- Simulate sensor streams (append rows every minute) ✅ Done
-- Implement manual trigger for on-demand ingestion ✅ Done
-- Enable continuous ingestion pipeline ✅ Done
-- HTML interface integration for Phase 8 steps ✅ Done
-- Backfill scripts for historical data (NASA POWER, Open-Meteo) ✅ Done
+- Simulate sensor streams (append rows every minute) with SIM data ✅ Done (collect1.txt: 9,478 rows)
+- Implement manual trigger for on-demand ingestion via Flask API ✅ Done
+- Enable continuous ingestion pipeline with scheduled execution ✅ Done
+- HTML interface integration for Phase 8 steps and routines ✅ Done
+- Backfill scripts for historical data (NASA POWER, Open-Meteo) ✅ Done (collect2.txt: 10,177 rows, collect3.txt: 10,176 rows)
+- **APIs Used:** SIM (local simulation), NASA POWER, Open-Meteo
 
 
 ### Phase 9: Web-Sensor Data Integration ⏳ Partial
@@ -638,8 +647,10 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
 
 ### Actively Used APIs:
 
-1.  **Open-Meteo**
-    *   **Data Fetched:** This is one of your active data sources for weather data.
+1.  **Open-Meteo** ✅ Active
+    *   **Status:** Fully operational. Active data source for weather data with complete historical data.
+    *   **Data Collected:** Hourly historical weather data for Manila location (2025-present).
+    *   **Row Count:** 10,176 rows in collect3.txt
     *   **Database Column Mapping:**
         *   `temperature`
         *   `humidity`
@@ -648,36 +659,20 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `uv_index`
         *   `irradiance` (as Shortwave Radiation)
 
-2.  **NASA POWER**
-    *   **Data Fetched:** This is an active source for solar and meteorological data.
+2.  **NASA POWER** ✅ Active
+    *   **Status:** Fully operational. Active source for solar and meteorological data.
+    *   **Data Collected:** Hourly solar irradiance and climate data for Manila location (2025-present).
+    *   **Row Count:** 10,177 rows in collect2.txt
     *   **Database Column Mapping:**
         *   `temperature`
         *   `humidity`
         *   `wind_speed`
         *   `irradiance` (as Direct solar irradiance)
 
-3.  **Tomorrow.io**
-    *   **Data Fetched:** Mentioned as a feature, this API provides a wide array of data.
-    *   **Database Column Mapping:**
-        *   `temperature`
-        *   `humidity`
-        *   `wind_speed`
-        *   `irradiance` (as GHI, DNI, and DHI)
-        *   `cloudiness`
-        *   `uv_index`
-
-### Planned or Future APIs:
-
-4.  **Solcast**
-    *   **Data to be Fetched:** A planned API for solar irradiance forecasts.
-    *   **Database Column Mapping:**
-        *   `temperature`
-        *   `wind_speed`
-        *   `irradiance` (as GHI, DNI, and DHI)
-        *   `cloudiness`
-
-5.  **Weatherbit**
-    *   **Data to be Fetched:** A planned API for historical weather data.
+3.  **Weatherbit** ✅ Active
+    *   **Status:** Fully integrated with 2025 historical data.
+    *   **Data Collected:** Complete 2025 hourly weather data (temperature, humidity, wind speed, irradiance).
+    *   **Row Count:** 743 historical records from 2025 in collect7.txt
     *   **Database Column Mapping:**
         *   `temperature`
         *   `humidity`
@@ -685,40 +680,51 @@ Here is a list of the API sources mentioned in your `README.md`, along with the 
         *   `cloudiness`
         *   `uv_index`
         *   `irradiance` (Solar Radiation)
-        Plan: Free Trial (21 Days)
-            1,500 req/day
-            1,500 historical req/day
-            Current weather + alerts
-            25 years historical
-            Daily forecasts
-            Hourly forecasts
-            60 minute forecasts
-            + Energy / Air Quality / Agweather / Climate Normals API
-            Non-Commercial use only
-            95.0% Uptime
-            Price: $0/mo
 
-6.  **PVOutput**
-    *   **Data to be Fetched:** A planned API for community-sourced PV system performance.
-    *   **Database Column Mapping:**
-        *   `temperature`
-        *   `wind_speed`
-        *   `irradiance` (Solar Radiation)
-
-7.  **NOAA Climate Data**
-    *   **Data to be Fetched:** A planned API for climate data from the National Oceanic and Atmospheric Administration.
-    *   **Database Column Mapping:**
-        *   `temperature` (Max and Min)
-        *   `wind_speed` (in some datasets)
-        *   `precipitation` (not a direct column in your DB, but related to cloudiness/humidity)
-
-8.  **Meteostat**
-    *   **Data to be Fetched:** A planned API for historical weather data.
+4.  **Meteostat** ⏳ Partial Implementation
+    *   **Status:** Limited integration with partial data for early 2026 periods.
+    *   **Data Collected:** Hourly station data for Manila location (2025-01-01 to 2026-03-01).
+    *   **Row Count:** 9,438 rows in collect5.txt
     *   **Database Column Mapping:**
         *   `temperature`
         *   `humidity`
         *   `wind_speed`
         *   `sunshine duration` (related to irradiance)
+
+### Skipped/Inactive APIs:
+
+5.  **Solcast** ❌ Skip
+    *   **Status:** Not operational. Student API key has quota restrictions too low for full backfills.
+    *   **Reason:** Student API key quota too low
+    *   **Attempted Data:** Solar irradiance forecasts (GHI, DNI, DHI)
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `wind_speed`
+        *   `irradiance` (as GHI, DNI, and DHI)
+        *   `cloudiness`
+
+6.  **PVOutput** ❌ Skip
+    *   **Status:** Not operational. No free historical data access available.
+    *   **Reason:** API requires authentication but free tier doesn't support historical data queries (returns 401 Unauthorized).
+    *   **Attempted Data:** Community-sourced PV system performance data
+    *   **Database Column Mapping:**
+        *   `temperature`
+        *   `wind_speed`
+        *   `irradiance` (Solar Radiation)
+
+7.  **NOAA Climate Data** ❌ Skip
+    *   **Status:** Not operational. Consistent API timeouts and 502 errors prevent data retrieval.
+    *   **Reason:** Consistent API timeouts/502 errors. Unable to fetch 2025 historical data reliably.
+    *   **Attempted Data:** Climate data from the National Oceanic and Atmospheric Administration.
+    *   **Database Column Mapping:**
+        *   `temperature` (Max and Min)
+        *   `wind_speed` (in some datasets)
+        *   `precipitation` (not a direct column in your DB, but related to cloudiness/humidity)
+
+8.  **OpenWeather** ❌ Removed
+    *   **Status:** Removed from pipeline. Authorization issues with One Call API 3.0.
+    *   **Reason:** One Call API 3.0 returns 401 Unauthorized on historical endpoints. Legacy implementation removed.
+    *   **Note:** Previously simulated data was used, but no real API access available for production use.
 
 #### Database Table Model
 The `sensor_data` table stores web sensor data with the following 11 headers:
