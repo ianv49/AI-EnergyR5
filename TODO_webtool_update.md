@@ -1,9 +1,9 @@
 # Webtool Update TODO (Static GitHub Pages, collect*.txt only, No DB)
 
 ## 1. ✅ Gather Info (Done)
-- List HTML: dashboard.html (multi-table JS), latest_weather_data.html (static old)
-- Features analyzed
-- Plan confirmed: Static, txt-only, GH Pages
+- List HTML: index.html (main dashboard), index_summary.html, index_tabs.html, index_fixed.html
+- Features: Live txt parsing, tables/charts/tabs, inter-page links
+- GH Pages: https://ianv49.github.io/AI-EnergyR5/
 
 ## 2. ✅ Restructure for GitHub Pages
 - ✅ Created `index.html` (new static dashboard with Chart.js, all sources)
