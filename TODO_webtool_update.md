@@ -16,9 +16,9 @@
 - [ ] Add Chart.js charts tab
 - [ ] Add stats/export/filter
 
-## 4. Data Prep
-- [ ] Generate/update all collect*.txt via backfills
-- [ ] Create NOAA.txt, PVOutput.txt
+## 4. Data Prep ✅
+- Generate/update all collect*.txt via backfills (collect5: sequential IDs 1-9438; collect6/7: timestamps fixed ISO->space)
+- NOAA.txt, PVOutput.txt pending
 
 ## 5. ✅ Test & Deploy
 - ✅ Local: http://localhost:8080
