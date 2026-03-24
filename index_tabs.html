@@ -25,15 +25,14 @@
     
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab(0)">collect1.txt (Sim)</button>
-        <button class="tab-btn" onclick="switchTab(1)">collect2.txt (NASA)</button>
+        <button class="tab-btn" onclick="switchTab(1)">collect2.txt (NASA Power)</button>
         <button class="tab-btn" onclick="switchTab(2)">collect3.txt (OpenMeteo)</button>
-        <button class="tab-btn" onclick="switchTab(3)">collect4.txt</button>
-        <button class="tab-btn" onclick="switchTab(4)">collect5.txt (Solcast)</button>
-        <button class="tab-btn" onclick="switchTab(5)">collect6.txt</button>
-        <button class="tab-btn" onclick="switchTab(6)">collect7.txt</button>
-        <button class="tab-btn" onclick="switchTab(7)">collectAll.txt</button>
-        <button class="tab-btn" onclick="switchTab(8)">meteostat_feb.txt</button>
-        <button class="tab-btn" onclick="switchTab(9)">meteostat_mar.txt</button>
+        <button class="tab-btn" onclick="switchTab(3)">collect4.txt (Solcast)</button>
+        <button class="tab-btn" onclick="switchTab(4)">collect5.txt (Meteostat)</button>
+        <button class="tab-btn" onclick="switchTab(5)">collect6.txt (Tomorrow)</button>
+        <button class="tab-btn" onclick="switchTab(6)">collect7.txt (Weatherbit)</button>
+
+
     </div>
     
     <div id="tab-contents" class="tab-content" data-tab="0">
@@ -41,17 +40,24 @@
     </div>
 
     <script>
-        const TAB_FILES = [
-            'collect1.txt',
-            'collect2.txt',
-            'collect3.txt',
+const TAB_FILES = [
+            'collect1.txt (Sim)',
+            'collect2.txt (NASA)',
+            'collect3.txt (OpenMeteo)',
             'collect4.txt',
-            'collect5.txt',
-            'collect6.txt',
-            'collect7.txt',
-            'collectAll.txt',
-            'meteostat_feb2026.txt',
-            'meteostat_march2026.txt'
+            'collect5.txt (Solcast/Meteostat)',
+            'collect6.txt (Tomorrow)',
+            'collect7.txt'
+        ].map(name => name.split(' (')[0]);
+        
+        const TAB_LABELS = [
+            'collect1.txt (Sim)',
+            'collect2.txt (NASApower)',
+            'collect3.txt (OpenMeteo)',
+            'collect4.txt (Solcast)',
+            'collect5.txt (Meteostat)',
+            'collect6.txt (Tomorrow)',
+            'collect7.txt (weatherbit)'
         ];
 
         async function loadTab(file) {
