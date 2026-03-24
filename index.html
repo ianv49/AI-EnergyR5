@@ -59,8 +59,25 @@
         <table id="nasaTable"><thead><tr><th>ID</th><th>Timestamp</th><th>Temp</th><th>Hum</th><th>Irr</th><th>Wind</th><th>WPD</th><th>SEY</th><th>Source</th></tr></thead><tbody><tr><td colspan=9>Loading...</td></tr></tbody></table>
         
         <!-- Repeat pattern for collect3-7, NOAA.txt, PVOutput.txt -->
-        <h2>Table 3: Open-Meteo (collect3.txt)</h2> <!-- Add table/buttons -->
-        <!-- ... Add 6 more tables similarly ... -->
+        <h2>3. Open-Meteo (collect3.txt)</h2>
+        <div class="status" id="openmeteoStatus">Click Load All Data</div>
+        <button class="btn btn-primary" onclick="loadTable('openmeteo', 'latest')">Latest</button>
+        <button class="btn btn-info" onclick="loadTable('openmeteo', 'wind')">Top Wind</button>
+        <button class="btn btn-warning" onclick="loadTable('openmeteo', 'irr')">Top Irr</button>
+        <table id="openmeteoTable">
+            <thead><tr><th>ID</th><th>Time</th><th>Temp</th><th>Hum</th><th>Irr</th><th>Wind</th><th>Source</th></tr></thead>
+            <tbody><tr><td colspan="7">Loading...</td></tr></tbody>
+        </table>
+
+        <h2>4. Solcast (collect5.txt)</h2>
+        <div class="status" id="solcastStatus">Click Load All Data</div>
+        <button class="btn btn-primary" onclick="loadTable('solcast', 'latest')">Latest</button>
+        <button class="btn btn-info" onclick="loadTable('solcast', 'wind')">Top Wind</button>
+        <button class="btn btn-warning" onclick="loadTable('solcast', 'irr')">Top Irr</button>
+        <table id="solcastTable">
+            <thead><tr><th>ID</th><th>Time</th><th>Temp</th><th>Hum</th><th>Irr</th><th>Wind</th><th>Source</th></tr></thead>
+            <tbody><tr><td colspan="7">Loading...</td></tr></tbody>
+        </table>
     </div>
     
     <div id="charts" class="tab">
@@ -110,13 +127,27 @@
             document.getElementById('simStatus').innerHTML = `Rows: ${dataCache.sim.summary.rows} | ${dataCache.sim.summary.lastUpdate}`;
         }
         
-        async function loadNasa(type) {
-            if (!dataCache.nasa) dataCache.nasa = await loadTxt('collect2.txt');
-            displayTable('nasaTable', dataCache.nasa.data, type);
-            document.getElementById('nasaStatus').innerHTML = `Rows: ${dataCache.nasa.summary.rows}`;
+        async function loadOpenmeteo(type) {
+            if (!dataCache.openmeteo) dataCache.openmeteo = await loadTxt('collect3.txt');
+            displayTable('openmeteoTable', dataCache.openmeteo.data, type);
+            document.getElementById('openmeteoStatus').innerHTML = `Rows: ${dataCache.openmeteo.summary.rows}`;
         }
         
-        // Add loadCollect3(), loadNOAA() etc.
+        async function loadSolcast(type) {
+            if (!dataCache.solcast) dataCache.solcast = await loadTxt('collect5.txt');
+            displayTable('solcastTable', dataCache.solcast.data, type);
+            document.getElementById('solcastStatus').innerHTML = `Rows: ${dataCache.solcast.summary.rows}`;
+        }
+        
+        // Generic loadTable
+        async function loadTable(sourceKey, type) {
+            const keyMap = { sim: 'collect1.txt', nasa: 'collect2.txt', openmeteo: 'collect3.txt', solcast: 'collect5.txt' };
+            const file = keyMap[sourceKey];
+            if (!dataCache[file]) dataCache[file] = await loadTxt(file);
+            displayTable(`${sourceKey}Table`, dataCache[file].data, type);
+            const stats = dataCache[file].summary;
+            document.getElementById(`${sourceKey}Status`).innerHTML = `Rows: ${stats.rows || 0}`;
+        }
         
         function displayTable(tableId, data, type) {
             let sorted = [...data];
