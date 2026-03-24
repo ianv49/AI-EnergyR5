@@ -6,6 +6,21 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 - Keep the file organized for easy AI reference and updates.
 
+..notes 2026-03-24;
+[a] Mar24 2026 - Webtool Update Progress & Steps
+1. Git commits (9): add home link, fix tab HTML/code/labels, fix timestamps collect*.txt, fix collect5.txt IDs/formats, add index.html links, add data tabs, web summary
+2. Data fixes: collect5.txt → rn=1-9438 (node fix_collect5.js); collect6/7 timestamps fixed (ISO→space)
+3. HTML: index_tabs.html → collect1-7 tabs w/ labels (Sim/NASA Power/OpenMeteo/Solcast/Meteostat/Tomorrow/Weatherbit); home nav on summary/tabs/fixed
+4. Cleanup: Removed fix_*.js, DB/Flask (txt-only)
+5. Deploy: npx gh-pages → https://ianv49.github.io/AI-EnergyR5/
+6. Log: myNotes.txt entry 2026-03-20
+
+[b] GH Pages verified live: tables/charts/tabs/nav. Original task (HTML list/features/additions) done.
+
+[z] Summary: Webtool final updates - nav/tabs/data fixes, static deploy complete.
+
+================================================
+
 ..notes 2026-mar-19;
 [a] March 19, 2026 - Weatherbit 2025 Bulk Fetch + DB Mirror
 - Created `fetch_weatherbit_2025.py` to fetch hourly Weatherbit historical data for Jan-Dec 2025 and append to `data/collect7.txt` in the 9-field schema (id,timestamp,temperature,humidity,irradiance,wind_speed,source,wind_power_density,solar_energy_yield).
