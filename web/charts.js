@@ -78,8 +78,8 @@ async function parseDataFile(sourceId) {
     const text = await response.text();
     const rows = text.trim().split('\n');
 
-    // Skip header row if present
-    const dataRows = rows.filter(r => !r.startsWith('id'));
+    // Remove header row (first line only)
+    const dataRows = rows.slice(1);
 
     let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
 
@@ -121,5 +121,6 @@ async function parseDataFile(sourceId) {
 
 // Loop through all sources
 Object.keys(sources).forEach(id => parseDataFile(parseInt(id)));
+
 
 
