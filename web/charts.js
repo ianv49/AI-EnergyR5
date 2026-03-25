@@ -1,22 +1,24 @@
 // charts.js - Summary cards with real metrics from collect*.txt
-// Loads 7 APIs automatically, creates cards dynamically
+// Loads 7 APIs automatically
 
 const sources = {
-  1: { name: 'Sim Data', file: 'data/collect1.txt', color: '#3B82F6', api: 'sim' },
-  2: { name: 'NASA POWER', file: 'data/collect2.txt', color: '#F59E0B', api: 'nasa_power' },
-  3: { name: 'Open-Meteo', file: 'data/collect3.txt', color: '#10B981', api: 'open_meteo' },
-  4: { name: 'Solcast', file: 'data/collect4.txt', color: '#8B5CF6', api: 'solcast' },
-  5: { name: 'Meteostat', file: 'data/collect5.txt', color: '#EF4444', api: 'meteostat' },
-  6: { name: 'Tomorrow', file: 'data/collect6.txt', color: '#06B6D4', api: 'tomorrow' },
-  7: { name: 'Weatherbit', file: 'data/collect7.txt', color: '#F97316', api: 'weatherbit' }
+  1: { name: 'sim', color: '#3B82F6', file: 'data/collect1.txt' },
+  2: { name: 'nasa_power', color: '#F59E0B', file: 'data/collect2.txt' },
+  3: { name: 'open_meteo', color: '#10B981', file: 'data/collect3.txt' },
+  4: { name: 'solcast', color: '#8B5CF6', file: 'data/collect4.txt' },
+  5: { name: 'meteostat', color: '#EF4444', file: 'data/collect5.txt' },
+  6: { name: 'tomorrow', color: '#06B6D4', file: 'data/collect6.txt' },
+  7: { name: 'weatherbit', color: '#F97316', file: 'data/collect7.txt' }
 };
+
+let allMetrics = {};
 
 function createSummaryCard(sourceId, metrics) {
   const source = sources[sourceId];
   const container = document.getElementById('summaryCards') || document.body;
   
-  // Find max avgSEY across all for highlight
-  const maxSEY = Math.max(...Object.values(allMetrics || {}).map(m => m.avgSEY));
+  // Find best performer
+  const maxSEY = Math.max(...Object.values(allMetrics).map(m => m.avgSEY));
   const isBest = metrics.avgSEY === maxSEY;
   
   const card = document.createElement('div');
@@ -38,15 +40,15 @@ function createSummaryCard(sourceId, metrics) {
     <div class="space-y-3">
       <div class="flex justify-between items-baseline">
         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg Temp</span>
-        <span class="text-2xl font-bold text-gray-900 dark:text-white">${metrics.avgTemp}°C</span>
+        <span class="text-2xl font-bold text-gray-900 dark:text-white">${metrics.avgTemp.toFixed(1)}°C</span>
       </div>
       <div class="flex justify-between items-baseline">
         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg Irradiance</span>
-        <span class="text-2xl font-bold text-orange-600 dark:text-orange-400">${metrics.avgIrr} W/m²</span>
+        <span class="text-2xl font-bold text-orange-600 dark:text-orange-400">${metrics.avgIrr.toFixed(1)} W/m²</span>
       </div>
       <div class="flex justify-between items-baseline">
         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Max Wind</span>
-        <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">${metrics.maxWind} m/s</span>
+        <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">${metrics.maxWind.toFixed(1)} m/s</span>
       </div>
       <div class="flex justify-between items-baseline ${isBest ? 'bg-emerald-50 dark:bg-emerald-900/50 p-3 rounded-xl' : ''}">
         <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg SEY</span>
@@ -58,68 +60,53 @@ function createSummaryCard(sourceId, metrics) {
   container.appendChild(card);
 }
 
-let allMetrics = {};
-
-// Correct mapping with file paths
-const sources = {
-  1: { name: 'sim', color: '#3B82F6', file: 'data/collect1.txt' },
-  2: { name: 'nasa_power', color: '#F59E0B', file: 'data/collect2.txt' },
-  3: { name: 'open_meteo', color: '#10B981', file: 'data/collect3.txt' },
-  4: { name: 'solcast', color: '#8B5CF6', file: 'data/collect4.txt' },
-  5: { name: 'meteostat', color: '#EF4444', file: 'data/collect5.txt' },
-  6: { name: 'tomorrow', color: '#06B6D4', file: 'data/collect6.txt' },
-  7: { name: 'weatherbit', color: '#F97316', file: 'data/collect7.txt' }
-};
-
 async function parseDataFile(sourceId) {
-  const src = sources[sourceId];
+  const source = sources[sourceId];
   try {
-    const response = await fetch(src.file);
+    const response = await fetch(source.file);
     const text = await response.text();
-    const rows = text.trim().split('\n');
-
-    // Skip header row if present
-    const dataRows = rows.filter(r => !r.startsWith('id'));
-
-    let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
-
-    dataRows.forEach(row => {
-      const parts = row.trim().split(',');
-      if (parts.length >= 9) {
-        const temp = parseFloat(parts[2]);
-        const hum = parseFloat(parts[3]);
-        const irrad = parseFloat(parts[4]);
-        const wind = parseFloat(parts[5]);
-        const wpd = parseFloat(parts[7]);
-        const sey = parseFloat(parts[8]);
-
-        if (!isNaN(temp)) temps.push(temp);
-        if (!isNaN(hum)) hums.push(hum);
-        if (!isNaN(irrad)) irrads.push(irrad);
-        if (!isNaN(wind)) winds.push(wind);
-        if (!isNaN(wpd)) wpds.push(wpd);
-        if (!isNaN(sey)) seys.push(sey);
+    const lines = text.split('\n').slice(1); // Skip first header line
+    
+    let tempSum = 0, irrSum = 0, windMax = 0, seySum = 0, count = 0;
+    
+    for (let line of lines) {
+      if (!line.trim()) continue;
+      const cols = line.split('\t');
+      if (cols.length < 9) continue;
+      
+      const temp = parseFloat(cols[2]);
+      const irr = parseFloat(cols[4]);
+      const wind = parseFloat(cols[5]);
+      const sey = parseFloat(cols[8]);
+      
+      if (!isNaN(temp) && !isNaN(irr) && !isNaN(wind) && !isNaN(sey)) {
+        tempSum += temp;
+        irrSum += irr;
+        windMax = Math.max(windMax, wind);
+        seySum += sey;
+        count++;
       }
-    });
-
+    }
+    
     const metrics = {
-      avgTemp: temps.reduce((a,b)=>a+b,0) / temps.length || 0,
-      avgHum: hums.reduce((a,b)=>a+b,0) / hums.length || 0,
-      avgIrr: irrads.reduce((a,b)=>a+b,0) / irrads.length || 0,
-      maxWind: winds.length ? Math.max(...winds) : 0,
-      avgWPD: wpds.reduce((a,b)=>a+b,0) / wpds.length || 0,
-      avgSEY: seys.reduce((a,b)=>a+b,0) / seys.length || 0,
-      count: dataRows.length
+      avgTemp: count ? tempSum / count : 0,
+      avgIrr: count ? irrSum / count : 0,
+      maxWind: windMax,
+      avgSEY: count ? seySum / count : 0,
+      count
     };
-
-    const card = createSummaryCard(sourceId, metrics);
-    document.getElementById('summaryCards').appendChild(card);
-  } catch (err) {
-    console.error(`Error loading ${src.file}:`, err);
+    
+    allMetrics[sourceId] = metrics;
+    createSummaryCard(sourceId, metrics);
+    
+  } catch (e) {
+    console.error(`Error parsing ${source.file}:`, e);
+    createSummaryCard(sourceId, {count: 0, avgTemp:0, avgIrr:0, maxWind:0, avgSEY:0});
   }
 }
 
-// Loop through all sources
-Object.keys(sources).forEach(id => parseDataFile(parseInt(id)));
-
+// Load all
+for (let sourceId = 1; sourceId <= 7; sourceId++) {
+  parseDataFile(sourceId);
+}
 

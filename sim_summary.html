@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-EnergyR5 - Sim Data Summary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-indigo-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      AI-EnergyR5 Sim Data Summary
+    </h1>
+    
+    <div id="loading" class="fixed inset-0 bg-slate-50/80 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-3xl shadow-2xl">
+        <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-lg font-semibold text-gray-700">Loading sim data summary...</p>
+      </div>
+    </div>
+
+    <div id="summaryCard" class="bg-white rounded-3xl shadow-xl p-12 border border-gray-200 hidden">
+      <div class="flex items-center mb-8">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 flex-shrink-0 shadow-lg mr-6">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Sim Data (collect1.txt)</h2>
+          <p class="text-xl text-gray-500 mt-1" id="rowCount"></p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="p-6 bg-gray-50 rounded-2xl">
+          <div class="text-3xl font-bold text-gray-900" id="avgTemp">--°C</div>
+          <div class="text-sm text-gray-500 mt-1">Avg Temp</div>
+        </div>
+        <div class="p-6 bg-orange-50 rounded-2xl">
+          <div class="text-3xl font-bold text-orange-600" id="avgIrr">-- W/m²</div>
+          <div class="text-sm text-gray-500 mt-1">Avg Irradiance</div>
+        </div>
+        <div class="p-6 bg-blue-50 rounded-2xl">
+          <div class="text-3xl font-bold text-blue-600" id="maxWind">-- m/s</div>
+          <div class="text-sm text-gray-500 mt-1">Max Wind</div>
+        </div>
+        <div class="p-6 bg-emerald-50 rounded-2xl">
+          <div class="text-3xl font-bold text-emerald-600" id="avgSEY">-- kWh</div>
+          <div class="text-sm text-gray-500 mt-1">Avg SEY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadSimData() {
+      try {
+const response = await fetch('sim_data.txt');
+        const text = await response.text();
+        const lines = text.split('\n').slice(1);
+        
+        let tempSum = 0, irrSum = 0, windMax = 0, seySum = 0, count = 0;
+        
+        for (let line of lines) {
+          if (!line.trim()) continue;
+          const cols = line.split('\t');
+          if (cols.length < 9) continue;
+          
+          const temp = parseFloat(cols[2]);
+          const irr = parseFloat(cols[4]);
+          const wind = parseFloat(cols[5]);
+          const sey = parseFloat(cols[8]);
+          
+          if (!isNaN(temp) && !isNaN(irr) && !isNaN(wind) && !isNaN(sey)) {
+            tempSum += temp;
+            irrSum += irr;
+            windMax = Math.max(windMax, wind);
+            seySum += sey;
+            count++;
+          }
+        }
+        
+        document.getElementById('rowCount').textContent = count.toLocaleString() + ' rows';
+        document.getElementById('avgTemp').textContent = (tempSum / count || 0).toFixed(1) + '°C';
+        document.getElementById('avgIrr').textContent = (irrSum / count || 0).toFixed(1) + ' W/m²';
+        document.getElementById('maxWind').textContent = windMax.toFixed(1) + ' m/s';
+        document.getElementById('avgSEY').textContent = (seySum / count || 0).toFixed(2) + ' kWh';
+        
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('summaryCard').classList.remove('hidden');
+        console.log(`Loaded ${count} valid rows from sim data`);
+      } catch (e) {
+        console.error('Error loading sim data:', e);
+        document.getElementById('loading').innerHTML = '<div class="bg-red-50 p-8 rounded-3xl border border-red-200"><p class="text-red-600 font-semibold">Error: ' + e.message + '</p></div>';
+      }
+    }
+    
+    loadSimData();
+  </script>
+</body>
+</html>
