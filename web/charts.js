@@ -65,6 +65,7 @@ async function parseDataFile(sourceId) {
   try {
     const response = await fetch(source.file);
     const text = await response.text();
+<<<<<<< HEAD
     const lines = text.split('\n').slice(1); // Skip first header line
     
     let tempSum = 0, irrSum = 0, windMax = 0, seySum = 0, count = 0;
@@ -85,6 +86,31 @@ async function parseDataFile(sourceId) {
         windMax = Math.max(windMax, wind);
         seySum += sey;
         count++;
+=======
+    const rows = text.trim().split('\n');
+
+    // Remove header row (first line only)
+    const dataRows = rows.slice(1);
+
+    let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
+
+    dataRows.forEach(row => {
+      const parts = row.trim().split(',');
+      if (parts.length >= 9) {
+        const temp = parseFloat(parts[2]);
+        const hum = parseFloat(parts[3]);
+        const irrad = parseFloat(parts[4]);
+        const wind = parseFloat(parts[5]);
+        const wpd = parseFloat(parts[7]);
+        const sey = parseFloat(parts[8]);
+
+        if (!isNaN(temp)) temps.push(temp);
+        if (!isNaN(hum)) hums.push(hum);
+        if (!isNaN(irrad)) irrads.push(irrad);
+        if (!isNaN(wind)) winds.push(wind);
+        if (!isNaN(wpd)) wpds.push(wpd);
+        if (!isNaN(sey)) seys.push(sey);
+>>>>>>> cf5d188750e432f5aa8d96c27aac1cb8b6da3004
       }
     }
     
@@ -109,4 +135,5 @@ async function parseDataFile(sourceId) {
 for (let sourceId = 1; sourceId <= 7; sourceId++) {
   parseDataFile(sourceId);
 }
+
 
