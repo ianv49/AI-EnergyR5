@@ -78,10 +78,13 @@ async function parseDataFile(sourceId) {
     const text = await response.text();
     const rows = text.trim().split('\n');
 
+    // Skip header row if present
+    const dataRows = rows.filter(r => !r.startsWith('id'));
+
     let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
 
-    rows.forEach(row => {
-      const parts = row.split(',');
+    dataRows.forEach(row => {
+      const parts = row.trim().split(',');
       if (parts.length >= 9) {
         const temp = parseFloat(parts[2]);
         const hum = parseFloat(parts[3]);
@@ -106,7 +109,7 @@ async function parseDataFile(sourceId) {
       maxWind: winds.length ? Math.max(...winds) : 0,
       avgWPD: wpds.reduce((a,b)=>a+b,0) / wpds.length || 0,
       avgSEY: seys.reduce((a,b)=>a+b,0) / seys.length || 0,
-      count: rows.length
+      count: dataRows.length
     };
 
     const card = createSummaryCard(sourceId, metrics);
