@@ -161,7 +161,7 @@
 
     // Data sources mapping
     const sources = {
-      1: { name: 'NASA POWER', color: '#3B82F6' },
+1: { name: 'sim (NASA POWER)', color: '#3B82F6' },
       2: { name: 'Solcast', color: '#F59E0B' },
       3: { name: 'OpenWeather', color: '#10B981' },
       4: { name: 'Meteostat', color: '#8B5CF6' },
@@ -185,7 +185,7 @@
         
         for (let line of lines) {
           if (!line.trim()) continue;
-          const cols = line.split(',');
+const cols = line.split('\t');
           if (cols.length < 9) continue;
           
           const temp = parseFloat(cols[2]);
