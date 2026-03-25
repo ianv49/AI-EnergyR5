@@ -1,13 +1,27 @@
+let debugActive = true;
+
+function logDebug(message) {
+  if (debugActive) {
+    document.getElementById('debugRibbon').textContent = "Debug log: " + message;
+    console.log(message);
+  }
+}
+
 async function parseSimData() {
   try {
+    logDebug("Fetching collect1.txt...");
     const response = await fetch('data/collect1.txt');
+    if (!response.ok) throw new Error("Fetch failed: " + response.status);
     const text = await response.text();
+    logDebug("File loaded, parsing rows...");
     const rows = text.trim().split('\n');
-    const dataRows = rows.slice(1); // skip header
+    const dataRows = rows.slice(1);
+
+    logDebug("Row count: " + dataRows.length);
 
     let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
 
-    dataRows.forEach(row => {
+    dataRows.forEach((row, idx) => {
       const parts = row.trim().split(',');
       if (parts.length >= 9) {
         temps.push(parseFloat(parts[2]));
@@ -16,6 +30,8 @@ async function parseSimData() {
         winds.push(parseFloat(parts[5]));
         wpds.push(parseFloat(parts[7]));
         seys.push(parseFloat(parts[8]));
+      } else {
+        logDebug("Row " + idx + " skipped: " + row);
       }
     });
 
@@ -41,13 +57,22 @@ async function parseSimData() {
         <p><span class="font-semibold">Avg SEY:</span> ${metrics.avgSEY.toFixed(2)} kWh/m²/day</p>
       </div>
     `;
+    logDebug("Summary card updated successfully.");
   } catch (err) {
-    console.error('Error loading sim data:', err);
-    document.getElementById('simSummary').innerHTML = `
-      <h1 class="text-2xl font-bold text-blue-600 mb-4">Sim Data Summary</h1>
-      <p class="text-red-500">Error loading sim data.</p>
-    `;
+    logDebug("Error: " + err.message);
   }
 }
 
-parseSimData();
+// Debug control buttons
+function runStep() {
+  logDebug("Running parseSimData...");
+  parseSimData();
+}
+function stopDebug() {
+  debugActive = false;
+  logDebug("Debugging stopped.");
+}
+function refreshDebug() {
+  debugActive = true;
+  logDebug("Debugging refreshed.");
+}
