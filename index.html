@@ -14,6 +14,16 @@
       <p class="text-gray-500">Loading sim data...</p>
     </div>
   </div>
+  
+<div id="debugRibbon" class="fixed top-0 left-0 w-full bg-black text-green-400 text-sm p-2 font-mono">
+  Debug log: waiting...
+</div>
+
+<div class="flex space-x-2 mt-4">
+  <button onclick="runStep()" class="px-4 py-2 bg-blue-600 text-white rounded">Next Step</button>
+  <button onclick="stopDebug()" class="px-4 py-2 bg-red-600 text-white rounded">Stop</button>
+  <button onclick="refreshDebug()" class="px-4 py-2 bg-gray-600 text-white rounded">Refresh</button>
+</div>
 
   <script src="charts.js"></script>
 </body>
