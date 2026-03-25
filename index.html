@@ -1,14 +1,332 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI-EnergyR5 - React Dashboard</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-EnergyR5 Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@heroicons/react@2.0/24/outline/index.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans antialiased">
+  <!-- Top Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            AI-EnergyR5
+          </h1>
+          <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">(Weather Dashboard)</span>
+        </div>
+        <!-- Dark mode toggle -->
+        <button id="darkToggle" class="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:static lg:inset-0">
+      <!-- Mobile toggle -->
+      <button id="mobileToggle" class="lg:hidden p-4 absolute top-20 left-4 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <div class="p-6 pt-24 lg:pt-6">
+        <nav class="space-y-2">
+          <a href="#dashboard" class="group flex items-center p-3 rounded-xl bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 font-medium shadow-sm group-hover:shadow-md transition-all duration-200">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            Dashboard
+          </a>
+          <a href="#sensors" class="flex items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-sm transition-all duration-200">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            Sensors
+          </a>
+          <a href="#weather" class="flex items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-sm transition-all duration-200">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 014 4h3a4 4 0 014 4v1h3v-1a4 4 0 012-3.6M12 12a3 3 0 100-6 3 3 0 000 6z"/>
+            </svg>
+            Weather
+          </a>
+          <a href="#analytics" class="flex items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-sm transition-all duration-200">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2-2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            Analytics
+          </a>
+          <a href="#settings" class="flex items-center p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-sm transition-all duration-200">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.426 1.756 2.924 1.756 3.35 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Settings
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 lg:ml-64 pt-16 p-6 lg:p-12">
+      <!-- Dashboard Content -->
+      <section id="dashboard" class="min-h-screen">
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+          <!-- Sensor Data Card -->
+          <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-2xl p-3 flex-shrink-0">
+                <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Sensor Data</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">collect1.txt</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-3xl font-bold text-gray-900 dark:text-white">9,438</p>
+              <p class="text-sm text-emerald-600 dark:text-emerald-400 font-medium">+12% from last week</p>
+            </div>
+          </div>
+
+          <!-- Weather Data Card -->
+          <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-white/20 rounded-2xl p-3 flex-shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 014 4h3a4 4 0 014 4v1h3v-1a4 4 0 012-3.6M12 12a3 3 0 100-6 3 3 0 000 6z"/>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold">Weather Data</h3>
+                <p class="text-sm opacity-90">Open-Meteo API</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-3xl font-bold">10,181</p>
+              <p class="text-sm">rows loaded</p>
+            </div>
+          </div>
+
+          <!-- Irradiance Card -->
+          <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-white/20 rounded-2xl p-3 flex-shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold">Max Irradiance</h3>
+                <p class="text-sm opacity-90">Solcast Peak</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-3xl font-bold">1,024 W/m²</p>
+              <p class="text-sm">Feb 14, 2026 14:30</p>
+            </div>
+          </div>
+
+          <!-- Coverage Card -->
+          <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-2xl p-3 flex-shrink-0">
+                <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Data Coverage</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Jan 2025 - Mar 2026</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">98.7%</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">No major gaps</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <!-- Irradiance Chart -->
+          <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Solar Irradiance (W/m²)</h2>
+            <canvas id="irradianceChart" height="300"></canvas>
+          </div>
+
+          <!-- Recent Data Table -->
+          <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 overflow-x-auto">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Recent Readings</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th class="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Time</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Irradiance</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Temp</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Source</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <td class="py-3 px-4">14:30 02/14</td>
+                    <td class="py-3 px-4 font-mono bg-yellow-100 dark:bg-yellow-900/50 px-2 py-1 rounded text-sm">1,024</td>
+                    <td class="py-3 px-4">28.5°C</td>
+                    <td class="py-3 px-4"><span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs">Solcast</span></td>
+                  </tr>
+                  <tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <td class="py-3 px-4">13:45 02/14</td>
+                    <td class="py-3 px-4 font-mono bg-orange-100 dark:bg-orange-900/50 px-2 py-1 rounded text-sm">912</td>
+                    <td class="py-3 px-4">27.2°C</td>
+                    <td class="py-3 px-4"><span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">NASA</span></td>
+                  </tr>
+                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <td class="py-3 px-4">12:30 02/14</td>
+                    <td class="py-3 px-4 font-mono bg-green-100 dark:bg-green-900/50 px-2 py-1 rounded text-sm">785</td>
+                    <td class="py-3 px-4">29.1°C</td>
+                    <td class="py-3 px-4"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full text-xs">Meteostat</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Other pages (hidden) -->
+      <section id="sensors" class="min-h-screen hidden">
+        <div class="p-12">
+          <h2 class="text-4xl font-bold mb-8">Sensors</h2>
+          <p>Sensor data management and configuration.</p>
+        </div>
+      </section>
+      <section id="weather" class="min-h-screen hidden">
+        <div class="p-12">
+          <h2 class="text-4xl font-bold mb-8">Weather APIs</h2>
+          <p>Live weather data sources and backfills.</p>
+        </div>
+      </section>
+      <section id="analytics" class="min-h-screen hidden">
+        <div class="p-12">
+          <h2 class="text-4xl font-bold mb-8">Analytics</h2>
+          <p>Data analysis and ML forecasts.</p>
+        </div>
+      </section>
+      <section id="settings" class="min-h-screen hidden">
+        <div class="p-12">
+          <h2 class="text-4xl font-bold mb-8">Settings</h2>
+          <p>Configuration and API keys.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    const darkToggle = document.getElementById('darkToggle')
+    const html = document.documentElement
+    const isDark = localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    
+    if (isDark) {
+      html.classList.add('dark')
+    }
+
+    darkToggle.addEventListener('click', () => {
+      html.classList.toggle('dark')
+      localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light'
+    })
+
+    // Mobile sidebar toggle
+    const mobileToggle = document.getElementById('mobileToggle')
+    const sidebar = document.querySelector('aside')
+    
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full')
+    })
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault()
+        sidebar.classList.add('-translate-x-full')
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        })
+      })
+    })
+
+    // Irradiance chart
+    const ctx = document.getElementById('irradianceChart').getContext('2d')
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
+        datasets: [{
+          label: 'Solcast Irradiance',
+          data: [120, 450, 780, 950, 1024, 890, 620],
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#f59e0b',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'rgb(55, 65, 81)'
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgb(229, 231, 235)'
+            },
+            ticks: {
+              color: 'rgb(107, 114, 128)'
+            }
+          },
+          y: {
+            grid: {
+              color: 'rgb(229, 231, 235)'
+            },
+            ticks: {
+              color: 'rgb(107, 114, 128)'
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
 </html>
 
