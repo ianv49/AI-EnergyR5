@@ -5,7 +5,7 @@ const sources = {
   1: { name: 'Sim Data', file: 'data/collect1.txt', color: '#3B82F6', api: 'sim' },
   2: { name: 'NASA POWER', file: 'data/collect2.txt', color: '#F59E0B', api: 'nasa_power' },
   3: { name: 'Open-Meteo', file: 'data/collect3.txt', color: '#10B981', api: 'open_meteo' },
-  4: { name: 'collect4/Solcast', file: 'data/collect4.txt', color: '#8B5CF6', api: 'solcast' },
+  4: { name: 'Solcast', file: 'data/collect4.txt', color: '#8B5CF6', api: 'solcast' },
   5: { name: 'Meteostat', file: 'data/collect5.txt', color: '#EF4444', api: 'meteostat' },
   6: { name: 'Tomorrow', file: 'data/collect6.txt', color: '#06B6D4', api: 'tomorrow' },
   7: { name: 'Weatherbit', file: 'data/collect7.txt', color: '#F97316', api: 'weatherbit' }
@@ -60,55 +60,56 @@ function createSummaryCard(sourceId, metrics) {
 
 let allMetrics = {};
 
+// Correct mapping with file paths
+const sources = {
+  1: { name: 'sim', color: '#3B82F6', file: 'data/collect1.txt' },
+  2: { name: 'nasa_power', color: '#F59E0B', file: 'data/collect2.txt' },
+  3: { name: 'open_meteo', color: '#10B981', file: 'data/collect3.txt' },
+  4: { name: 'solcast', color: '#8B5CF6', file: 'data/collect4.txt' },
+  5: { name: 'meteostat', color: '#EF4444', file: 'data/collect5.txt' },
+  6: { name: 'tomorrow', color: '#06B6D4', file: 'data/collect6.txt' },
+  7: { name: 'weatherbit', color: '#F97316', file: 'data/collect7.txt' }
+};
+
 async function parseDataFile(sourceId) {
-  const source = sources[sourceId];
-  if (!source) return;
-  
+  const src = sources[sourceId];
   try {
-    const response = await fetch(source.file);
+    const response = await fetch(src.file);
     const text = await response.text();
-    const lines = text.split('\n').slice(2); // Skip header
-    
-    let tempSum = 0, irrSum = 0, windMax = 0, seySum = 0, count = 0;
-    
-    for (let line of lines) {
-      if (!line.trim()) continue;
-      const cols = line.split('\t');
-      if (cols.length < 9) continue;
-      
-      const temp = parseFloat(cols[2]);
-      const irr = parseFloat(cols[4]);
-      const wind = parseFloat(cols[5]);
-      const sey = parseFloat(cols[8]);
-      
-      if (!isNaN(temp) && !isNaN(irr) && !isNaN(wind) && !isNaN(sey)) {
-        tempSum += temp;
-        irrSum += irr;
-        windMax = Math.max(windMax, wind);
-        seySum += sey;
-        count++;
-      }
-    }
-    
+    const rows = text.trim().split('\n');
+
+    let temps = [], irrads = [], winds = [], seys = [];
+
+    rows.forEach(row => {
+      const parts = row.split(',');
+      // Adjust indices based on your file format
+      const temp = parseFloat(parts[1]);
+      const irrad = parseFloat(parts[2]);
+      const wind = parseFloat(parts[3]);
+      const sey = parseFloat(parts[4]);
+
+      if (!isNaN(temp)) temps.push(temp);
+      if (!isNaN(irrad)) irrads.push(irrad);
+      if (!isNaN(wind)) winds.push(wind);
+      if (!isNaN(sey)) seys.push(sey);
+    });
+
     const metrics = {
-      avgTemp: count ? (tempSum / count).toFixed(1) : 0,
-      avgIrr: count ? (irrSum / count).toFixed(1) : 0,
-      maxWind: windMax.toFixed(1),
-      avgSEY: count ? seySum / count : 0,
-      count
+      avgTemp: temps.reduce((a,b)=>a+b,0) / temps.length || 0,
+      avgIrr: irrads.reduce((a,b)=>a+b,0) / irrads.length || 0,
+      maxWind: winds.length ? Math.max(...winds) : 0,
+      avgSEY: seys.reduce((a,b)=>a+b,0) / seys.length || 0,
+      count: rows.length
     };
-    
-    allMetrics[sourceId] = metrics;
-    createSummaryCard(sourceId, metrics);
-    
-  } catch (e) {
-    console.error(`Error parsing ${source.file}:`, e);
-    createSummaryCard(sourceId, {error: e.message, count: 0});
+
+    const card = createSummaryCard(sourceId, metrics);
+    document.getElementById('summaryCards').appendChild(card);
+  } catch (err) {
+    console.error(`Error loading ${src.file}:`, err);
   }
 }
 
-// Load all 7 sources
-for (let sourceId = 1; sourceId <= 7; sourceId++) {
-  parseDataFile(sourceId);
-}
+// Loop through all sources
+Object.keys(sources).forEach(id => parseDataFile(parseInt(id)));
+
 
