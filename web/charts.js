@@ -78,26 +78,33 @@ async function parseDataFile(sourceId) {
     const text = await response.text();
     const rows = text.trim().split('\n');
 
-    let temps = [], irrads = [], winds = [], seys = [];
+    let temps = [], hums = [], irrads = [], winds = [], wpds = [], seys = [];
 
     rows.forEach(row => {
       const parts = row.split(',');
-      // Adjust indices based on your file format
-      const temp = parseFloat(parts[1]);
-      const irrad = parseFloat(parts[2]);
-      const wind = parseFloat(parts[3]);
-      const sey = parseFloat(parts[4]);
+      if (parts.length >= 9) {
+        const temp = parseFloat(parts[2]);
+        const hum = parseFloat(parts[3]);
+        const irrad = parseFloat(parts[4]);
+        const wind = parseFloat(parts[5]);
+        const wpd = parseFloat(parts[7]);
+        const sey = parseFloat(parts[8]);
 
-      if (!isNaN(temp)) temps.push(temp);
-      if (!isNaN(irrad)) irrads.push(irrad);
-      if (!isNaN(wind)) winds.push(wind);
-      if (!isNaN(sey)) seys.push(sey);
+        if (!isNaN(temp)) temps.push(temp);
+        if (!isNaN(hum)) hums.push(hum);
+        if (!isNaN(irrad)) irrads.push(irrad);
+        if (!isNaN(wind)) winds.push(wind);
+        if (!isNaN(wpd)) wpds.push(wpd);
+        if (!isNaN(sey)) seys.push(sey);
+      }
     });
 
     const metrics = {
       avgTemp: temps.reduce((a,b)=>a+b,0) / temps.length || 0,
+      avgHum: hums.reduce((a,b)=>a+b,0) / hums.length || 0,
       avgIrr: irrads.reduce((a,b)=>a+b,0) / irrads.length || 0,
       maxWind: winds.length ? Math.max(...winds) : 0,
+      avgWPD: wpds.reduce((a,b)=>a+b,0) / wpds.length || 0,
       avgSEY: seys.reduce((a,b)=>a+b,0) / seys.length || 0,
       count: rows.length
     };
