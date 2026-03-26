@@ -15,11 +15,7 @@
 
         <!-- Main Summary -->
         <div class="main-summary">
-            <div class="summary-cards">
-                <div class="summary-card">
-                    <div class="summary-label">Sim API Records</div>
-                    <div class="summary-value" id="sim-count">9,478</div>
-                </div>
+        <div class="summary-cards">
                 <div class="summary-card">
                     <div class="summary-label">NASA Power API Records</div>
                     <div class="summary-value" id="nasa-count">10,177</div>
@@ -37,28 +33,36 @@
                     <div class="summary-value" id="weatherbit-count">10,905</div>
                 </div>
                 <div class="summary-card">
-                    <div class="summary-label">Total Records</div>
-                    <div class="summary-value" id="total-count">59,794</div>
+                    <div class="summary-label">Total Real Records</div>
+                    <div class="summary-value" id="total-count">40,696</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Sim API Records</div>
+                    <div class="summary-value" id="sim-count">9,478</div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Navigation -->
-        <div class="tabs-nav">
-            <button class="tab-button active" data-tab="sim-stats">Sim Stats</button>
-            <button class="tab-button" data-tab="nasa-stats">NASA Power Stats</button>
-            <button class="tab-button" data-tab="openmeteo-stats">OpenMeteo Stats</button>
-            <button class="tab-button" data-tab="meteostat-stats">Meteostat Stats</button>
-            <button class="tab-button" data-tab="weatherbit-stats">WeatherBit Stats</button>
-            <button class="tab-button" data-tab="sim-raw">Sim Data</button>
-            <button class="tab-button" data-tab="nasa-raw">NASA Data</button>
-            <button class="tab-button" data-tab="openmeteo-raw">OpenMeteo Data</button>
-            <button class="tab-button" data-tab="meteostat-raw">Meteostat Data</button>
-            <button class="tab-button" data-tab="weatherbit-raw">WeatherBit Data</button>
-        </div>
+        <!-- Tab Layout: Sidebar Navigation + Content -->
+        <div class="tab-layout">
+            <!-- Left Sidebar Tabs -->
+            <nav class="tabs-nav">
+                <button class="tab-button" data-tab="nasa-stats">NASA Stats</button>
+                <button class="tab-button" data-tab="openmeteo-stats">OpenMeteo Stats</button>
+                <button class="tab-button" data-tab="meteostat-stats">Meteostat Stats</button>
+                <button class="tab-button" data-tab="weatherbit-stats">WeatherBit Stats</button>
+                <button class="tab-button" data-tab="nasa-raw">NASA Raw</button>
+                <button class="tab-button" data-tab="openmeteo-raw">OpenMeteo Raw</button>
+                <button class="tab-button" data-tab="meteostat-raw">Meteostat Raw</button>
+                <button class="tab-button" data-tab="weatherbit-raw">WeatherBit Raw</button>
+                <button class="tab-button active" data-tab="sim-stats">Sim Stats</button>
+                <button class="tab-button" data-tab="sim-raw">Sim Raw</button>
+            </nav>
 
-        <!-- Sim API Stats Tab -->
-        <div class="tab-content active" id="sim-stats">
+            <!-- Tab Contents Area -->
+            <div class="tab-contents">
+                <!-- Sim API Stats Tab -->
+                <div class="tab-content active" id="sim-stats">
             <h2>Sim API Statistics</h2>
             <div class="stats-metrics" id="sim-stats-metrics">
                 <!-- Sample fallback if JS fails -->
@@ -171,7 +175,8 @@
             <h2>Meteostat API Raw Data</h2>
             <iframe id="meteostat-raw-frame" class="raw-iframe" src="data/collect5.txt"></iframe>
         </div>
-    </div>
+            </div><!-- end tab-contents -->
+        </div><!-- end tab-layout -->
 
     <script src="script.js"></script>
 </body>

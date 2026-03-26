@@ -102,13 +102,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const meteostatCount = data.meteostat?.temperature?.count || 9438;
         const weatherbitCount = data.weatherbit?.temperature?.count || 10905;
         document.getElementById('weatherbit-count').textContent = weatherbitCount.toLocaleString();
-        const totalCount = simCount + nasaCount + openmeteoCount + meteostatCount + weatherbitCount;
+        const totalRealCount = nasaCount + openmeteoCount + meteostatCount + weatherbitCount;
 
         document.getElementById('sim-count').textContent = simCount.toLocaleString();
         document.getElementById('nasa-count').textContent = nasaCount.toLocaleString();
         document.getElementById('openmeteo-count').textContent = openmeteoCount.toLocaleString();
         document.getElementById('meteostat-count').textContent = meteostatCount.toLocaleString();
-        document.getElementById('total-count').textContent = totalCount.toLocaleString();
+        document.getElementById('total-count').textContent = totalRealCount.toLocaleString();
     }
 
     // Populate metrics for all APIs

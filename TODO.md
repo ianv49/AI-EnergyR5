@@ -1,15 +1,15 @@
-# TODO: Fix WeatherBit Stats Tab Display
+# Sim/Real Data Organization
 
-## Plan Overview
-Modify script.js to load data from weatherbit_stats.json for the WeatherBit stats tab, replacing fallback data with real stats.
+## Previous Steps (Left Tabs Complete):
+- [x] Vertical left tabs + mobile responsive
 
-## Steps:
-- [x] Step 1: Analyzed files (index.html, script.js, weatherbit_stats.json) - confirmed structure matches.
-- [x] Step 2: Create dedicated function in script.js to fetch/parse weatherbit_stats.json (loadWeatherbitData() added).
-- [x] Step 3: Modify populateMetricsTab to use weatherbit fetch when apiName === 'WeatherBit' (integrated via apiStats.weatherbit).
-- [x] Step 4: Update weatherbit-count dynamically from fetched data (in updateSummaryCounts).
-- [x] Step 5: Add error handling/fallback for weatherbit fetch (try/catch + fallbackData.weatherbit).
-- [x] Step 6: Test by refreshing index.html and switching to WeatherBit tab (logic verified).
-- [x] Step 7: Update this TODO with completion and attempt_completion (done).
+## New Steps:
+- [x] 1. Create new TODO.md
+- [x] 2. Reorder summary cards in index.html: NASA, OpenMeteo, Meteostat, WeatherBit, Total (no Sim), Sim last
+- [x] 3. Update script.js: totalCount excludes simCount
+- [x] 4. Reorder tabs in index.html: Real Stats/Raw first (NASA/OpenMeteo/Meteostat/WeatherBit), Sim Stats/Raw last
+- [x] 5. Test: Total ~50k (real only), Sim separate/last
+- [x] 6. Complete
 
-All steps complete. WeatherBit Stats tab fixed - loads data from weatherbit_stats.json (10,905 records, temp min 24°C etc.). Check TODO.md and test in browser.
+Progress: Reorganizing sim to back of real data.
+
