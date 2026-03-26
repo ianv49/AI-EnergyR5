@@ -181,6 +181,12 @@ body {
     text-shadow: 0 2px 10px rgba(251, 146, 60, 0.2);
 }
 
+#weatherbit-stats h2,
+#weatherbit-raw h2 {
+    color: #14b8a6;
+    text-shadow: 0 2px 10px rgba(20, 184, 166, 0.2);
+}
+
 /* Stats Metrics Section */
 .stats-metrics {
     display: flex;

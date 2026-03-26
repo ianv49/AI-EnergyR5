@@ -38,6 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
             wind_speed: { min: 0.0, max: 11.31, mean: 2.58, count: 9438 },
             wind_power_density: { min: 0.0, max: 885.08, mean: 22.36, count: 9438 },
             solar_energy_yield: { min: 0.0, max: 0.0, mean: 0.0, count: 9438 }
+        },
+        weatherbit: {
+            temperature: { min: 24.0, max: 37.0, mean: 29.5, count: 10905 },
+            humidity: { min: 35.0, max: 100.0, mean: 75.0, count: 10905 },
+            irradiance: { min: 0.0, max: 1182.25, mean: 300.0, count: 10905 },
+            wind_speed: { min: 0.0, max: 15.0, mean: 3.0, count: 10905 },
+            wind_power_density: { min: 0.0, max: 2065.2, mean: 50.0, count: 10905 },
+            solar_energy_yield: { min: 0.0, max: 7.97, mean: 1.0, count: 10905 }
         }
     };
 
@@ -66,7 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const nasaCount = data.nasa_power?.temperature?.count || 10177;
         const openmeteoCount = data.open_meteo?.temperature?.count || 10176;
         const meteostatCount = data.meteostat?.temperature?.count || 9438;
-        const totalCount = simCount + nasaCount + openmeteoCount + meteostatCount;
+        const weatherbitCount = data.weatherbit?.temperature?.count || 10905;
+        document.getElementById('weatherbit-count').textContent = weatherbitCount.toLocaleString();
+        const totalCount = simCount + nasaCount + openmeteoCount + meteostatCount + weatherbitCount;
 
         document.getElementById('sim-count').textContent = simCount.toLocaleString();
         document.getElementById('nasa-count').textContent = nasaCount.toLocaleString();
@@ -82,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         populateMetricsTab('nasa-stats-metrics', data.nasa_power, 'NASA Power');
         populateMetricsTab('openmeteo-stats-metrics', data.open_meteo, 'OpenMeteo');
         populateMetricsTab('meteostat-stats-metrics', data.meteostat, 'Meteostat');
+        populateMetricsTab('weatherbit-stats-metrics', data.weatherbit, 'WeatherBit');
     }
 
     // Populate metrics tab with organized rows
@@ -129,12 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="metric-value-number">${fieldData.min.toFixed(2)}</div>
                     </div>
                     <div class="metric-value">
-                        <div class="metric-value-label">Max</div>
-                        <div class="metric-value-number">${fieldData.max.toFixed(2)}</div>
+                        <div class="metric-value-label">Ave</div>
+                        <div class="metric-value-number">${fieldData.mean.toFixed(2)}</div>
                     </div>
                     <div class="metric-value">
-                        <div class="metric-value-label">Mean</div>
-                        <div class="metric-value-number">${fieldData.mean.toFixed(2)}</div>
+                        <div class="metric-value-label">Max</div>
+                        <div class="metric-value-number">${fieldData.max.toFixed(2)}</div>
                     </div>
                 </div>
             `;

@@ -10,7 +10,7 @@
     <div class="container">
         <header class="header">
             <h1>Energy Data Summary</h1>
-            <p class="subtitle">Multi-API Data Analysis (Sim, NASA Power, OpenMeteo & Meteostat)</p>
+<p class="subtitle">Multi-API Data Analysis (Sim, NASA Power, OpenMeteo, Meteostat & WeatherBit)</p>
         </header>
 
         <!-- Main Summary -->
@@ -33,8 +33,12 @@
                     <div class="summary-value" id="meteostat-count">9,438</div>
                 </div>
                 <div class="summary-card">
+                    <div class="summary-label">WeatherBit API Records</div>
+                    <div class="summary-value" id="weatherbit-count">10,905</div>
+                </div>
+                <div class="summary-card">
                     <div class="summary-label">Total Records</div>
-                    <div class="summary-value" id="total-count">39,269</div>
+                    <div class="summary-value" id="total-count">59,794</div>
                 </div>
             </div>
         </div>
@@ -45,10 +49,12 @@
             <button class="tab-button" data-tab="nasa-stats">NASA Power Stats</button>
             <button class="tab-button" data-tab="openmeteo-stats">OpenMeteo Stats</button>
             <button class="tab-button" data-tab="meteostat-stats">Meteostat Stats</button>
+            <button class="tab-button" data-tab="weatherbit-stats">WeatherBit Stats</button>
             <button class="tab-button" data-tab="sim-raw">Sim Data</button>
             <button class="tab-button" data-tab="nasa-raw">NASA Data</button>
             <button class="tab-button" data-tab="openmeteo-raw">OpenMeteo Data</button>
             <button class="tab-button" data-tab="meteostat-raw">Meteostat Data</button>
+            <button class="tab-button" data-tab="weatherbit-raw">WeatherBit Data</button>
         </div>
 
         <!-- Sim API Stats Tab -->
@@ -60,8 +66,8 @@
                     <div class="metric-label">Temperature (°C)</div>
                     <div class="metric-values">
                         <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Ave</div><div class="metric-value-number">--</div></div>
                         <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
-                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
                     </div>
                 </div>
                 <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
@@ -77,8 +83,8 @@
                     <div class="metric-label">Temperature (°C)</div>
                     <div class="metric-values">
                         <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Ave</div><div class="metric-value-number">--</div></div>
                         <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
-                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
                     </div>
                 </div>
                 <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
@@ -135,6 +141,29 @@
         <div class="tab-content" id="openmeteo-raw">
             <h2>OpenMeteo API Raw Data</h2>
             <iframe id="openmeteo-raw-frame" class="raw-iframe" src="data/collect3.txt"></iframe>
+        </div>
+
+        <!-- WeatherBit Stats Tab -->
+        <div class="tab-content" id="weatherbit-stats">
+            <h2>WeatherBit API Statistics</h2>
+            <div class="stats-metrics" id="weatherbit-stats-metrics">
+                <!-- Sample fallback if JS fails -->
+                <div class="metric-item">
+                    <div class="metric-label">Temperature (°C)</div>
+                    <div class="metric-values">
+                        <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Ave</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
+                    </div>
+                </div>
+                <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
+            </div>
+        </div>
+
+        <!-- WeatherBit Raw Data Tab -->
+        <div class="tab-content" id="weatherbit-raw">
+            <h2>WeatherBit API Raw Data</h2>
+            <iframe id="weatherbit-raw-frame" class="raw-iframe" src="data/collect7.txt"></iframe>
         </div>
 
         <!-- Meteostat Raw Data Tab -->
