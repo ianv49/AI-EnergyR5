@@ -10,143 +10,137 @@
     <div class="container">
         <header class="header">
             <h1>Energy Data Summary</h1>
-            <p class="subtitle">API Simulation Data Analysis</p>
+            <p class="subtitle">Multi-API Data Analysis (Sim, NASA Power, OpenMeteo & Meteostat)</p>
         </header>
 
-        <!-- Tab Navigation -->
-        <div class="tabs-nav">
-            <button class="tab-button active" data-tab="summary">Summary</button>
-            <button class="tab-button" data-tab="raw-data">Raw Data</button>
-        </div>
-
-        <!-- Summary Tab -->
-        <div class="tab-content active" id="summary">
-            <div class="stats-grid">
-                <!-- Total Rows -->
-                <div class="stat-card">
-                    <div class="stat-label">Total Data Rows</div>
-                    <div class="stat-value">9,416</div>
+        <!-- Main Summary -->
+        <div class="main-summary">
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-label">Sim API Records</div>
+                    <div class="summary-value" id="sim-count">9,478</div>
                 </div>
-
-                <!-- Temperature Section -->
-                <div class="stat-card temp-card">
-                    <div class="stat-label">Temperature (Min)</div>
-                    <div class="stat-value">18.02</div>
-                    <div class="stat-unit">°C</div>
+                <div class="summary-card">
+                    <div class="summary-label">NASA Power API Records</div>
+                    <div class="summary-value" id="nasa-count">10,177</div>
                 </div>
-
-                <div class="stat-card temp-card">
-                    <div class="stat-label">Temperature (Max)</div>
-                    <div class="stat-value">32.60</div>
-                    <div class="stat-unit">°C</div>
+                <div class="summary-card">
+                    <div class="summary-label">OpenMeteo API Records</div>
+                    <div class="summary-value" id="openmeteo-count">10,176</div>
                 </div>
-
-                <div class="stat-card temp-card">
-                    <div class="stat-label">Temperature (Mean)</div>
-                    <div class="stat-value">28.03</div>
-                    <div class="stat-unit">°C</div>
+                <div class="summary-card">
+                    <div class="summary-label">Meteostat API Records</div>
+                    <div class="summary-value" id="meteostat-count">9,438</div>
                 </div>
-
-                <!-- Humidity Section -->
-                <div class="stat-card humid-card">
-                    <div class="stat-label">Humidity (Min)</div>
-                    <div class="stat-value">35.05</div>
-                    <div class="stat-unit">%</div>
-                </div>
-
-                <div class="stat-card humid-card">
-                    <div class="stat-label">Humidity (Max)</div>
-                    <div class="stat-value">96.99</div>
-                    <div class="stat-unit">%</div>
-                </div>
-
-                <div class="stat-card humid-card">
-                    <div class="stat-label">Humidity (Mean)</div>
-                    <div class="stat-value">73.74</div>
-                    <div class="stat-unit">%</div>
-                </div>
-
-                <!-- Irradiance Section -->
-                <div class="stat-card irrad-card">
-                    <div class="stat-label">Irradiance (Min)</div>
-                    <div class="stat-value">0.00</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <div class="stat-card irrad-card">
-                    <div class="stat-label">Irradiance (Max)</div>
-                    <div class="stat-value">996.11</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <div class="stat-card irrad-card">
-                    <div class="stat-label">Irradiance (Mean)</div>
-                    <div class="stat-value">137.39</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <!-- Wind Speed Section -->
-                <div class="stat-card speed-card">
-                    <div class="stat-label">Wind Speed (Min)</div>
-                    <div class="stat-value">0.02</div>
-                    <div class="stat-unit">m/s</div>
-                </div>
-
-                <div class="stat-card speed-card">
-                    <div class="stat-label">Wind Speed (Max)</div>
-                    <div class="stat-value">15.00</div>
-                    <div class="stat-unit">m/s</div>
-                </div>
-
-                <div class="stat-card speed-card">
-                    <div class="stat-label">Wind Speed (Mean)</div>
-                    <div class="stat-value">3.68</div>
-                    <div class="stat-unit">m/s</div>
-                </div>
-
-                <!-- Wind Power Density Section -->
-                <div class="stat-card wind-card">
-                    <div class="stat-label">Wind Power Density (Min)</div>
-                    <div class="stat-value">0.00</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <div class="stat-card wind-card">
-                    <div class="stat-label">Wind Power Density (Max)</div>
-                    <div class="stat-value">2,065.20</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <div class="stat-card wind-card">
-                    <div class="stat-label">Wind Power Density (Mean)</div>
-                    <div class="stat-value">67.82</div>
-                    <div class="stat-unit">W/m²</div>
-                </div>
-
-                <!-- Solar Energy Section -->
-                <div class="stat-card solar-card">
-                    <div class="stat-label">Solar Energy Yield (Min)</div>
-                    <div class="stat-value">0.00</div>
-                    <div class="stat-unit">kWh</div>
-                </div>
-
-                <div class="stat-card solar-card">
-                    <div class="stat-label">Solar Energy Yield (Max)</div>
-                    <div class="stat-value">7.97</div>
-                    <div class="stat-unit">kWh</div>
-                </div>
-
-                <div class="stat-card solar-card">
-                    <div class="stat-label">Solar Energy Yield (Mean)</div>
-                    <div class="stat-value">0.42</div>
-                    <div class="stat-unit">kWh</div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Records</div>
+                    <div class="summary-value" id="total-count">39,269</div>
                 </div>
             </div>
         </div>
 
-        <!-- Raw Data Tab -->
-        <div class="tab-content" id="raw-data">
-            <iframe id="raw-frame" class="raw-iframe"></iframe>
+        <!-- Tab Navigation -->
+        <div class="tabs-nav">
+            <button class="tab-button active" data-tab="sim-stats">Sim Stats</button>
+            <button class="tab-button" data-tab="nasa-stats">NASA Power Stats</button>
+            <button class="tab-button" data-tab="openmeteo-stats">OpenMeteo Stats</button>
+            <button class="tab-button" data-tab="meteostat-stats">Meteostat Stats</button>
+            <button class="tab-button" data-tab="sim-raw">Sim Data</button>
+            <button class="tab-button" data-tab="nasa-raw">NASA Data</button>
+            <button class="tab-button" data-tab="openmeteo-raw">OpenMeteo Data</button>
+            <button class="tab-button" data-tab="meteostat-raw">Meteostat Data</button>
+        </div>
+
+        <!-- Sim API Stats Tab -->
+        <div class="tab-content active" id="sim-stats">
+            <h2>Sim API Statistics</h2>
+            <div class="stats-metrics" id="sim-stats-metrics">
+                <!-- Sample fallback if JS fails -->
+                <div class="metric-item">
+                    <div class="metric-label">Temperature (°C)</div>
+                    <div class="metric-values">
+                        <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
+                    </div>
+                </div>
+                <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
+            </div>
+        </div>
+
+        <!-- NASA Power Stats Tab -->
+        <div class="tab-content" id="nasa-stats">
+            <h2>NASA Power API Statistics</h2>
+            <div class="stats-metrics" id="nasa-stats-metrics">
+                <!-- Sample fallback if JS fails -->
+                <div class="metric-item">
+                    <div class="metric-label">Temperature (°C)</div>
+                    <div class="metric-values">
+                        <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
+                    </div>
+                </div>
+                <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
+            </div>
+        </div>
+
+        <!-- OpenMeteo Stats Tab -->
+        <div class="tab-content" id="openmeteo-stats">
+            <h2>OpenMeteo API Statistics</h2>
+            <div class="stats-metrics" id="openmeteo-stats-metrics">
+                <!-- Sample fallback if JS fails -->
+                <div class="metric-item">
+                    <div class="metric-label">Temperature (°C)</div>
+                    <div class="metric-values">
+                        <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
+                    </div>
+                </div>
+                <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
+            </div>
+        </div>
+
+        <!-- Meteostat Stats Tab -->
+        <div class="tab-content" id="meteostat-stats">
+            <h2>Meteostat API Statistics</h2>
+            <div class="stats-metrics" id="meteostat-stats-metrics">
+                <!-- Sample fallback if JS fails -->
+                <div class="metric-item">
+                    <div class="metric-label">Temperature (°C)</div>
+                    <div class="metric-values">
+                        <div class="metric-value"><div class="metric-value-label">Min</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Max</div><div class="metric-value-number">--</div></div>
+                        <div class="metric-value"><div class="metric-value-label">Mean</div><div class="metric-value-number">--</div></div>
+                    </div>
+                </div>
+                <p style="color: #94a3b8; text-align: center; margin-top: 20px; font-size: 0.9rem;">Loading statistics...</p>
+            </div>
+        </div>
+
+        <!-- Sim Raw Data Tab -->
+        <div class="tab-content" id="sim-raw">
+            <h2>Sim API Raw Data</h2>
+            <iframe id="sim-raw-frame" class="raw-iframe" src="data/collect1.txt"></iframe>
+        </div>
+
+        <!-- NASA Power Raw Data Tab -->
+        <div class="tab-content" id="nasa-raw">
+            <h2>NASA Power API Raw Data</h2>
+            <iframe id="nasa-raw-frame" class="raw-iframe" src="data/collect2.txt"></iframe>
+        </div>
+
+        <!-- OpenMeteo Raw Data Tab -->
+        <div class="tab-content" id="openmeteo-raw">
+            <h2>OpenMeteo API Raw Data</h2>
+            <iframe id="openmeteo-raw-frame" class="raw-iframe" src="data/collect3.txt"></iframe>
+        </div>
+
+        <!-- Meteostat Raw Data Tab -->
+        <div class="tab-content" id="meteostat-raw">
+            <h2>Meteostat API Raw Data</h2>
+            <iframe id="meteostat-raw-frame" class="raw-iframe" src="data/collect5.txt"></iframe>
         </div>
     </div>
 

@@ -1,0 +1,154 @@
+{
+  "sim": {
+    "temperature": {
+      "min": 18.021885,
+      "max": 36.93,
+      "mean": 28.016171627664068,
+      "count": 9478
+    },
+    "humidity": {
+      "min": 35.051468,
+      "max": 96.99,
+      "mean": 73.62745481789408,
+      "count": 9478
+    },
+    "irradiance": {
+      "min": 0.0,
+      "max": 1182.25,
+      "mean": 140.1621125296476,
+      "count": 9478
+    },
+    "wind_speed": {
+      "min": 0.018426912,
+      "max": 14.99518,
+      "mean": 3.6913446879283605,
+      "count": 9478
+    },
+    "wind_power_density": {
+      "min": 0.0,
+      "max": 2065.2,
+      "mean": 67.37209854399663,
+      "count": 9478
+    },
+    "solar_energy_yield": {
+      "min": 0.0,
+      "max": 7.97,
+      "mean": 0.41699198143068156,
+      "count": 9478
+    }
+  },
+  "nasa_power": {
+    "temperature": {
+      "min": 27.0,
+      "max": 34.8,
+      "mean": 30.195645082047758,
+      "count": 10177
+    },
+    "humidity": {
+      "min": 55.83,
+      "max": 97.0,
+      "mean": 74.52925223543284,
+      "count": 10177
+    },
+    "irradiance": {
+      "min": 0.0,
+      "max": 358.18,
+      "mean": 6.837701975041761,
+      "count": 10177
+    },
+    "wind_speed": {
+      "min": 1.0,
+      "max": 4.47,
+      "mean": 2.7862307163211164,
+      "count": 10177
+    },
+    "wind_power_density": {
+      "min": 0.62,
+      "max": 54.81,
+      "mean": 16.118817922767022,
+      "count": 10177
+    },
+    "solar_energy_yield": {
+      "min": 0.0,
+      "max": 2.56,
+      "mean": 0.010396973567849072,
+      "count": 10177
+    }
+  },
+  "open_meteo": {
+    "temperature": {
+      "min": 22.4,
+      "max": 36.9,
+      "mean": 27.644319968553457,
+      "count": 10176
+    },
+    "humidity": {
+      "min": 25.0,
+      "max": 99.0,
+      "mean": 75.06494103773585,
+      "count": 10176
+    },
+    "irradiance": {
+      "min": 0.0,
+      "max": 1001.0,
+      "mean": 208.26411556603776,
+      "count": 10176
+    },
+    "wind_speed": {
+      "min": 0.0,
+      "max": 40.7,
+      "mean": 7.216550707547169,
+      "count": 10176
+    },
+    "wind_power_density": {
+      "min": 0.0,
+      "max": 41294.23,
+      "mean": 803.6028301886793,
+      "count": 10176
+    },
+    "solar_energy_yield": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.20821933962264152,
+      "count": 10176
+    }
+  },
+  "meteostat": {
+    "temperature": {
+      "min": 23.7,
+      "max": 37.0,
+      "mean": 28.692699724517908,
+      "count": 9438
+    },
+    "humidity": {
+      "min": 36.0,
+      "max": 100.0,
+      "mean": 75.0357067175249,
+      "count": 9438
+    },
+    "irradiance": {
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "count": 9438
+    },
+    "wind_speed": {
+      "min": 0.0,
+      "max": 11.305555,
+      "mean": 2.5848343739563466,
+      "count": 9438
+    },
+    "wind_power_density": {
+      "min": 0.0,
+      "max": 885.08,
+      "mean": 22.361808645899554,
+      "count": 9438
+    },
+    "solar_energy_yield": {
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "count": 9438
+    }
+  }
+}
