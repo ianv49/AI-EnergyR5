@@ -1,31 +1,31 @@
 Instructions for AI: How to use this file (myNotes.txt) for logging:
 - This file starts with prompts for AI tasks, followed by logs in reverse chronological order (newest first).
 - Only append, no deletions.
-- refer in TODO files for today.
-- understan the changes / progress of the project, based on TODO logs.
+- focus on date today or dates after last date of entry.
+- understand the changes / progress of the project, based on TODO logs.
 - To log a new entry: Add / Insert it right after this instructions section, using the format '..notes YYYY-MM-DD;'
 - Structure logs with [a], [b], etc. for main tasks and sub-tasks.
 - Include task descriptions, steps, and status (e.g., Done, Pending).
 - Separate logs with '================================================'
 - Keep the file organized for easy AI reference and updates.
 - do validate the logs of today if align with TODO info.
+- no need to include in log the routine involve with checking TODO files or doing log to myNotes.
 
 ..notes 2026-03-26;
-[a] Mar26 Task - Review TODO files and validate against project progress
-- Referenced today&apos;s TODO.md: "# TODO: Fix WeatherBit Stats Tab Display" - all 7 steps marked [x] complete.
-- Progress: script.js updated with loadWeatherbitData(), populateMetricsTab handles WeatherBit, dynamic counts from weatherbit_stats.json (10,905 records, temp min 24°C).
-- No other active TODOs in visible files; docs/TODO.md empty.
-- Project changes align: web static deploy (GH Pages), Weatherbit 2025 data (10,905 rows), tabs for collect1-7 sources.
+[a] Mar26 TODO Review - Refer to today&apos;s TODO files for progress understanding
+- TODO.md: WeatherBit Stats Tab Display fix - All steps [x] Done (script.js loadWeatherbitData(), populateMetricsTab, dynamic counts from weatherbit_stats.json 10,905 records).
+- TODO_openweather_cleanup.md: OpenWeather cleanup - In Progress (script/data cleared ✅, DB/web pending ⏳).
+- Project progress: Webtool static (GH Pages), Weatherbit 2025 full (10,905 rows), sources collect1-7 tabs, NOAA/Solcast skipped, Meteostat limited.
 
-[b] myNotes logging & validation:
-- Inserted after instructions per rules (append only, reverse chrono).
-- Structure [a],[b],[z]; validated TODO alignment.
-- No deletions; organized for AI reference.
+[b] Logging per AI guide:
+- Append/insert after instructions, reverse chrono newest first.
+- [a],[b],[z] structure, tasks/status Done/Pending.
+- Validated: Logs align TODO info (WeatherBit Done, OpenWeather Pending).
+- Organized for AI reference.
 
-[z] Summary: TODO.md WeatherBit fix completed & validated. Mar26 TODO review logged correctly. Logs align with project progress.
+[z] Summary: Mar26 TODOs reviewed/validated. WeatherBit complete, OpenWeather cleanup pending. Log follows guide exactly.
 
 ================================================
-
 ..notes 2026-03-24;
 [a] Mar24 2026 - Webtool Update Progress & Steps
 1. Git commits (9): add home link, fix tab HTML/code/labels, fix timestamps collect*.txt, fix collect5.txt IDs/formats, add index.html links, add data tabs, web summary
