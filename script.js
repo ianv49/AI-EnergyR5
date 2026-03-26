@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabContents = document.querySelectorAll('.tab-content');
 
     let apiStats = null;
+    let weatherbitData = null;  // Dedicated storage for WeatherBit data
 
     // Default fallback data in case JSON fails to load
     const fallbackData = {
@@ -49,7 +50,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Load stats from JSON file
+    // Dedicated function to load WeatherBit stats from weatherbit_stats.json
+    async function loadWeatherbitData() {
+        try {
+            const response = await fetch('weatherbit_stats.json');
+            if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            const data = await response.json();
+            weatherbitData = data.weatherbit;
+            console.log('✓ Successfully loaded weatherbit_stats.json', weatherbitData.temperature.count, 'records');
+            return weatherbitData;
+        } catch (error) {
+            console.error('⚠ Error loading weatherbit_stats.json:', error);
+            weatherbitData = fallbackData.weatherbit;
+            return weatherbitData;
+        }
+    }
+
+    // Load stats from JSON file (existing logic)
     fetch('api_stats.json')
         .then(response => {
             if (!response.ok) throw new Error('JSON response not OK');
@@ -58,14 +75,23 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('✓ Successfully loaded api_stats.json');
             apiStats = data;
-            updateSummaryCounts(data);
-            populateMetricsForAllAPIs(data);
+            // Always load WeatherBit data independently
+            loadWeatherbitData().then(() => {
+                // Override/merge WeatherBit data
+                apiStats.weatherbit = weatherbitData;
+                updateSummaryCounts(apiStats);
+                populateMetricsForAllAPIs(apiStats);
+            });
         })
         .catch(error => {
             console.error('⚠ Error loading api_stats.json, using fallback data:', error);
-            // Use fallback data
-            updateSummaryCounts(fallbackData);
-            populateMetricsForAllAPIs(fallbackData);
+            apiStats = { ...fallbackData };
+            // Still load real WeatherBit data
+            loadWeatherbitData().then(() => {
+                apiStats.weatherbit = weatherbitData;
+                updateSummaryCounts(apiStats);
+                populateMetricsForAllAPIs(apiStats);
+            });
         });
 
     // Update main summary counts
@@ -95,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         populateMetricsTab('weatherbit-stats-metrics', data.weatherbit, 'WeatherBit');
     }
 
-    // Populate metrics tab with organized rows
+    // Populate metrics tab with organized rows (unchanged)
     function populateMetricsTab(containerId, apiData, apiName) {
         const container = document.getElementById(containerId);
         console.log(`📍 Processing container: ${containerId}, exists: ${!!container}`);
