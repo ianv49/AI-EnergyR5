@@ -16,11 +16,35 @@
             </nav>
         </header>
 
-        <div class="main-summary">
-            <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem; padding: 40px;">
-                ML Workspace skeleton ready. Ready for charts, models, and forecasting tools.
-            </p>
+<div class="main-summary">
+    <h2 style="text-align: center; margin: 60px 0 40px; color: var(--accent-cyan); font-size: 2rem;">Predicted Yield (April 2025, 7-day range)</h2>
+    
+    <div class="board">
+        <div class="card wind-card">
+            <h3>🌪️ Wind</h3>
+            <p>Min: <span id="wind-min">--</span></p>
+            <p>Average: <span id="wind-avg">--</span></p>
+            <p>Max: <span id="wind-max">--</span></p>
+        </div>
+        <div class="card solar-card">
+            <h3>☀️ Solar</h3>
+            <p>Min: <span id="solar-min">--</span></p>
+            <p>Average: <span id="solar-avg">--</span></p>
+            <p>Max: <span id="solar-max">--</span></p>
         </div>
     </div>
+</div>
+
+    <!-- 7-Day Prediction Chart -->
+    <div class="chart-container">
+        <h2 class="chart-title">7-Day Yield Forecast (April 2025)</h2>
+        <canvas id="predictionChart"></canvas>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="ml.js" defer></script>
 </body>
+
 </html>
+

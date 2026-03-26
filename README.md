@@ -763,19 +763,21 @@ The `sensor_data` table stores web sensor data with the following 11 headers:
 ### Phase 10: Predictive Analytics ⏳ Pending
 - Calculate averages/min/max/moving averages
 - Train ML model for forecasting (scikit-learn)
-- **ML Options for Forecasting (10 Options):**
-  - **[1] Linear Regression with Lag Features:** Create lag features (e.g., t-1, t-24 hours) + time features (hour, day). Use LinearRegression for interpretable predictions.
-  - **[2] Random Forest Regressor:** Handles non-linear patterns; robust to outliers with built-in feature importance.
-  - **[3] Gradient Boosting (XGBoost):** High accuracy for tabular data; requires hyperparameter tuning.
-  - **[4] Time-Series Models (ARIMA/SARIMA):** Use statsmodels for univariate forecasting with seasonality.
-  - **[5] Prophet:** Facebook's library for seasonal decomposition and easy forecasting.
-  - **[6] Neural Networks (MLPRegressor/TensorFlow):** For complex patterns; scalable but requires more data/tuning.
-  - **[7] Support Vector Regression (SVR):** Effective for non-linear regression with kernel tricks; good for small datasets.
-  - **[8] K-Nearest Neighbors (KNN) Regressor:** Simple instance-based learning; useful for local patterns in time-series.
-  - **[9] AdaBoost Regressor:** Boosting ensemble method; improves weak learners iteratively.
-  - **[10] Gaussian Process Regression:** Probabilistic model for uncertainty quantification in predictions.
-- **Recommended Start:** Linear Regression as a baseline, evaluated with MAE/RMSE on held-out test data.
-- **Cost Note:** All listed ML libraries are open-source and free to use, even for students (e.g., scikit-learn, statsmodels, Prophet, TensorFlow).
+- **ML Models Ranked for Wind/Solar Energy Time-Series Prediction:**
+  - **Rank#1: LSTM (Long Short-Term Memory)** → Best for sequential/time-series data like wind/solar; captures long-term dependencies.
+  - **Rank#2: GRU (Gated Recurrent Unit)** → Similar to LSTM but lighter and faster; efficient for limited compute.
+  - **Rank#3: Random Forest Regressor** → Strong baseline for regression tasks; handles non-linearities and robust to outliers.
+  - **Rank#4: XGBoost (Gradient Boosting)** → High accuracy for tabular data; requires careful hyperparameter tuning.
+  - **Rank#5: ARIMA / SARIMA** → Classic statistical models for univariate forecasting with seasonality; good baseline.
+  - **Rank#6: CNN (1D Convolutional Neural Network)** → Captures local temporal patterns; useful for short-term fluctuations.
+  - **Rank#7: Linear Regression with Lag Features** → Simple, interpretable baseline; add lag features (t-1, t-24) and time features.
+  - **Rank#8: SVR (Support Vector Regression)** → Effective for small datasets with kernel tricks; less scalable for large time-series.
+  - **Rank#9: KNN Regressor** → Instance-based learning; captures local patterns but not ideal for long time-series.
+  - **Rank#10: Naive Forecast (Persistence Model)** → Simplest baseline; predicts next value as last observed; useful for sanity checks.
+  - Start simple: Linear Regression or Naive Forecast as baselines.
+  - Progress to advanced: Random Forest/XGBoost, then LSTM/GRU for best accuracy.
+  - Evaluate models using MAE/RMSE on held-out test data.
+  - Note: All libraries are open-source (scikit-learn, statsmodels, TensorFlow, PyTorch, Prophet).
 
 ### Phase 11: Deployment & Scaling ⏳ Pending
 - **Containerize the Application:** Use Docker to package the Flask web application, ingestion scripts, and all dependencies into a portable container.

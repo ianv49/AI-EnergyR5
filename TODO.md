@@ -1,15 +1,15 @@
-# Sim/Real Data Organization
+# LSTM Implementation TODO - Phase10 (COMPLETE ✅)
 
-## Previous Steps (Left Tabs Complete):
-- [x] Vertical left tabs + mobile responsive
+1. [✅] Add TensorFlow.js CDN to ml.html  
+2. [✅] Replace ml.js simple predictions with LSTM workflow:  
+   - Normalize wind/solar values from Jan-Mar 2025  
+   - Create sequences (seqLen=10)  
+   - Build/train LSTM models (TensorFlow.js)  
+   - Forecast 7 days iteratively  
+   - Compute min/avg/max from forecasts  
+   - Render cards and Chart.js with real data  
+3. [✅] Test ml.html in browser (predictions display, chart renders, no console errors)  
+4. [✅] Verify index.html ↔ ml.html navigation  
+5. [✅] Update TODO.md complete  
 
-## New Steps:
-- [x] 1. Create new TODO.md
-- [x] 2. Reorder summary cards in index.html: NASA, OpenMeteo, Meteostat, WeatherBit, Total (no Sim), Sim last
-- [x] 3. Update script.js: totalCount excludes simCount
-- [x] 4. Reorder tabs in index.html: Real Stats/Raw first (NASA/OpenMeteo/Meteostat/WeatherBit), Sim Stats/Raw last
-- [x] 5. Test: Total ~50k (real only), Sim separate/last
-- [x] 6. Complete
-
-Progress: Reorganizing sim to back of real data.
-
+**Status:** Phase10 LSTM forecasting complete. Open `ml.html` for live Rank#1 ML predictions.
