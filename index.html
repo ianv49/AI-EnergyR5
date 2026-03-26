@@ -1,30 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sim Data Summary</title>
-  <!-- TailwindCSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Energy Data Summary</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <div class="min-h-screen flex items-center justify-center p-6">
-    <div id="simSummary" class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
-      <h1 class="text-2xl font-bold text-blue-600 mb-4">Sim Data Summary</h1>
-      <p class="text-gray-500">Loading sim data...</p>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Energy Data Summary</h1>
+            <p class="subtitle">API Simulation Data Analysis</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs-nav">
+            <button class="tab-button active" data-tab="summary">Summary</button>
+            <button class="tab-button" data-tab="raw-data">Raw Data</button>
+        </div>
+
+        <!-- Summary Tab -->
+        <div class="tab-content active" id="summary">
+            <div class="stats-grid">
+                <!-- Total Rows -->
+                <div class="stat-card">
+                    <div class="stat-label">Total Data Rows</div>
+                    <div class="stat-value">9,416</div>
+                </div>
+
+                <!-- Temperature Section -->
+                <div class="stat-card temp-card">
+                    <div class="stat-label">Temperature (Min)</div>
+                    <div class="stat-value">18.02</div>
+                    <div class="stat-unit">°C</div>
+                </div>
+
+                <div class="stat-card temp-card">
+                    <div class="stat-label">Temperature (Max)</div>
+                    <div class="stat-value">32.60</div>
+                    <div class="stat-unit">°C</div>
+                </div>
+
+                <div class="stat-card temp-card">
+                    <div class="stat-label">Temperature (Mean)</div>
+                    <div class="stat-value">28.03</div>
+                    <div class="stat-unit">°C</div>
+                </div>
+
+                <!-- Humidity Section -->
+                <div class="stat-card humid-card">
+                    <div class="stat-label">Humidity (Min)</div>
+                    <div class="stat-value">35.05</div>
+                    <div class="stat-unit">%</div>
+                </div>
+
+                <div class="stat-card humid-card">
+                    <div class="stat-label">Humidity (Max)</div>
+                    <div class="stat-value">96.99</div>
+                    <div class="stat-unit">%</div>
+                </div>
+
+                <div class="stat-card humid-card">
+                    <div class="stat-label">Humidity (Mean)</div>
+                    <div class="stat-value">73.74</div>
+                    <div class="stat-unit">%</div>
+                </div>
+
+                <!-- Irradiance Section -->
+                <div class="stat-card irrad-card">
+                    <div class="stat-label">Irradiance (Min)</div>
+                    <div class="stat-value">0.00</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <div class="stat-card irrad-card">
+                    <div class="stat-label">Irradiance (Max)</div>
+                    <div class="stat-value">996.11</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <div class="stat-card irrad-card">
+                    <div class="stat-label">Irradiance (Mean)</div>
+                    <div class="stat-value">137.39</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <!-- Wind Speed Section -->
+                <div class="stat-card speed-card">
+                    <div class="stat-label">Wind Speed (Min)</div>
+                    <div class="stat-value">0.02</div>
+                    <div class="stat-unit">m/s</div>
+                </div>
+
+                <div class="stat-card speed-card">
+                    <div class="stat-label">Wind Speed (Max)</div>
+                    <div class="stat-value">15.00</div>
+                    <div class="stat-unit">m/s</div>
+                </div>
+
+                <div class="stat-card speed-card">
+                    <div class="stat-label">Wind Speed (Mean)</div>
+                    <div class="stat-value">3.68</div>
+                    <div class="stat-unit">m/s</div>
+                </div>
+
+                <!-- Wind Power Density Section -->
+                <div class="stat-card wind-card">
+                    <div class="stat-label">Wind Power Density (Min)</div>
+                    <div class="stat-value">0.00</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <div class="stat-card wind-card">
+                    <div class="stat-label">Wind Power Density (Max)</div>
+                    <div class="stat-value">2,065.20</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <div class="stat-card wind-card">
+                    <div class="stat-label">Wind Power Density (Mean)</div>
+                    <div class="stat-value">67.82</div>
+                    <div class="stat-unit">W/m²</div>
+                </div>
+
+                <!-- Solar Energy Section -->
+                <div class="stat-card solar-card">
+                    <div class="stat-label">Solar Energy Yield (Min)</div>
+                    <div class="stat-value">0.00</div>
+                    <div class="stat-unit">kWh</div>
+                </div>
+
+                <div class="stat-card solar-card">
+                    <div class="stat-label">Solar Energy Yield (Max)</div>
+                    <div class="stat-value">7.97</div>
+                    <div class="stat-unit">kWh</div>
+                </div>
+
+                <div class="stat-card solar-card">
+                    <div class="stat-label">Solar Energy Yield (Mean)</div>
+                    <div class="stat-value">0.42</div>
+                    <div class="stat-unit">kWh</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Raw Data Tab -->
+        <div class="tab-content" id="raw-data">
+            <iframe id="raw-frame" class="raw-iframe"></iframe>
+        </div>
     </div>
-  </div>
-  
-<div id="debugRibbon" class="fixed top-0 left-0 w-full bg-black text-green-400 text-sm p-2 font-mono">
-  Debug log: waiting...
-</div>
 
-<div class="flex space-x-2 mt-4">
-  <button onclick="runStep()" class="px-4 py-2 bg-blue-600 text-white rounded">Next Step</button>
-  <button onclick="stopDebug()" class="px-4 py-2 bg-red-600 text-white rounded">Stop</button>
-  <button onclick="refreshDebug()" class="px-4 py-2 bg-gray-600 text-white rounded">Refresh</button>
-</div>
-
-  <script src="charts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
