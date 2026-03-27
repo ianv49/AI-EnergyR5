@@ -1,50 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning Workspace - AI EnergyR5</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Machine Learning Workspace</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="ml.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>Machine Learning Workspace</h1>
-            <p class="subtitle">AI-Powered Energy Data Analysis & Forecasting</p>
-            <nav class="header-nav">
-                <a href="index.html" class="header-nav-link">← Home</a>
-            </nav>
-        </header>
-
-<div class="main-summary">
-    <h2 style="text-align: center; margin: 60px 0 40px; color: var(--accent-cyan); font-size: 2rem;">Predicted Yield (April 2025, 7-day range)</h2>
-    
-    <div class="board">
-        <div class="card wind-card">
-            <h3>🌪️ Wind</h3>
-            <p>Min: <span id="wind-min">--</span></p>
-            <p>Average: <span id="wind-avg">--</span></p>
-            <p>Max: <span id="wind-max">--</span></p>
-        </div>
-        <div class="card solar-card">
-            <h3>☀️ Solar</h3>
-            <p>Min: <span id="solar-min">--</span></p>
-            <p>Average: <span id="solar-avg">--</span></p>
-            <p>Max: <span id="solar-max">--</span></p>
-        </div>
-    </div>
-</div>
-
-    <!-- 7-Day Prediction Chart -->
-    <div class="chart-container">
-        <h2 class="chart-title">7-Day Yield Forecast (April 2025)</h2>
-        <canvas id="predictionChart"></canvas>
-    </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="ml.js" defer></script>
+  <nav>
+    <a href="index.html">← Home</a>
+  </nav>
+  
+  <h1>Machine Learning Workspace</h1>
+  
+  <section>
+    <h2>14-Day Yield Table (March–April 2025)</h2>
+    <table id="yield-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Wind Min</th>
+          <th>Wind Avg</th>
+          <th>Wind Max</th>
+          <th>Solar Min</th>
+          <th>Solar Avg</th>
+          <th>Solar Max</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Historical March 25-31 -->
+        <tr id="row-mar25">
+          <td>Mar 25</td>
+          <td id="mar25-wind-min">--</td><td id="mar25-wind-avg">--</td><td id="mar25-wind-max">--</td>
+          <td id="mar25-solar-min">--</td><td id="mar25-solar-avg">--</td><td id="mar25-solar-max">--</td>
+        </tr>
+        <tr id="row-mar26">
+          <td>Mar 26</td>
+          <td id="mar26-wind-min">--</td><td id="mar26-wind-avg">--</td><td id="mar26-wind-max">--</td>
+          <td id="mar26-solar-min">--</td><td id="mar26-solar-avg">--</td><td id="mar26-solar-max">--</td>
+        </tr>
+        <tr id="row-mar27">
+          <td>Mar 27</td>
+          <td id="mar27-wind-min">--</td><td id="mar27-wind-avg">--</td><td id="mar27-wind-max">--</td>
+          <td id="mar27-solar-min">--</td><td id="mar27-solar-avg">--</td><td id="mar27-solar-max">--</td>
+        </tr>
+        <tr id="row-mar28">
+          <td>Mar 28</td>
+          <td id="mar28-wind-min">--</td><td id="mar28-wind-avg">--</td><td id="mar28-wind-max">--</td>
+          <td id="mar28-solar-min">--</td><td id="mar28-solar-avg">--</td><td id="mar28-solar-max">--</td>
+        </tr>
+        <tr id="row-mar29">
+          <td>Mar 29</td>
+          <td id="mar29-wind-min">--</td><td id="mar29-wind-avg">--</td><td id="mar29-wind-max">--</td>
+          <td id="mar29-solar-min">--</td><td id="mar29-solar-avg">--</td><td id="mar29-solar-max">--</td>
+        </tr>
+        <tr id="row-mar30">
+          <td>Mar 30</td>
+          <td id="mar30-wind-min">--</td><td id="mar30-wind-avg">--</td><td id="mar30-wind-max">--</td>
+          <td id="mar30-solar-min">--</td><td id="mar30-solar-avg">--</td><td id="mar30-solar-max">--</td>
+        </tr>
+        <tr id="row-mar31">
+          <td>Mar 31</td>
+          <td id="mar31-wind-min">--</td><td id="mar31-wind-avg">--</td><td id="mar31-wind-max">--</td>
+          <td id="mar31-solar-min">--</td><td id="mar31-solar-avg">--</td><td id="mar31-solar-max">--</td>
+        </tr>
+        <!-- Predicted April 1-7 -->
+        <tr id="row-apr01">
+          <td>Apr 01 (Pred)</td>
+          <td id="apr01-wind-min">--</td><td id="apr01-wind-avg">--</td><td id="apr01-wind-max">--</td>
+          <td id="apr01-solar-min">--</td><td id="apr01-solar-avg">--</td><td id="apr01-solar-max">--</td>
+        </tr>
+        <tr id="row-apr02">
+          <td>Apr 02 (Pred)</td>
+          <td id="apr02-wind-min">--</td><td id="apr02-wind-avg">--</td><td id="apr02-wind-max">--</td>
+          <td id="apr02-solar-min">--</td><td id="apr02-solar-avg">--</td><td id="apr02-solar-max">--</td>
+        </tr>
+        <tr id="row-apr03">
+          <td>Apr 03 (Pred)</td>
+          <td id="apr03-wind-min">--</td><td id="apr03-wind-avg">--</td><td id="apr03-wind-max">--</td>
+          <td id="apr03-solar-min">--</td><td id="apr03-solar-avg">--</td><td id="apr03-solar-max">--</td>
+        </tr>
+        <tr id="row-apr04">
+          <td>Apr 04 (Pred)</td>
+          <td id="apr04-wind-min">--</td><td id="apr04-wind-avg">--</td><td id="apr04-wind-max">--</td>
+          <td id="apr04-solar-min">--</td><td id="apr04-solar-avg">--</td><td id="apr04-solar-max">--</td>
+        </tr>
+        <tr id="row-apr05">
+          <td>Apr 05 (Pred)</td>
+          <td id="apr05-wind-min">--</td><td id="apr05-wind-avg">--</td><td id="apr05-wind-max">--</td>
+          <td id="apr05-solar-min">--</td><td id="apr05-solar-avg">--</td><td id="apr05-solar-max">--</td>
+        </tr>
+        <tr id="row-apr06">
+          <td>Apr 06 (Pred)</td>
+          <td id="apr06-wind-min">--</td><td id="apr06-wind-avg">--</td><td id="apr06-wind-max">--</td>
+          <td id="apr06-solar-min">--</td><td id="apr06-solar-avg">--</td><td id="apr06-solar-max">--</td>
+        </tr>
+        <tr id="row-apr07">
+          <td>Apr 07 (Pred)</td>
+          <td id="apr07-wind-min">--</td><td id="apr07-wind-avg">--</td><td id="apr07-wind-max">--</td>
+          <td id="apr07-solar-min">--</td><td id="apr07-solar-avg">--</td><td id="apr07-solar-max">--</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </body>
-
 </html>
 

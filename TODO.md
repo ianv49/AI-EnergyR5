@@ -1,15 +1,13 @@
-# LSTM Implementation TODO - Phase10 (COMPLETE ✅)
+# AI-EnergyR5 ML Implementation TODO
 
-1. [✅] Add TensorFlow.js CDN to ml.html  
-2. [✅] Replace ml.js simple predictions with LSTM workflow:  
-   - Normalize wind/solar values from Jan-Mar 2025  
-   - Create sequences (seqLen=10)  
-   - Build/train LSTM models (TensorFlow.js)  
-   - Forecast 7 days iteratively  
-   - Compute min/avg/max from forecasts  
-   - Render cards and Chart.js with real data  
-3. [✅] Test ml.html in browser (predictions display, chart renders, no console errors)  
-4. [✅] Verify index.html ↔ ml.html navigation  
-5. [✅] Update TODO.md complete  
+## Progress Update
+✅ Steps 1-3 complete (ml.html table, ml.js data/stats, LSTM hourly prep/train on full Q1 2025)
 
-**Status:** Phase10 LSTM forecasting complete. Open `ml.html` for live Rank#1 ML predictions.
+**Updated TODO:**
+- [ ] Step 4: 168h forecast → Apr1-7 daily stats
+- [ ] Step 5: Populate all 14 table rows
+- [ ] Step 6: Test `start ml.html`
+- [ ] Step 7: Final validation
+
+**Next:** ml.js forecast implementation
+
