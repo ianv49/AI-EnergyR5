@@ -29,143 +29,120 @@
       width: 100%; 
       margin-bottom: 30px; 
     }
+    .chart-row { margin-bottom: 40px; }
+    .chart-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
     @media (max-width: 768px) {
       .chart-container { height: 300px; }
     }
-    p { color: #666; font-size: 14px; }
-    #debug { margin-top: 20px; color: #666; font-family: monospace; font-size: 12px; }
   </style>
 </head>
 <body>
   <nav>
-    <a href="index.html">← Home</a>
+<a href="index.html">← Home</a>
     <a href="ml.html">← ML Table</a>
+    <a href="ml-dual-chart.html">→ Dual Chart</a>
   </nav>
   
   <h1>ML Wind Data Charts (Mar 25 - Apr 7)</h1>
-  <p>Wind Min/Avg/Max from <code>data/MLoutput.txt</code> • 14-day historical + predictions</p>
-  
-  <div class="chart-container">
-    <canvas id="windChart"></canvas>
+  <p>From <code>data/MLoutput.txt</code>: Historical Mar25-31 (solid), Predictions Apr1-7 (dashed)</p>
+
+  <div class="chart-row">
+    <div class="chart-title">Wind Speed Forecast (m/s)</div>
+    <div class="chart-container">
+      <canvas id="windChart"></canvas>
+    </div>
   </div>
-  
-  <div id="debug"></div>
 
   <script>
-    async function loadMLData() {
-      try {
-        const response = await fetch('data/MLoutput.txt');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const text = await response.text();
-        document.getElementById('debug').innerHTML += `<p>Fetched ${text.length} chars</p>`;
-        
-        const lines = text.split('\n');
-        const data = [];
-        let dataCount = 0;
-        
-        for (let i = 0; i < lines.length && dataCount < 14; i++) {
-          const line = lines[i].trim();
-          if (line && !line.startsWith('#') && line.includes(',')) {
-            const cols = line.split(',');
-            if (cols.length >= 5) {
-              const windMin = parseFloat(cols[2]);
-              const windAvg = parseFloat(cols[3]);
-              const windMax = parseFloat(cols[4]);
-              if (!isNaN(windMin) && !isNaN(windAvg) && !isNaN(windMax)) {
-                data.push({
-                  date: cols[1],
-                  windMin, windAvg, windMax
-                });
-                dataCount++;
-              }
-            }
-          }
-        }
-        
-        document.getElementById('debug').innerHTML += `<p>Parsed ${data.length} data rows</p>`;
-        return data;
-      } catch (error) {
-        document.getElementById('debug').innerHTML += `<p style="color:red;">Fetch error: ${error.message}</p>`;
-        console.error('Fetch error:', error);
-        return [];
-      }
+    // Exact data arrays from MLoutput.txt (1-7 historical, 8-14 predictions)
+    const labels = ['Mar 25','Mar 26','Mar 27','Mar 28','Mar 29','Mar 30','Mar 31','Apr 01','Apr 02','Apr 03','Apr 04','Apr 05','Apr 06','Apr 07'];
+    
+    const windMin = [2.80, 2.24, 3.36, 2.52, 3.08, 2.10, 2.94, 2.87, 2.62, 3.21, 2.87, 2.62, 3.21, 2.87];
+    const windAvg = [4.00, 3.20, 4.80, 3.60, 4.40, 3.00, 4.20, 4.10, 3.74, 4.59, 4.10, 3.74, 4.59, 4.10];
+    const windMax = [5.20, 4.16, 6.24, 4.68, 5.72, 3.90, 5.46, 5.33, 4.86, 5.96, 5.33, 4.86, 5.96, 5.33];
+
+    // Solid for 1-7 (historical), dashed for 8-14 (predictions)
+    function getDashPattern(index) {
+      return index < 7 ? [] : [5, 5];
     }
 
-    async function renderCharts() {
-      const data = await loadMLData();
-      const debugDiv = document.getElementById('debug');
-      
-      if (data.length === 0) {
-        debugDiv.innerHTML += '<p>No valid data rows found</p>';
-        return;
-      }
-
-      if (data.length !== 14) {
-        debugDiv.innerHTML += `<p>Warning: Expected 14 rows, got ${data.length}</p>`;
-      }
-
+    document.addEventListener('DOMContentLoaded', function() {
       const ctx = document.getElementById('windChart').getContext('2d');
+      
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: data.map(d => {
-            const short = d.date.replace('2025-', '');
-            return short.replace(/(\d{2})(\d{2})/, ' $1/$2');
-          }),
+          labels: labels,
           datasets: [
             {
-              label: 'Wind Min (m/s)',
-              data: data.map(d => d.windMin),
+              label: 'Wind Min',
+              data: windMin,
               borderColor: '#ff6384',
               backgroundColor: 'rgba(255, 99, 132, 0.1)',
               tension: 0.3,
               fill: false,
-              pointRadius: 4
+              pointRadius: 4,
+              borderWidth: 2.5,
+              borderDash: labels.map((_, i) => getDashPattern(i))
             },
             {
-              label: 'Wind Avg (m/s)',
-              data: data.map(d => d.windAvg),
+              label: 'Wind Avg',
+              data: windAvg,
               borderColor: '#36a2eb',
               backgroundColor: 'rgba(54, 162, 235, 0.1)',
               tension: 0.3,
               fill: false,
-              pointRadius: 4
+              pointRadius: 4,
+              borderWidth: 2.5,
+              borderDash: labels.map((_, i) => getDashPattern(i))
             },
             {
-              label: 'Wind Max (m/s)',
-              data: data.map(d => d.windMax),
+              label: 'Wind Max',
+              data: windMax,
               borderColor: '#ffcd56',
               backgroundColor: 'rgba(255, 205, 86, 0.1)',
               tension: 0.3,
               fill: false,
-              pointRadius: 4
+              pointRadius: 4,
+              borderWidth: 2.5,
+              borderDash: labels.map((_, i) => getDashPattern(i))
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
           scales: {
             y: {
               beginAtZero: true,
               title: { display: true, text: 'Wind Speed (m/s)' }
             },
             x: {
-              title: { display: true, text: 'Date (Mar 25 - Apr 7)' }
+              title: { display: true, text: 'Date (1-7 Historical, 8-14 Predictions)' }
             }
           },
           plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: '14-Day Wind Forecast: Min/Avg/Max' }
+            tooltip: {
+              callbacks: {
+                title: ctx => ctx[0].label,
+                label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} m/s`
+              }
+            },
+            title: { 
+              display: true, 
+              text: '14-Day Wind Forecast: Min(red)/Avg(blue)/Max(yellow)' 
+            }
           }
         }
       });
       
-      debugDiv.innerHTML += '<p style="color:green;">✅ Charts rendered successfully!</p>';
-      console.log('✅ Wind charts rendered from', data.length, 'days');
-    }
-
-    document.addEventListener('DOMContentLoaded', renderCharts);
+      console.log('✅ Wind charts: Solid 1-7 historical / Dashed 8-14 predictions');
+    });
   </script>
 </body>
 </html>

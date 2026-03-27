@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ML Forecast Background Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+    }
+    nav { 
+      margin-bottom: 20px; 
+      font-size: 18px; 
+    }
+    nav a { 
+      margin-right: 15px; 
+      text-decoration: none; 
+      color: #007bff; 
+    }
+    nav a:hover { text-decoration: underline; }
+    h1 { color: #333; margin-bottom: 10px; }
+    .chart-container { 
+      position: relative; 
+      height: 400px; 
+      width: 100%; 
+      margin-bottom: 40px; 
+    }
+    .chart-title { 
+      font-size: 1.2em; 
+      font-weight: bold; 
+      margin-bottom: 10px; 
+      color: #444; 
+      text-align: center;
+    }
+    .legend-note {
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      .chart-container { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">← Home</a>
+    <a href="ml.html">← ML Table</a>
+    <a href="ml-chart.html">← Single Wind</a>
+  </nav>
+
+  <h1>ML Charts w/ Background Split (1-7 Historical vs 8-14 Predictions)</h1>
+  <div class="legend-note">
+    Light Gray (1-7): Historical | Light Blue (8-14): Predictions
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">Wind Speed (m/s) - Background Split</div>
+    <canvas id="windChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">Solar Energy (kWh/m²) - Background Split</div>
+    <canvas id="solarChart"></canvas>
+  </div>
+
+  <script>
+    const labels = ["Mar 25","Mar 26","Mar 27","Mar 28","Mar 29","Mar 30","Mar 31",
+                    "Apr 01","Apr 02","Apr 03","Apr 04","Apr 05","Apr 06","Apr 07"];
+
+    // Table data aligned
+    const windMin = [3.15,2.84,3.42,2.95,3.28,2.67,3.01,2.80,3.24,2.92,3.15,2.76,3.09,2.98];
+    const windAvg = [5.24,4.97,5.81,5.03,5.46,4.82,5.12,4.92,5.38,4.85,5.27,4.78,5.14,5.05];
+    const windMax = [8.92,7.65,9.34,8.47,8.91,7.98,8.73,8.15,8.92,8.04,8.67,7.93,8.52,8.38];
+    
+    const solarMin = [0.12,0.08,0.15,0.10,0.14,0.09,0.13,0.11,0.16,0.09,0.12,0.10,0.14,0.13];
+    const solarAvg = [0.45,0.38,0.52,0.41,0.48,0.39,0.46,0.42,0.51,0.40,0.47,0.43,0.49,0.45];
+    const solarMax = [1.23,1.02,1.38,1.15,1.29,1.08,1.24,1.18,1.35,1.12,1.26,1.20,1.31,1.22];
+
+    // Background split datasets (invisible lines with fill)
+    const background1 = labels.slice(0,7).map(()=>0.1); // Gray fill
+    const background2 = labels.slice(7).map(()=>0.1); // Blue fill
+
+    // Wind chart with background split
+    new Chart(document.getElementById('windChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Historical Background (1-7)',
+            data: background1.concat(Array(7).fill(NaN)),
+            borderWidth: 0, 
+            backgroundColor: 'rgba(211, 211, 211, 0.3)', 
+            fill: true, 
+            tension: 0.4,
+            order: 1
+          },
+          {
+            label: 'Predictions Background (8-14)', 
+            data: Array(7).fill(NaN).concat(background2),
+            borderWidth: 0,
+            backgroundColor: 'rgba(173, 216, 230, 0.3)',
+            fill: true,
+            tension: 0.4,
+            order: 1
+          },
+          { label: 'Wind Min', data: windMin, borderColor: '#ff6384', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 },
+          { label: 'Wind Avg', data: windAvg, borderColor: '#36a2eb', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 },
+          { label: 'Wind Max', data: windMax, borderColor: '#ffcd56', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true } },
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    // Solar chart with background split
+    new Chart(document.getElementById('solarChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Historical Background (1-7)',
+            data: background1.concat(Array(7).fill(NaN)),
+            borderWidth: 0, 
+            backgroundColor: 'rgba(211, 211, 211, 0.3)', 
+            fill: true, 
+            tension: 0.4,
+            order: 1
+          },
+          {
+            label: 'Predictions Background (8-14)', 
+            data: Array(7).fill(NaN).concat(background2),
+            borderWidth: 0,
+            backgroundColor: 'rgba(173, 216, 230, 0.3)',
+            fill: true,
+            tension: 0.4,
+            order: 1
+          },
+          { label: 'Solar Min', data: solarMin, borderColor: '#ff6384', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 },
+          { label: 'Solar Avg', data: solarAvg, borderColor: '#36a2eb', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 },
+          { label: 'Solar Max', data: solarMax, borderColor: '#ffcd56', borderWidth: 3, fill: false, tension: 0.3, pointRadius: 4, order: 2 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true } },
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    console.log('✅ Background split charts: Gray(1-7 hist) Blue(8-14 pred)');
+  </script>
+</body>
+</html>
