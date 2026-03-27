@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Wind Charts - 14-Day Forecast</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+    }
+    nav { 
+      margin-bottom: 20px; 
+      font-size: 18px; 
+    }
+    nav a { 
+      margin-right: 15px; 
+      text-decoration: none; 
+      color: #007bff; 
+    }
+    nav a:hover { text-decoration: underline; }
+    h1 { color: #333; }
+    .chart-container { 
+      position: relative; 
+      height: 400px; 
+      width: 100%; 
+      margin-bottom: 30px; 
+    }
+    @media (max-width: 768px) {
+      .chart-container { height: 300px; }
+    }
+    p { color: #666; font-size: 14px; }
+    #debug { margin-top: 20px; color: #666; font-family: monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">← Home</a>
+    <a href="ml.html">← ML Table</a>
+  </nav>
+  
+  <h1>ML Wind Data Charts (Mar 25 - Apr 7)</h1>
+  <p>Wind Min/Avg/Max from <code>data/MLoutput.txt</code> • 14-day historical + predictions</p>
+  
+  <div class="chart-container">
+    <canvas id="windChart"></canvas>
+  </div>
+  
+  <div id="debug"></div>
+
+  <script>
+    async function loadMLData() {
+      try {
+        const response = await fetch('data/MLoutput.txt');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        document.getElementById('debug').innerHTML += `<p>Fetched ${text.length} chars</p>`;
+        
+        const lines = text.split('\n');
+        const data = [];
+        let dataCount = 0;
+        
+        for (let i = 0; i < lines.length && dataCount < 14; i++) {
+          const line = lines[i].trim();
+          if (line && !line.startsWith('#') && line.includes(',')) {
+            const cols = line.split(',');
+            if (cols.length >= 5) {
+              const windMin = parseFloat(cols[2]);
+              const windAvg = parseFloat(cols[3]);
+              const windMax = parseFloat(cols[4]);
+              if (!isNaN(windMin) && !isNaN(windAvg) && !isNaN(windMax)) {
+                data.push({
+                  date: cols[1],
+                  windMin, windAvg, windMax
+                });
+                dataCount++;
+              }
+            }
+          }
+        }
+        
+        document.getElementById('debug').innerHTML += `<p>Parsed ${data.length} data rows</p>`;
+        return data;
+      } catch (error) {
+        document.getElementById('debug').innerHTML += `<p style="color:red;">Fetch error: ${error.message}</p>`;
+        console.error('Fetch error:', error);
+        return [];
+      }
+    }
+
+    async function renderCharts() {
+      const data = await loadMLData();
+      const debugDiv = document.getElementById('debug');
+      
+      if (data.length === 0) {
+        debugDiv.innerHTML += '<p>No valid data rows found</p>';
+        return;
+      }
+
+      if (data.length !== 14) {
+        debugDiv.innerHTML += `<p>Warning: Expected 14 rows, got ${data.length}</p>`;
+      }
+
+      const ctx = document.getElementById('windChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.map(d => {
+            const short = d.date.replace('2025-', '');
+            return short.replace(/(\d{2})(\d{2})/, ' $1/$2');
+          }),
+          datasets: [
+            {
+              label: 'Wind Min (m/s)',
+              data: data.map(d => d.windMin),
+              borderColor: '#ff6384',
+              backgroundColor: 'rgba(255, 99, 132, 0.1)',
+              tension: 0.3,
+              fill: false,
+              pointRadius: 4
+            },
+            {
+              label: 'Wind Avg (m/s)',
+              data: data.map(d => d.windAvg),
+              borderColor: '#36a2eb',
+              backgroundColor: 'rgba(54, 162, 235, 0.1)',
+              tension: 0.3,
+              fill: false,
+              pointRadius: 4
+            },
+            {
+              label: 'Wind Max (m/s)',
+              data: data.map(d => d.windMax),
+              borderColor: '#ffcd56',
+              backgroundColor: 'rgba(255, 205, 86, 0.1)',
+              tension: 0.3,
+              fill: false,
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Wind Speed (m/s)' }
+            },
+            x: {
+              title: { display: true, text: 'Date (Mar 25 - Apr 7)' }
+            }
+          },
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: '14-Day Wind Forecast: Min/Avg/Max' }
+          }
+        }
+      });
+      
+      debugDiv.innerHTML += '<p style="color:green;">✅ Charts rendered successfully!</p>';
+      console.log('✅ Wind charts rendered from', data.length, 'days');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCharts);
+  </script>
+</body>
+</html>

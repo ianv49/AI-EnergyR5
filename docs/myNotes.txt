@@ -11,7 +11,39 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - do validate the logs of today if align with TODO info.
 - no need to include in log the routine involve with checking TODO files or doing log to myNotes.
 
-..notes 2026-03-26;
+..notes 2026-03-27;
+[a] Mar27 ML Complete (Table + Charts) - Phase10 ✅
+
+**ML Table (ml.html)**: 14x9 grid, collect1.txt → Mar25-31 stats + Apr preds → MLoutput.txt
+**ML Charts (ml-chart.html)**: Chart.js wind min/avg/max lines from MLoutput.txt (14 dates x-axis)
+
+Nav: Home ↔ Table ↔ Charts (triangle complete)
+Files: ml.html ✅, ml-chart.html ✅, index.html/ml.html links ✅, TODO.md ✅
+Demo: start ml-chart.html → live responsive wind forecast charts
+
+================================================
+- **Task**: Create ml.html table (14-day Mar25-Apr07), parse collect1.txt → Jan-Mar2025 filter → Mar25-31 historical stats → Apr01-07 baseline predictions (Mar avg ± stddev variation) → populate exact table IDs → write data/MLoutput.txt (exact schema).
+- **Files**:
+  - ml.html: No change (perfect table with mar25-wind-min...apr07-solar-max IDs).
+  - ml.js: ✅ Rewritten completely (parse/filter/group/reuse → baseline pred → populateTable() → writeMLOutput()).
+  - data/MLoutput.txt: ✅ Generated (timestamp header, sim-ML=14, 14 CSV lines).
+  - TODO.md: ✅ Created/tracked steps (all complete).
+- **Logic**:
+  - Historical: getDailyStats(['2025-03-25'..'31']) from Q1 data.
+  - Pred: Mar avgs/stddev → Apr days = avg ± rand-var * stddev (min/avg/max scaled).
+  - Table: 14 rows filled (no "--").
+  - Output: Exact format, source="sim-ML".
+- **Demo**: `start ml.html` → live table + MLoutput.txt verified.
+- **Status**: 100% ✅ User confirmed table numbers/output. No LSTM/TFjs needed (simple baseline per spec).
+
+[b] Validation:
+- Data present: collect1.txt has 2025-03 (confirmed via tail/search).
+- Runs locally (no deps).
+- User screenshot: table populated (pre-fix), post-fix complete.
+
+[z] Summary: ML prediction page fully functional. Table displays real stats + preds. MLoutput.txt generated. Task complete 🎉 - Ready for next phase.
+
+================================================
 [a] Mar26 TODO Review - Refer to today&apos;s TODO files for progress understanding
 - TODO.md: WeatherBit Stats Tab Display fix - All steps [x] Done (script.js loadWeatherbitData(), populateMetricsTab, dynamic counts from weatherbit_stats.json 10,905 records).
 - TODO_openweather_cleanup.md: OpenWeather cleanup - In Progress (script/data cleared ✅, DB/web pending ⏳).

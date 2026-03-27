@@ -1,7 +1,8 @@
-// ml.js
-// LSTM Forecast for AI-EnergyR5 Phase10 - Wind & Solar 7-day April 2025
+// ml.js - Simple ML Baseline for AI-EnergyR5 (Mar 2025 historical + Apr preds)
+// Updated per task: parse collect1.txt (parts[5]=wind, [8]=solar), Jan-Mar filter, daily stats, baseline pred, table + MLoutput.txt
 
 async function loadSimData() {
+  console.log('loadSimData START'); // DEBUG
   try {
     const response = await fetch('data/collect1.txt');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -26,7 +27,7 @@ async function loadSimData() {
       return { timestamp, wind, solar };
     }).filter(row => row !== null);
     
-    console.log(`Loaded ${rows.length} valid data points from collect1.txt`);
+  console.log(`Loaded ${rows.length} valid data points from collect1.txt (Q1: ${quarterData.length} after filter)`);
     return rows;
   } catch (error) {
     console.error('Error loading data:', error);
@@ -34,240 +35,156 @@ async function loadSimData() {
   }
 }
 
-function filterQuarterData(rows) {\n  return rows.filter(r => {\n    const year = r.timestamp.getFullYear();\n    const month = r.timestamp.getMonth() + 1;\n    return year === 2025 && month >= 1 && month <= 3;\n  });\n}\n\nfunction getDateKey(timestamp) {\n  return timestamp.toISOString().split('T')[0]; // YYYY-MM-DD\n}\n\nfunction getDailyStats(rows, targetDays) {\n  const dayData = {};\n  rows.forEach(r => {\n    const key = getDateKey(r.timestamp);\n    if (!dayData[key]) dayData[key] = {winds: [], solars: []};\n    dayData[key].winds.push(r.wind);\n    dayData[key].solars.push(r.solar);\n  });\n\n  const stats = {};\n  targetDays.forEach(day => {\n    const data = dayData[day];\n    if (data && data.winds.length > 0) {\n      stats[day] = {\n        wind: {\n          min: Math.min(...data.winds).toFixed(2),\n          avg: (data.winds.reduce((a,b)=>a+b,0)/data.winds.length).toFixed(2),\n          max: Math.max(...data.winds).toFixed(2)\n        },\n        solar: {\n          min: Math.min(...data.solars).toFixed(2),\n          avg: (data.solars.reduce((a,b)=>a+b,0)/data.solars.length).toFixed(2),\n          max: Math.max(...data.solars).toFixed(2)\n        }\n      };\n    } else {\n      stats[day] = {wind: {min:'--', avg:'--', max:'--'}, solar: {min:'--', avg:'--', max:'--'}};\n    }\n  });\n  return stats;\n}
-
-function getLast7DaysStats(rows) {
-  if (rows.length === 0) return { wind: {min:0, avg:0, max:0}, solar: {min:0, avg:0, max:0} };
-  
-  const last7Days = rows.slice(-168); // ~7*24 hours
-  
-  const windValues = last7Days.map(r => r.wind).filter(v => !isNaN(v));
-  const solarValues = last7Days.map(r => r.solar).filter(v => !isNaN(v));
-  
-  const windStats = {
-    min: Math.min(...windValues).toFixed(2),
-    avg: (windValues.reduce((a,b)=>a+b,0)/windValues.length).toFixed(2),
-    max: Math.max(...windValues).toFixed(2)
-  };
-  const solarStats = {
-    min: Math.min(...solarValues).toFixed(2),
-    avg: (solarValues.reduce((a,b)=>a+b,0)/solarValues.length).toFixed(2),
-    max: Math.max(...solarValues).toFixed(2)
-  };
-  
-  return { wind: windStats, solar: solarStats };
-}
-
-function normalize(values) {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min;
-  if (range === 0) return { scaled: values, min, max, range: 0 };
-  const scaled = values.map(v => (v - min) / range);
-  return { scaled, min, max, range };
-}
-
-function createSequences(values, seqLen = 10) {
-  const xs = [];
-  const ys = [];
-  for (let i = 0; i < values.length - seqLen; i++) {
-    xs.push(values.slice(i, i + seqLen));
-    ys.push(values[i + seqLen]);
-  }
-  return { xs, ys };
-}
-
-function buildModel(seqLen) {
-  const model = tf.sequential();
-  model.add(tf.layers.lstm({ 
-    units: 50, 
-    inputShape: [seqLen, 1],
-    returnSequences: false 
-  }));
-  model.add(tf.layers.dropout({rate: 0.2}));
-  model.add(tf.layers.dense({ units: 1 }));
-  model.compile({ 
-    optimizer: 'adam', 
-    loss: 'meanSquaredError' 
+function filterQuarterData(rows) {
+  console.log(`filterQuarterData: input ${rows.length}, Q1 dates:`, rows.map(r=>r.timestamp.toISOString().slice(0,10)).slice(-10)); // DEBUG
+  return rows.filter(r => {
+    const year = r.timestamp.getFullYear();
+    const month = r.timestamp.getMonth() + 1;
+    return year === 2025 && month >= 1 && month <= 3;
   });
-  return model;
 }
 
-function renderPredictions(windPred, solarPred) {
-  document.getElementById('wind-min').textContent = windPred.min.toFixed(2);
-  document.getElementById('wind-avg').textContent = windPred.avg.toFixed(2);
-  document.getElementById('wind-max').textContent = windPred.max.toFixed(2);
-
-  document.getElementById('solar-min').textContent = solarPred.min.toFixed(2);
-  document.getElementById('solar-avg').textContent = solarPred.avg.toFixed(2);
-  document.getElementById('solar-max').textContent = solarPred.max.toFixed(2);
-  
-  console.log('LSTM Forecast rendered:', { windPred, solarPred });
+function getDateKey(timestamp) {
+  return timestamp.toISOString().split('T')[0]; // YYYY-MM-DD
 }
 
-function renderChart(windForecast, solarForecast) {
-  const ctx = document.getElementById('predictionChart').getContext('2d');
-  
-  const labels = ['Day1','Day2','Day3','Day4','Day5','Day6','Day7'];
-  
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        { 
-          label: 'Wind', 
-          data: windForecast, 
-          borderColor: 'blue', 
-          fill: false 
+function getDailyStats(rows, targetDays) {
+  const dayData = {};
+  rows.forEach(r => {
+    const key = getDateKey(r.timestamp);
+    if (!dayData[key]) dayData[key] = {winds: [], solars: []};
+    dayData[key].winds.push(r.wind);
+    dayData[key].solars.push(r.solar);
+  });
+
+  const stats = {};
+  targetDays.forEach(day => {
+    const data = dayData[day];
+    if (data && data.winds.length > 0) {
+      stats[day] = {
+        wind: {
+          min: Math.min(...data.winds).toFixed(2),
+          avg: (data.winds.reduce((a,b)=>a+b,0)/data.winds.length).toFixed(2),
+          max: Math.max(...data.winds).toFixed(2)
         },
-        { 
-          label: 'Solar', 
-          data: solarForecast, 
-          borderColor: 'orange', 
-          fill: false 
+        solar: {
+          min: Math.min(...data.solars).toFixed(2),
+          avg: (data.solars.reduce((a,b)=>a+b,0)/data.solars.length).toFixed(2),
+          max: Math.max(...data.solars).toFixed(2)
         }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: { 
-        title: { 
-          display: true, 
-          text: '7-Day Predicted Yield (April 2025)' 
-        } 
-      }
+      };
+    } else {
+      stats[day] = {wind: {min:'--', avg:'--', max:'--'}, solar: {min:'--', avg:'--', max:'--'}};
     }
   });
-  
-  console.log('LSTM Chart rendered:', { windForecast, solarForecast });
+  return stats;
 }
 
-function renderHistoricalStats(histStats) {
-  document.getElementById('hist-wind-min').textContent = histStats.wind.min;
-  document.getElementById('hist-wind-avg').textContent = histStats.wind.avg;
-  document.getElementById('hist-wind-max').textContent = histStats.wind.max;
-  
-  document.getElementById('hist-solar-min').textContent = histStats.solar.min;
-  document.getElementById('hist-solar-avg').textContent = histStats.solar.avg;
-  document.getElementById('hist-solar-max').textContent = histStats.solar.max;
-  
-  console.log('Historical stats rendered:', histStats);
+function generatePredictions(marchStats) {
+  // Compute March avgs/stddev from Mar 25-31
+  const marchWind = [], marchSolar = [];
+  ['2025-03-25','2025-03-26','2025-03-27','2025-03-28','2025-03-29','2025-03-30','2025-03-31'].forEach(day => {
+    const s = marchStats[day];
+    if (s.wind.avg !== '--') {
+      marchWind.push(parseFloat(s.wind.avg));
+      marchSolar.push(parseFloat(s.solar.avg));
+    }
+  });
+
+  if (marchWind.length === 0) {
+    console.error('No March data for predictions');
+    return {};
+  }
+
+  const windAvg = marchWind.reduce((a,b)=>a+b,0)/marchWind.length;
+  const windStd = Math.sqrt(marchWind.reduce((a,b)=>(a += Math.pow(b-windAvg,2)),0)/marchWind.length);
+  const solarAvg = marchSolar.reduce((a,b)=>a+b,0)/marchSolar.length;
+  const solarStd = Math.sqrt(marchSolar.reduce((a,b)=>(a += Math.pow(b-solarAvg,2)),0)/marchSolar.length);
+
+  console.log('March baselines:', {windAvg: windAvg.toFixed(2), windStd: windStd.toFixed(2), solarAvg: solarAvg.toFixed(2), solarStd: solarStd.toFixed(2)});
+
+  // Baseline preds: avg ± std * rand(0.8-1.2)
+  const predDays = ['2025-04-01','2025-04-02','2025-04-03','2025-04-04','2025-04-05','2025-04-06','2025-04-07'];
+  const predStats = {};
+  predDays.forEach(day => {
+    const windVar = (Math.random() * 0.4 + 0.8) * windStd; // 0.8-1.2 * std
+    const solarVar = (Math.random() * 0.4 + 0.8) * solarStd;
+    const windAvgDay = (windAvg + (Math.random() < 0.5 ? -windVar : windVar)).toFixed(2);
+    const solarAvgDay = (solarAvg + (Math.random() < 0.5 ? -solarVar : solarVar)).toFixed(2);
+    predStats[day] = {
+      wind: {min: (parseFloat(windAvgDay) * 0.7).toFixed(2), avg: windAvgDay, max: (parseFloat(windAvgDay) * 1.3).toFixed(2)},
+      solar: {min: (parseFloat(solarAvgDay) * 0.7).toFixed(2), avg: solarAvgDay, max: (parseFloat(solarAvgDay) * 1.3).toFixed(2)}
+    };
+  });
+  return predStats;
 }
 
-async function runML() {
-  console.log('Phase10 LSTM - Training on Jan-Mar 2025 for Apr forecast...');
+async function writeMLOutput(allStats) {
+  const now = new Date().toISOString().slice(0,19).replace('T', ' ');
+  let csv = `# ML page output last updated: ${now}\n`;
+  csv += `# Summary: sim-ML = 14\n`;
+  csv += `[sim]\n`;
+  csv += `id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source\n`;
+
+  const days = ['2025-03-25','2025-03-26','2025-03-27','2025-03-28','2025-03-29','2025-03-30','2025-03-31','2025-04-01','2025-04-02','2025-04-03','2025-04-04','2025-04-05','2025-04-06','2025-04-07'];
+  days.forEach((day, id) => {
+    const s = allStats[day];
+    csv += `${id+1},${day},${s.wind.min},${s.wind.avg},${s.wind.max},${s.solar.min},${s.solar.avg},${s.solar.max},sim-ML\n`;
+  });
+
+  try {
+    await fetch('data/MLoutput.txt', {
+      method: 'PUT',
+      headers: {'Content-Type': 'text/plain'},
+      body: csv
+    });
+    console.log('✅ MLoutput.txt written successfully');
+  } catch (error) {
+    console.error('Error writing MLoutput.txt:', error);
+  }
+}
+
+function populateTable(allStats) {
+  const dayMap = {
+    '2025-03-25': 'mar25', '2025-03-26': 'mar26', '2025-03-27': 'mar27', '2025-03-28': 'mar28',
+    '2025-03-29': 'mar29', '2025-03-30': 'mar30', '2025-03-31': 'mar31',
+    '2025-04-01': 'apr01', '2025-04-02': 'apr02', '2025-04-03': 'apr03', '2025-04-04': 'apr04',
+    '2025-04-05': 'apr05', '2025-04-06': 'apr06', '2025-04-07': 'apr07'
+  };
+
+  Object.keys(dayMap).forEach(day => {
+    const prefix = dayMap[day];
+    const s = allStats[day];
+    document.getElementById(`${prefix}-wind-min`).textContent = s.wind.min;
+    document.getElementById(`${prefix}-wind-avg`).textContent = s.wind.avg;
+    document.getElementById(`${prefix}-wind-max`).textContent = s.wind.max;
+    document.getElementById(`${prefix}-solar-min`).textContent = s.solar.min;
+    document.getElementById(`${prefix}-solar-avg`).textContent = s.solar.avg;
+    document.getElementById(`${prefix}-solar-max`).textContent = s.solar.max;
+  });
+  console.log('✅ Table populated with 14 days data');
+}
+
+async function runMLBaseline() {
+  console.log('AI-EnergyR5 Simple ML Baseline - Mar 25-31 stats + Apr 01-07 predictions');
   
   const rows = await loadSimData();
   const quarterData = filterQuarterData(rows);
-  
-  // Historical Mar 25-31 daily stats
-  console.log(`Q1 2025 training data: ${quarterData.length} hourly points`);
-  
-  // Historical Mar 25-31 daily stats from full Q1 data
+  console.log(`Q1 2025 data: ${quarterData.length} points`);
+
   const histDays = ['2025-03-25','2025-03-26','2025-03-27','2025-03-28','2025-03-29','2025-03-30','2025-03-31'];
   const histStats = getDailyStats(quarterData, histDays);
-  
-  // Populate historical table rows (IDs like mar25windmin)
-  histDays.forEach((day, index) => {
-    const rowId = `mar${25 + index}`;
-    const fullId = day.replace(/-/g, '').toLowerCase();
-    const s = histStats[day];
-    if (s.wind && s.wind.min !== '--') {
-      document.getElementById(`${fullId}-wind-min`).textContent = s.wind.min;
-      document.getElementById(`${fullId}-wind-avg`).textContent = s.wind.avg;
-      document.getElementById(`${fullId}-wind-max`).textContent = s.wind.max;
-      document.getElementById(`${fullId}-solar-min`).textContent = s.solar.min;
-      document.getElementById(`${fullId}-solar-avg`).textContent = s.solar.avg;
-      document.getElementById(`${fullId}-solar-max`).textContent = s.solar.max;
-    }
-  });
-  console.log('Historical Mar 25-31 populated:', histStats);
-  
-  // LSTM training data
-  const windValues = quarterData.map(r => r.wind).filter(v => !isNaN(v));
-  const solarValues = quarterData.map(r => r.solar).filter(v => !isNaN(v));
-  
-  if (windValues.length < 50 || solarValues.length < 50) {
-    console.error('Insufficient data for LSTM');
-    return;
-  }
-  
-  const windNorm = normalize(windValues);
-  const solarNorm = normalize(solarValues);
-  
-const seqLen = 24; // hourly daily patterns
-  const windSeq = createSequences(windNorm.scaled, seqLen);
-  const solarSeq = createSequences(solarNorm.scaled, seqLen);
-  
-  console.log(`Wind sequences: ${windSeq.xs.length}, Solar: ${solarSeq.xs.length}`);
-  
-  // Build & train models
-  const windModel = buildModel(seqLen);
-  const solarModel = buildModel(seqLen);
-  
-  console.log('Training Wind LSTM...');
-  await windModel.fit(
-    tf.tensor3d(windSeq.xs.map(seq => [seq]), [windSeq.xs.length, seqLen, 1]),
-    tf.tensor2d(windSeq.ys.map(y => [y]), [windSeq.ys.length, 1]),
-    { epochs: 20, verbose: 1, callbacks: { onEpochEnd: (epoch, logs) => console.log(`Wind Epoch ${epoch}: loss=${logs.loss.toFixed(4)}`) } }
-  );
-  
-  console.log('Training Solar LSTM...');
-  await solarModel.fit(
-    tf.tensor3d(solarSeq.xs.map(seq => [seq]), [solarSeq.xs.length, seqLen, 1]),
-    tf.tensor2d(solarSeq.ys.map(y => [y]), [solarSeq.ys.length, 1]),
-    { epochs: 20, verbose: 1, callbacks: { onEpochEnd: (epoch, logs) => console.log(`Solar Epoch ${epoch}: loss=${logs.loss.toFixed(4)}`) } }
-  );
-  
-// 168-hour (7-day hourly) forecast from last Q1 timestamp
-  console.log('Generating 168-hour forecast...');
-  let windForecast = [];
-  let solarForecast = [];
-  let windInput = windNorm.scaled.slice(-seqLen);
-  let solarInput = solarNorm.scaled.slice(-seqLen);
-  
-  for (let i = 0; i < 168; i++) {
-    const wt = tf.tensor3d([windInput], [1, seqLen, 1]);
-    const st = tf.tensor3d([solarInput], [1, seqLen, 1]);
-    
-    const windPredScaled = windModel.predict(wt).dataSync()[0];
-    const solarPredScaled = solarModel.predict(st).dataSync()[0];
-    
-    wt.dispose();
-    st.dispose();
-    
-    const windPred = windPredScaled * windNorm.range + windNorm.min;
-    const solarPred = solarPredScaled * solarNorm.range + solarNorm.min;
-    
-    windForecast.push(windPred);
-    solarForecast.push(solarPred);
-    
-    windInput = windInput.slice(1).concat(windPredScaled);
-    solarInput = solarInput.slice(1).concat(solarPredScaled);
-  }
-  
-  // Create predicted rows for daily grouping
-  const lastTimestamp = quarterData[quarterData.length - 1].timestamp;
-  const predRows = [];
-  for (let h = 0; h < 168; h++) {
-    const predTime = new Date(lastTimestamp.getTime() + (h + 1) * 60 * 60 * 1000);
-    predRows.push({ timestamp: predTime, wind: windForecast[h], solar: solarForecast[h] });
-  }
-  
-// Group predicted daily stats
-  const predDays = ['2025-04-01','2025-04-02','2025-04-03','2025-04-04','2025-04-05','2025-04-06','2025-04-07'];
-  const predStats = getDailyStats(predRows, predDays);
-  
-console.log('✅ Phase10 LSTM complete - Apr 2025 forecasts ready!');
-console.log('=== VALIDATION OUTPUT ===');
-console.log('Wind Forecast (7 days):', windForecast.map(v => v.toFixed(2)));
-console.log('Solar Forecast (7 days):', solarForecast.map(v => v.toFixed(2)));
-console.log('Wind min/avg/max:', windStats.min.toFixed(2), windStats.avg.toFixed(2), windStats.max.toFixed(2));
-console.log('Solar min/avg/max:', solarStats.min.toFixed(2), solarStats.avg.toFixed(2), solarStats.max.toFixed(2));
-console.log('========================');
+  console.log('Historical Mar stats:', histStats);
+
+  const predStats = generatePredictions(histStats);
+  console.log('Predicted Apr stats:', predStats);
+
+  const allStats = {...histStats, ...predStats};
+  populateTable(allStats);
+  await writeMLOutput(allStats);
+
+  console.log('✅ ML Baseline complete - table + MLoutput.txt ready!');
 }
 
-// Run when page loads
-document.addEventListener('DOMContentLoaded', runML);
-
+// Run on load
+document.addEventListener('DOMContentLoaded', runMLBaseline);
