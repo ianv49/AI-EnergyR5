@@ -3,37 +3,40 @@ import numpy as np
 import os
 
 def create_training_set():
+    # 1. Create the /ml directory if it doesn't exist
+    if not os.path.exists('ml'):
+        os.makedirs('ml')
+        print("Created /ml directory")
+
     all_data = []
-    # Targeting your specific file naming convention
     files = ['collect1.txt', 'collect2.txt', 'collect3.txt', 'collect4.txt', 
              'collect5.txt', 'collect6.txt', 'collect7.txt']
 
     for f in files:
         if os.path.exists(f):
-            # Skip the # comments and [tags] by using comment parameter
+            # Read file, skipping comments (#) and metadata ([tags])
             df = pd.read_csv(f, comment='#', skip_blank_lines=True)
-            # Remove lines that contain the tag like '[sim]' or '[open_meteo]'
-            df = df[~df['id'].astype(str).str.contains('\[')]
+            # Filter out any rows that accidentally caught metadata tags
+            df = df[~df['id'].astype(str).str.contains(r'\[', na=False)]
             all_data.append(df)
 
-    # Merge all 7 files
+    if not all_data:
+        print("No data found to merge.")
+        return
+
     master_df = pd.concat(all_data, ignore_index=True)
 
-    # --- ML IMPROVEMENTS ---
-    # 1. Convert timestamp to datetime
+    # ML Processing
     master_df['timestamp'] = pd.to_datetime(master_df['timestamp'])
-    
-    # 2. Extract Hour and create Cyclical Features
     master_df['hour'] = master_df['timestamp'].dt.hour
     master_df['hour_sin'] = np.sin(2 * np.pi * master_df['hour']/24.0)
     master_df['hour_cos'] = np.cos(2 * np.pi * master_df['hour']/24.0)
-
-    # 3. Clean up: Remove any rows with missing values
     master_df = master_df.dropna()
 
-    # Save the consolidated training set
-    master_df.to_csv('training_set.csv', index=False)
-    print(f"Success! Training set created with {len(master_df)} rows.")
+    # 2. Save specifically to the /ml folder
+    output_path = os.path.join('ml', 'training_set.csv')
+    master_df.to_csv(output_path, index=False)
+    print(f"Success! {output_path} created with {len(master_df)} rows.")
 
 if __name__ == "__main__":
     create_training_set()
