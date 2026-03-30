@@ -1,0 +1,29 @@
+# ML page output last updated: 2025-03-31 23:59:59
+# Summary: sim actual = 7 | sim predict = 7
+[sim]
+
+# Data-A: ML Predictions (Apr 1–7, daily averages)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2025-04-01,2.87,4.10,5.33,0.72,1.02,1.33,sim-ML
+2,2025-04-02,2.62,3.74,4.86,0.65,0.93,1.21,sim-ML
+3,2025-04-03,3.21,4.59,5.96,0.80,1.15,1.49,sim-ML
+4,2025-04-04,2.87,4.10,5.33,0.72,1.02,1.33,sim-ML
+5,2025-04-05,2.62,3.74,4.86,0.65,0.93,1.21,sim-ML
+6,2025-04-06,3.21,4.59,5.96,0.80,1.15,1.49,sim-ML
+7,2025-04-07,2.87,4.10,5.33,0.72,1.02,1.33,sim-ML
+
+# Data-B: Actual API Daily Averages (Apr 1–7)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2025-04-01,1.33,3.46,5.77,0.00,199.03,655.56,sim-API
+2,2025-04-02,1.06,3.47,5.70,0.00,192.29,724.87,sim-API
+3,2025-04-03,1.41,3.60,5.83,1.54,198.93,664.40,sim-API
+4,2025-04-04,1.69,3.69,5.98,3.83,206.88,702.84,sim-API
+5,2025-04-05,1.41,3.66,5.69,1.36,222.22,812.53,sim-API
+6,2025-04-06,1.18,3.58,5.58,0.74,203.06,748.61,sim-API
+7,2025-04-07,1.59,3.63,5.74,0.94,210.91,708.62,sim-API
+
+# Metrics: Prediction vs Actual (Apr 1–7)
+MAE (wind-avg): 0.553
+RMSE: 0.641
+R²: -59.247
+Correlation: 0.104
