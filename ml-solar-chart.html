@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML Wind Charts - 14-Day Forecast</title>
+  <title>ML Solar Charts - 14-Day Forecast</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body { 
@@ -38,29 +38,31 @@
 </head>
 <body>
   <nav>
-<a href="index.html">← Home</a>
+    <a href="index.html">← Home</a>
     <a href="ml.html">← ML Table</a>
-<a href="ml-solar-chart.html">→ Solar Chart</a>
-    <a href="ml-dual-chart.html">→ Dual Chart</a>
+<a href="ml-solar-chart.html">← Solar</a>
+    <a href="ml-chart.html">← Wind Chart</a>
+    <a href="ml-dual-chart.html">→ Dual Charts</a>
+    <a href="ml-dual-chart.html">→ Dual Charts</a>
   </nav>
   
-  <h1>ML Wind Data Charts (Mar 25 - Apr 7)</h1>
-  <p>From <code>data/MLoutput.txt</code>: Historical Mar25-31 (solid), Predictions Apr1-7 (dashed)</p>
+  <h1>ML Solar Data Charts (Mar 25 - Apr 7)</h1>
+  <p>From ml.html Table-2: Historical Mar25-31 (solid), Predictions Apr1-7 (dashed)</p>
 
   <div class="chart-row">
-    <div class="chart-title">Wind Speed Forecast (m/s)</div>
+    <div class="chart-title">Solar Energy Forecast (kWh/m²)</div>
     <div class="chart-container">
-      <canvas id="windChart"></canvas>
+      <canvas id="solarChart"></canvas>
     </div>
   </div>
 
   <script>
-    // Exact data arrays from MLoutput.txt (1-7 historical, 8-14 predictions)
+    // Exact data from ml.html Table-2 cols 6-8 (1-7 historical, 8-14 predictions)
     const labels = ['Mar 25','Mar 26','Mar 27','Mar 28','Mar 29','Mar 30','Mar 31','Apr 01','Apr 02','Apr 03','Apr 04','Apr 05','Apr 06','Apr 07'];
     
-    const windMin = [2.80, 2.24, 3.36, 2.52, 3.08, 2.10, 2.94, 2.87, 2.62, 3.21, 2.87, 2.62, 3.21, 2.87];
-    const windAvg = [4.00, 3.20, 4.80, 3.60, 4.40, 3.00, 4.20, 4.10, 3.74, 4.59, 4.10, 3.74, 4.59, 4.10];
-    const windMax = [5.20, 4.16, 6.24, 4.68, 5.72, 3.90, 5.46, 5.33, 4.86, 5.96, 5.33, 4.86, 5.96, 5.33];
+    const solarMin = [0.70, 0.56, 0.84, 0.63, 0.77, 0.52, 0.73, 0.72, 0.65, 0.80, 0.72, 0.65, 0.80, 0.72];
+    const solarAvg = [1.00, 0.80, 1.20, 0.90, 1.10, 0.75, 1.05, 1.02, 0.93, 1.15, 1.02, 0.93, 1.15, 1.02];
+    const solarMax = [1.30, 1.04, 1.56, 1.17, 1.43, 0.97, 1.36, 1.33, 1.21, 1.49, 1.33, 1.21, 1.49, 1.33];
 
     // Solid for 1-7 (historical), dashed for 8-14 (predictions)
     function getDashPattern(index) {
@@ -68,7 +70,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      const ctx = document.getElementById('windChart').getContext('2d');
+      const ctx = document.getElementById('solarChart').getContext('2d');
       
       new Chart(ctx, {
         type: 'line',
@@ -76,8 +78,8 @@
           labels: labels,
           datasets: [
             {
-              label: 'Wind Min',
-              data: windMin,
+              label: 'Solar Min',
+              data: solarMin,
               borderColor: '#ff6384',
               backgroundColor: 'rgba(255, 99, 132, 0.1)',
               tension: 0.3,
@@ -87,8 +89,8 @@
               borderDash: labels.map((_, i) => getDashPattern(i))
             },
             {
-              label: 'Wind Avg',
-              data: windAvg,
+              label: 'Solar Avg',
+              data: solarAvg,
               borderColor: '#36a2eb',
               backgroundColor: 'rgba(54, 162, 235, 0.1)',
               tension: 0.3,
@@ -98,8 +100,8 @@
               borderDash: labels.map((_, i) => getDashPattern(i))
             },
             {
-              label: 'Wind Max',
-              data: windMax,
+              label: 'Solar Max',
+              data: solarMax,
               borderColor: '#ffcd56',
               backgroundColor: 'rgba(255, 205, 86, 0.1)',
               tension: 0.3,
@@ -120,7 +122,7 @@
           scales: {
             y: {
               beginAtZero: true,
-              title: { display: true, text: 'Wind Speed (m/s)' }
+              title: { display: true, text: 'Solar Energy (kWh/m²)' }
             },
             x: {
               title: { display: true, text: 'Date (1-7 Historical, 8-14 Predictions)' }
@@ -131,18 +133,18 @@
             tooltip: {
               callbacks: {
                 title: ctx => ctx[0].label,
-                label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} m/s`
+                label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} kWh/m²`
               }
             },
             title: { 
               display: true, 
-              text: '14-Day Wind Forecast: Min(red)/Avg(blue)/Max(yellow)' 
+              text: '14-Day Solar Forecast: Min(red)/Avg(blue)/Max(yellow)' 
             }
           }
         }
       });
       
-      console.log('✅ Wind charts: Solid 1-7 historical / Dashed 8-14 predictions');
+      console.log('✅ Solar charts: Solid 1-7 historical / Dashed 8-14 predictions');
     });
   </script>
 </body>

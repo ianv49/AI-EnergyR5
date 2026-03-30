@@ -1,26 +1,45 @@
-# AI-EnergyR5 ML Chart Implementation TODO
+# AI-EnergyR5 ML Validation Enhancement Plan - Approved
+Progress tracked here. Steps completed will be marked ✅.
 
-## Approved Plan Steps (Wind Charts from MLoutput.txt)
+## Approved Plan Steps (User confirmed: ok)
 
-**✅ Step 0: Planning confirmed**
+1. **✅ Create TODO.md** - Track progress (this file)
 
-**✅ Step 1: Update TODO.md for charts**
+2. **Fix ml_validation.py parsing + expand validation** 
+   - Parse MLoutput.txt correctly (skip header properly)
+   - Expand to full overlapping period (Mar25-Apr7 or recent 14/30 days)
+   - Add accuracy metrics (MAE, RMSE)
+   - Output JSON (ml_stats.json) + PNG charts
+   - ~~CLI: --full --forecast~~
 
-**✅ Step 2: Create ml-chart.html**
-   - Chart.js wind min/avg/max lines (14 dates x-axis)
-   - Parses data/MLoutput.txt CSV directly
-   - Responsive canvas, clean styling/nav
+3. **Dynamic ml.html** - Load from validation JSON (no hardcoded data)
 
-**✅ Step 3: Add nav links**
-   - index.html: Home → ML Table | ML Charts
-   - ml.html: Home ←→ Wind Charts
-   - ml-chart.html: Home ↔ ML Table
+4. **Dynamic Chart HTMLs** (ml-chart.html, ml-solar-chart.html, ml-dual-chart.html)
+   - Chart.js from JSON API/validation output
+   - Overlay actual vs predicted lines
 
-**✅ Step 4: Test complete**
-   - `start ml-chart.html` → live interactive wind charts
-   - Navigation triangle complete (Home ↔ Table ↔ Charts)
-   - Data flow: MLoutput.txt → dynamic charts
+5. **index.html update** - Add ML validation stats tab
 
-**Progress: 4/4 steps complete**
+6. **New ml/ml_forecast.py** 
+   - Train RandomForestRegressor on collect1.txt historical
+   - Predict next 14 days wind/solar min/avg/max
+   - Append to MLoutput.txt as 'sim-ML-new'
 
-**Final Status**: ML Chart page fully functional. Basic line charts for wind data (min/avg/max) across 14 days. Linked navigation perfect.
+7. **Install deps + Test** 
+   - pip install scikit-learn (for RandomForest)
+   - python ml_validation.py --full
+   - python ml/ml_forecast.py
+   - Verify charts/data in browser
+
+8. **Follow-up Integration**
+   - DB queries for full API data validation
+   - Update TODO.md with Phase 10 ML progress
+
+## Pending User Input (if any)
+- Date range: Default recent 30 days from collect1.txt/MLoutput.txt overlap
+- ML model: RandomForestRegressor (simple start, per plan)
+
+## Next Action
+Run `python ml_validation.py` to test current state → Report results → Proceed to Step 2 edits.
+
+**Status: Ready for implementation**
