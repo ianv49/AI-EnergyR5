@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Build /data/MLres1.txt with:
-- Data-A: ML predictions (Apr 1–7, daily averages from hourly predictions)
-- Data-B: Actual sim API values (Apr 1–7, daily averages from hourly API data)
-- Metrics: MAE, RMSE, R², correlation between daily averages
-"""
-
 import csv, math
 from pathlib import Path
 from collections import defaultdict
@@ -26,9 +19,9 @@ def load_csv_skip_comments(file_path):
             rows.append(clean)
         return rows, [h.strip() for h in reader.fieldnames]
 
-def aggregate_daily_ml(ml_rows):
+def aggregate_daily(rows, schema_type):
     daily = defaultdict(list)
-    for row in ml_rows:
+    for row in rows:
         date = row["timestamp"].split()[0]
         if "2025-04-01" <= date <= "2025-04-07":
             daily[date].append(row)
@@ -36,12 +29,25 @@ def aggregate_daily_ml(ml_rows):
     results = []
     for i, date in enumerate(sorted(daily.keys()), start=1):
         rows = daily[date]
-        wind_min = min(float(r["wind-min"]) for r in rows)
-        wind_avg = sum(float(r["wind-avg"]) for r in rows)/len(rows)
-        wind_max = max(float(r["wind-max"]) for r in rows)
-        solar_min = min(float(r["solar-min"]) for r in rows)
-        solar_avg = sum(float(r["solar-avg"]) for r in rows)/len(rows)
-        solar_max = max(float(r["solar-max"]) for r in rows)
+        if schema_type == "ML":
+            wind_min = min(float(r["wind-min"]) for r in rows)
+            wind_avg = sum(float(r["wind-avg"]) for r in rows)/len(rows)
+            wind_max = max(float(r["wind-max"]) for r in rows)
+            solar_min = min(float(r["solar-min"]) for r in rows)
+            solar_avg = sum(float(r["solar-avg"]) for r in rows)/len(rows)
+            solar_max = max(float(r["solar-max"]) for r in rows)
+            source = "sim-ML"
+        else:  # API
+            wind_vals = [float(r["wind_speed"]) for r in rows]
+            solar_vals = [float(r["irradiance"]) for r in rows]
+            wind_min = min(wind_vals)
+            wind_avg = sum(wind_vals)/len(wind_vals)
+            wind_max = max(wind_vals)
+            solar_min = min(solar_vals)
+            solar_avg = sum(solar_vals)/len(solar_vals)
+            solar_max = max(solar_vals)
+            source = "sim-API"
+
         results.append({
             "id": str(i),
             "timestamp": date,
@@ -51,38 +57,7 @@ def aggregate_daily_ml(ml_rows):
             "solar-min": f"{solar_min:.2f}",
             "solar-avg": f"{solar_avg:.2f}",
             "solar-max": f"{solar_max:.2f}",
-            "source": "sim-ML"
-        })
-    return results
-
-def aggregate_daily_api(api_rows):
-    daily = defaultdict(list)
-    for row in api_rows:
-        date = row["timestamp"].split()[0]
-        if "2025-04-01" <= date <= "2025-04-07":
-            daily[date].append(row)
-
-    results = []
-    for i, date in enumerate(sorted(daily.keys()), start=1):
-        rows = daily[date]
-        wind_vals = [float(r["wind_speed"]) for r in rows]
-        solar_vals = [float(r["irradiance"]) for r in rows]
-        wind_min = min(wind_vals)
-        wind_avg = sum(wind_vals)/len(wind_vals)
-        wind_max = max(wind_vals)
-        solar_min = min(solar_vals)
-        solar_avg = sum(solar_vals)/len(solar_vals)
-        solar_max = max(solar_vals)
-        results.append({
-            "id": str(i),
-            "timestamp": date,
-            "wind-min": f"{wind_min:.2f}",
-            "wind-avg": f"{wind_avg:.2f}",
-            "wind-max": f"{wind_max:.2f}",
-            "solar-min": f"{solar_min:.2f}",
-            "solar-avg": f"{solar_avg:.2f}",
-            "solar-max": f"{solar_max:.2f}",
-            "source": "sim-API"
+            "source": source
         })
     return results
 
@@ -90,8 +65,8 @@ def main():
     ml_data, _ = load_csv_skip_comments(ml_output_file)
     api_data, _ = load_csv_skip_comments(collect_file)
 
-    ml_daily = aggregate_daily_ml(ml_data)
-    api_daily = aggregate_daily_api(api_data)
+    ml_daily = aggregate_daily(ml_data, "ML")
+    api_daily = aggregate_daily(api_data, "API")
 
     with open(ml_res_file, "w", newline="") as f:
         f.write("# ML page output last updated: 2025-03-31 23:59:59\n")
@@ -101,7 +76,7 @@ def main():
         writer = csv.writer(f)
         schema = ["id","timestamp","wind-min","wind-avg","wind-max","solar-min","solar-avg","solar-max","source"]
 
-        f.write("\n# Data-A: ML Predictions (Apr 1–7, daily averages)\n")
+        f.write("\n# Data-A: ML Predictions (Apr 1–7)\n")
         writer.writerow(schema)
         for row in ml_daily:
             writer.writerow([row[h] for h in schema])
