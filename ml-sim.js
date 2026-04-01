@@ -4,7 +4,7 @@
 async function loadSimData() {
   console.log('loadSimData START'); // DEBUG
   try {
-    const response = await fetch('data/collect1.txt');
+fetch('data/sim-api.txt')
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const text = await response.text();
     const lines = text.trim().split('\n');
@@ -35,12 +35,13 @@ async function loadSimData() {
   }
 }
 
-function filterQuarterData(rows) {
-  console.log(`filterQuarterData: input ${rows.length}, Q1 dates:`, rows.map(r=>r.timestamp.toISOString().slice(0,10)).slice(-10)); // DEBUG
+function filterFebData(rows) {
+  console.log(`filterFebData: input ${rows.length}, Feb dates:`, rows.map(r=>r.timestamp.toISOString().slice(0,10)).slice(-10)); // DEBUG
   return rows.filter(r => {
     const year = r.timestamp.getFullYear();
     const month = r.timestamp.getMonth() + 1;
-    return year === 2025 && month >= 1 && month <= 3;
+    const day = r.timestamp.getDate();
+    return year === 2026 && month === 2 && day <= 20;
   });
 }
 
@@ -133,7 +134,7 @@ async function writeMLOutput(allStats) {
   });
 
   try {
-    await fetch('data/MLoutput.txt', {
+fetch('data/ml-sim-output.txt'
       method: 'PUT',
       headers: {'Content-Type': 'text/plain'},
       body: csv
@@ -169,11 +170,11 @@ async function runMLBaseline() {
   console.log('AI-EnergyR5 Simple ML Baseline - Mar 25-31 stats + Apr 01-07 predictions');
   
   const rows = await loadSimData();
-  const quarterData = filterQuarterData(rows);
-  console.log(`Q1 2025 data: ${quarterData.length} points`);
+  const febData = filterFebData(rows);
+  console.log(`Feb2026 (<=20) data: ${febData.length} points`);
 
-  const histDays = ['2025-03-25','2025-03-26','2025-03-27','2025-03-28','2025-03-29','2025-03-30','2025-03-31'];
-  const histStats = getDailyStats(quarterData, histDays);
+  const histDays = ['2026-02-11','2026-02-12','2026-02-13','2026-02-14','2026-02-15','2026-02-16','2026-02-17','2026-02-18','2026-02-19','2026-02-20'];
+  const histStats = getDailyStats(febData, histDays);
   console.log('Historical Mar stats:', histStats);
 
   const predStats = generatePredictions(histStats);

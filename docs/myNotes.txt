@@ -1,4 +1,5 @@
 Instructions for AI: How to use this file (myNotes.txt) for logging:
+- dont touch / revise / delete / remove the old logs
 - This file starts with prompts for AI tasks, followed by logs in reverse chronological order (newest first).
 - Only append, no deletions.
 - focus on date today or dates after last date of entry.
@@ -1410,4 +1411,47 @@ in cmd> <"D:\My Documents\tools\postgresql\pgsql\bin\pg_ctl.exe" -D "D:\My Docum
 [Restarting PostgreSQL, If you want to restart:
 in cmd> <"D:\My Documents\tools\postgresql\pgsql\bin\pg_ctl.exe" -D "D:\My Documents\tools\postgresql\pgsql\data" restart>]
 
+================================================ logs with [a], [b], etc. for main tasks and sub-tasks.
+- Include task descriptions, steps, and status (e.g., Done, Pending).
+- Separate logs with '================================================'
+- Keep the file organized for easy AI reference and updates.
+- do validate the logs of today if align with TODO info.
+- no need to include in log the routine involve with checking TODO files or doing log to myNotes.
+
+..notes 2026-04-01;
+ML Sim API Update Summary (BLACKBOXAI)
+
+**Training Data**: sim-api.txt hourly records Jan 1 2025 - Feb 20 2026 (~9226 rows after skiprows=3). Features: temp(col4), hum(5), irr(6), wind_speed(6 parts[5]), hour/dayofyear. Targets: wind_speed, solar_yield(col9 parts[8]), wind_energy(0.5*wind**3).
+
+**ML Models**: 3x RandomForestRegressor (sklearn, n_estimators=100, random_state=42). Trained on full historical, synthetic noise (sin seasonal + Gaussian), 14-day hourly → daily aggregates min/avg/max.
+
+**Predictions**: Feb 21-28 2026 (8 days, source='sim-api-ML-feb26') appended ml-sim-output.txt.
+
+**JS Baseline**: ml-sim.js (renamed from ml.js) filterFebData (<=Feb20), hist Feb11-20 → baseline mean±std pred Feb21-28, table/charts aligned.
+
+**Frontend**: ml-sim.html charts Feb21-28 Predict(Dashed RF) vs Actual(Solid sim), log solar.
+
+**Cmd**: `py ml/ml-sim-forecast.py && start ml.html ml-sim.html`
+
+**Status**: Complete, syntax fixed, NASA untouched.
+
+**Steps Done (Past 5h)**:
+1. Renamed `data/collect1.txt`→`sim-api.txt`, `data/MLoutput.txt`→`ml-sim-output.txt`, `ml/ml_forecast.py`→`ml/ml-sim-forecast.py`.
+2. Updated py: paths sim-api.txt/ml-sim-output.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
+3. Renamed `ml.js`→`ml-sim.js`.
+4. Updated `ml-sim.js`: filterFebData(≤Feb20), histDays Feb11-20→pred Feb21-28 baseline, getDailyStats(febData), log/console.
+5. Updated `ml-sim.html`: title/charts Feb21-28 dates, subtitle RF+range, dates=['Feb21'..'Feb28'].
+6. Logged `docs/myNotes.txt`: details/models/range.
+7. Fixed `ml.js` errors, aligned charts Predict/Actual. Run `py ml/ml-sim-forecast.py && start ml-sim.html`.
+
+**Files List**:
+- Data: data/sim-api.txt, data/ml-sim-output.txt
+- Python: ml/ml-sim-forecast.py  
+- JS: ml-sim.js
+- Frontend: ml-sim.html, ml.html
+
+**Demo**: `py ml/ml-sim-forecast.py && start ml.html ml-sim.html` 🎉
+
 ================================================
+
+

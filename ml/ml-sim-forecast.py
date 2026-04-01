@@ -17,11 +17,12 @@ import json
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def load_historical_data(file='data/collect1.txt'):
-    """Load hourly sim data for training"""
+def load_historical_data(file='data/sim-api.txt'):
+    """Load hourly sim data for training (2025-01-01 to 2026-02-20)"""
     try:
         df = pd.read_csv(file, skiprows=3)
         df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df = df[(df['timestamp'] >= '2025-01-01') & (df['timestamp'] < '2026-02-21')]
         df = df.dropna()
         logger.info(f"Loaded {len(df)} historical records for training")
         return df
@@ -63,8 +64,30 @@ def train_models(X, y_wind, y_solar, y_wind_energy):
     logger.info("Models trained successfully")
     return rf_wind, rf_solar, rf_wind_energy
 
-def predict_next_14_days(scaler, rf_wind, rf_solar, rf_wind_energy, features, last_date):
-    """Generate synthetic features for next 14 days, predict min/avg/max"""
+def predict_feb21_28(scaler, rf_wind, rf_solar, rf_wind_energy, features):
+    """Generate predictions for 2026-02-21 to 28, 24h daily"""
+    predictions = []
+    start_date = datetime(2026, 2, 21)
+    for day_offset in range(8):
+        current_date = start_date + timedelta(days=day_offset)
+        for hour in range(24):
+            temp = 26 + np.sin(2*np.pi*current_date.timetuple().tm_yday/365)*3 + np.random.normal(0, 1)
+            humidity = 75 + np.random.normal(0, 10)
+            irradiance = max(0, 400 * np.sin(np.pi * hour / 12) * np.sin(np.pi * hour / 24) + np.random.normal(0, 50))
+            hour_feat = hour
+            dayofyear = current_date.timetuple().tm_yday
+            feat_row = np.array([[temp, humidity, irradiance, hour_feat, dayofyear]])
+            feat_scaled = scaler.transform(feat_row)
+            wind_pred = rf_wind.predict(feat_scaled)[0]
+            solar_pred = rf_solar.predict(feat_scaled)[0]
+            wind_energy_pred = rf_wind_energy.predict(feat_scaled)[0]
+            predictions.append({
+                'timestamp': current_date.strftime('%Y-%m-%d %H:%M:%S'),
+                'wind_speed': wind_pred,
+                'solar_yield': solar_pred,
+                'wind_energy': wind_energy_pred
+            })
+    return predictions
     predictions = []
     current_date = last_date
     
@@ -106,7 +129,7 @@ def daily_aggregates(predictions):
     df_daily.columns = ['wind-min', 'wind-avg', 'wind-max', 'solar-min', 'solar-avg', 'solar-max']
     df_daily['id'] = range(1, len(df_daily)+1)
     df_daily['timestamp'] = [d.strftime('%Y-%m-%d') for d in df_daily.index]
-    df_daily['source'] = 'sim-ML-new'
+    df_daily['source'] = 'sim-api-ML-feb26'
     
     # Reorder columns to match MLoutput.txt
     cols = ['id', 'timestamp', 'wind-min', 'wind-avg', 'wind-max', 'solar-min', 'solar-avg', 'solar-max', 'source']
@@ -117,7 +140,7 @@ def daily_aggregates(predictions):
 
 def append_to_mloutput(df_new):
     """Append new predictions to data/MLoutput.txt"""
-    ml_file = 'data/MLoutput.txt'
+    ml_file = 'data/ml-sim-output.txt'
     if not os.path.exists(ml_file):
         logger.warning(f"{ml_file} not found - creating")
         df_new.to_csv(ml_file, index=False)
@@ -138,7 +161,7 @@ def main():
     
     # Predict from last date in data
     last_date = df_hist['timestamp'].max().date()
-    hourly_preds = predict_next_14_days(scaler, rf_wind, rf_solar, rf_wind_energy, features, last_date)
+    hourly_preds = predict_feb21_28(scaler, rf_wind, rf_solar, rf_wind_energy, features)
     
     df_daily_new = daily_aggregates(hourly_preds)
     append_to_mloutput(df_daily_new)
