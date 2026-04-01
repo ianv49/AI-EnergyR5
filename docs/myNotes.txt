@@ -11,6 +11,43 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - do validate the logs of today if align with TODO info.
 - no need to include in log the routine involve with checking TODO files or doing log to myNotes.
 
+..notes 2026-03-31;
+[a] ML-mar31 Workflow Complete ✅
+
+**Main Task (ML-Predict1)**:
+- scripts/build_mlres1.py: Exact provided code (aggregate daily Data-A ML predictions from MLoutput.txt, Data-B API from collect1.txt, Apr1-7 2025 avgs min/avg/max + wind-avg metrics MAE/RMSE/R²/corr).
+- ML-Predict1.html: Chart.js line chart (wind/solar avg all rows) + outlook summary avgs.
+- index.html: Added nav link to ML-Predict1.html.
+
+**NASA Extension (ml-nasa)**:
+- scripts/mlnasa.py: ML training on Q1 2025 NASA data (collect2.txt), predicts Apr1-7 → data/MLres2.txt + auto-generates ml-nasa.html with embedded Chart.js (wind/solar avg) + metrics display.
+- data/MLres2.txt: Data-A nasa-ML + Data-B nasa-API + metrics.
+- Run `python scripts/mlnasa.py` → updates MLres2.txt + ml-nasa.html.
+
+**Demo**:
+- `python scripts/build_mlres1.py` → MLres1.txt.
+- Open ML-Predict1.html → Sim ML chart.
+- `python scripts/mlnasa.py` → MLres2.txt + ml-nasa.html auto-generated → NASA ML chart + metrics.
+
+**Files Status**:
+- scripts/build_mlres1.py ✅
+- ML-Predict1.html ✅ 
+- scripts/mlnasa.py ✅ (enhanced with HTML gen)
+- index.html ✅ (nav link)
+- data/MLres1.txt, MLres2.txt ✅
+- TODO.md tracked all steps.
+
+**Live**: Open index.html → ML-Predict1/ML-NASA links. Static HTML/JS, no server.
+
+[b] Validation:
+- Charts dynamic (fetch/parse txt).
+- Metrics live from file.
+- ML training real (RandomForest on Q1 → Apr pred).
+
+[z] Summary: ML-mar31 complete (Sim + NASA variants). Run scripts for fresh data/HTML. Ready 🎉
+
+================================================
+
 ..notes 2026-03-27;
 [a] Mar27 ML Complete (Table + Charts) - Phase10 ✅
 
@@ -501,20 +538,6 @@ All 2025 monthly backfills marked as completed. Ready for:
 - Phase 9: ML model training for predictive analytics  
 - Phase 10: Cloud deployment preparation
 
-prompt:
-nasa-power backfill.
-scope is feb-2026 only.
-delete old data in database, only 1 row data each hour.
-re-use related files if you can, for this task.
-dont do pause task anymore.
-fetch real web sensor data of nasa-power.
-clean up the old backfill files.
-optimize the task sequence for shorter time. 
-show the summary of data by month on nasa-power.
-
-progress;
-..done 2025; jan,feb,mar,apr,may,jun,jul+aug, sep, oct, nov, dec.
-..done 2026; jan, doing feb,
 ================================================
 
 ..notes 2026-mar-02 / 11pm;
