@@ -1,16 +1,33 @@
 Instructions for AI: How to use this file (myNotes.txt) for logging:
 - dont touch / revise / delete / remove the old logs
-- This file starts with prompts for AI tasks, followed by logs in reverse chronological order (newest first).
 - Only append, no deletions.
-- focus on date today or dates after last date of entry.
-- understand the changes / progress of the project, based on TODO logs.
 - To log a new entry: Add / Insert it right after this instructions section, using the format '..notes YYYY-MM-DD;'
 - Structure logs with [a], [b], etc. for main tasks and sub-tasks.
-- Include task descriptions, steps, and status (e.g., Done, Pending).
 - Separate logs with '================================================'
-- Keep the file organized for easy AI reference and updates.
-- do validate the logs of today if align with TODO info.
-- no need to include in log the routine involve with checking TODO files or doing log to myNotes.
+
+..notes 2026-04-01;
+[a] update filename of sim api
+Renamed data/collect1.txt to sim-api.txt, 
+  data/MLoutput.txt to ml-sim-output.txt, 
+  ml/ml_forecast.py→ml to ml-sim-forecast.py.
+  ml.js to ml-sim.js.
+retain ml-sim.html
+[b] align files, routine, codes.
+Updated py: paths sim-api.txt/ml-sim-output.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
+Updated ml-sim.js: filterFebData(≤Feb20), histDays Feb11-20→pred Feb21-28 baseline, getDailyStats(febData), log/console.
+Updated ml-sim.html: title/charts Feb21-28 dates, subtitle RF+range, dates=['Feb21'..'Feb28'].
+Fixed ml.js errors, aligned charts Predict/Actual. Run py ml/ml-sim-forecast.py && start ml-sim.html.
+[c]
+Created new ml/ml-sim.py unifying routines from: ml/ml-sim-forecast.py, scripts/build_mlres1.py, extract_data_b.py, prepare_data.py, align_february_timestamps.py (data prep aspects), revise_mlres1.py, ml_validation.py.
+No deletions or overwrites of original files.
+Full pipeline handles: data prep → train RF models → Apr1-7 forecasts → validation/metrics/charts → MLres1.txt.
+Outputs produced by pipeline:
+ml/training_set.csv
+data/ml-sim-output.txt (predictions)
+data/MLres1.txt (results + metrics)
+charts/ml_sim_validation.png
+
+================================================
 
 ..notes 2026-03-31;
 [a] ML-mar31 Workflow Complete ✅
