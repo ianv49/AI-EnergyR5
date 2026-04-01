@@ -17,7 +17,19 @@
       text-decoration: underline;
     }
     /* Page styling */
-    .main-summary { margin: 50px 0; }
+.main-summary { margin: 50px 0; }
+@media (max-width: 768px) {
+  .summary-cards { grid-template-columns: 1fr; }
+  .summary-card { padding: 20px 16px; }
+  .summary-label { font-size: 0.85rem; }
+  .summary-value { font-size: 2rem; }
+  .metric-desc { font-size: 0.8em; }
+  table { font-size: 0.8em; }
+  th, td { padding: 4px 2px; }
+  .chart-wrapper { grid-template-columns: 1fr; gap: 20px; }
+  .chart-title { font-size: 1.4em; }
+  canvas { height: 300px !important; }
+}
     .chart-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0; }
     @media (max-width: 1200px) { .chart-wrapper { grid-template-columns: 1fr; gap: 30px; } }
     .combined-chart-section { 
