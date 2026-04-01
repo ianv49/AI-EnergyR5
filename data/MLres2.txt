@@ -1,0 +1,29 @@
+# ML page output last updated: 2025-03-31 23:59:59
+# Summary: nasa actual = 7 | nasa predict = 7
+[nasa]
+
+# Data-A: ML Predictions (Apr 1–7)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2025-04-01,3.85,3.98,4.10,0.03,0.03,0.03,nasa-ML
+2,2025-04-02,3.86,4.01,4.15,0.04,0.04,0.04,nasa-ML
+3,2025-04-03,3.89,4.01,4.14,0.04,0.04,0.04,nasa-ML
+4,2025-04-04,3.90,4.02,4.12,0.04,0.04,0.04,nasa-ML
+5,2025-04-05,3.88,3.99,4.07,0.03,0.03,0.03,nasa-ML
+6,2025-04-06,3.77,3.89,3.98,0.03,0.03,0.03,nasa-ML
+7,2025-04-07,3.95,4.03,4.09,0.03,0.03,0.03,nasa-ML
+
+# Data-B: NASA Power Daily Averages (Apr 1–7)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2025-04-01,2.60,3.60,4.40,0.00,1.43,5.84,nasa-API
+2,2025-04-02,2.50,3.14,4.20,0.00,1.52,6.22,nasa-API
+3,2025-04-03,2.60,3.47,4.30,0.00,1.69,6.92,nasa-API
+4,2025-04-04,2.60,3.27,4.40,0.00,1.57,6.43,nasa-API
+5,2025-04-05,2.50,3.42,4.40,0.00,1.62,6.63,nasa-API
+6,2025-04-06,2.60,3.62,4.40,0.00,1.59,6.49,nasa-API
+7,2025-04-07,2.60,3.54,4.40,0.00,1.78,7.27,nasa-API
+
+# Metrics: Prediction vs NASA Actual (Apr 1–7)
+MAE (wind-avg): 0.553
+RMSE: 0.585
+R²: -11.721
+Correlation: -0.520
