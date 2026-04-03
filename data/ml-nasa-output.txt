@@ -1,0 +1,31 @@
+# ML page output last updated: 2026-04-03 14:07:24
+# Summary: nasa actual = 8 | nasa predict = 8
+[nasa]
+
+# Data-A: ML Predictions (Feb 21–28 2026)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2026-02-21,3.23,3.39,3.81,0.00,0.24,0.67,nasa-ML
+2,2026-02-22,3.55,3.64,3.84,0.00,0.24,0.68,nasa-ML
+3,2026-02-23,3.35,3.43,3.60,0.00,0.23,0.66,nasa-ML
+4,2026-02-24,3.46,3.54,3.65,0.00,0.23,0.66,nasa-ML
+5,2026-02-25,3.42,3.52,3.67,0.00,0.24,0.67,nasa-ML
+6,2026-02-26,3.58,3.69,3.84,0.00,0.24,0.67,nasa-ML
+7,2026-02-27,3.64,3.78,3.94,0.00,0.24,0.69,nasa-ML
+8,2026-02-28,3.71,3.84,4.01,0.00,0.24,0.68,nasa-ML
+
+# Data-B: NASA Power Daily Averages (Feb 21–28 2026)
+id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
+1,2026-02-21,1.50,2.49,3.40,0.00,1.15,4.89,nasa-API
+2,2026-02-22,1.50,2.36,3.30,0.00,1.50,6.42,nasa-API
+3,2026-02-23,1.60,2.37,3.40,0.00,1.54,6.56,nasa-API
+4,2026-02-24,1.60,2.57,3.40,0.00,1.31,5.60,nasa-API
+5,2026-02-25,1.50,2.34,3.40,0.00,1.51,6.46,nasa-API
+6,2026-02-26,1.50,2.32,3.40,0.00,1.58,6.73,nasa-API
+7,2026-02-27,1.50,2.41,3.40,0.00,1.50,6.42,nasa-API
+8,2026-02-28,1.50,2.18,3.40,0.00,1.50,6.42,nasa-API
+
+# Metrics: Prediction vs NASA Actual (Feb 21–28 2026)
+MAE (wind-avg): 1.224
+RMSE: 1.246
+R²: -129.957
+Correlation: -0.596
