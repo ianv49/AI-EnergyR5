@@ -18,29 +18,29 @@ ml-nasa.html: Loads ml-nasa.js for interactive charts (predict dashed vs hardcod
 NASA API Focus Workflow:
   Data Ingestion (data/nasa-api.txt): 
     Fetched via api_wrappers/nasa_power.py (likely run_nasa_ingestion.py), hourly POWER data for location (wind_speed col5 index4, irradiance col4 index3).
-  Static Python ML (scripts/ml-nasa.py):
+  Static Python ML (scripts/nasa-ml.py):
     Load/parse nasa-api.txt (skip #/ headers).
     Train RandomForest (train Jan1'25-Feb20'26): features=[day_of_year,hour,weekday,month,temp,humidity] → target wind_speed/irradiance.
     Predict Feb21-28: 24 dummy hourly rows/date → aggregate daily min/avg/max.
     Aggregate actual Feb21-28 from data.
-    Write formatted ml-nasa-output.txt (Data-A ML, Data-B actual, wind-avg MAE/RMSE/R²/Corr).
+    Write formatted nasa-ml.txt (Data-A ML, Data-B actual, wind-avg MAE/RMSE/R²/Corr).
     Run: cd scripts && python3 ml-nasa.py.
-  Browser Interactive (ml-nasa.html + ml-nasa.js):
+  Browser Interactive (nasa-ml.html + nasa-ml.js):
     Load fetches nasa-api.txt.
     Filter/train Jan-Feb20.
     Historical stats Feb21-28 (updated).
     Statistical predict (baselines ± random std) for charts.
-    Download ml-nasa-output.txt Blob (historical + predict).
-    Run: open ml-nasa.html.
-  Output (data/ml-nasa-output.txt): Identical format both (Python true ML vs JS statistical).
-  Key: NASA API → nasa-api.txt → dual paths (Python static CLI / JS browser) → ml-nasa-output.txt (Feb21-28 predict vs actual daily stats + metrics). Verified current output has proper spacing Feb21-28 data.
+    Download nasa-ml.txt Blob (historical + predict).
+    Run: open nasa-ml.html.
+  Output (data/nasa-ml.txt): Identical format both (Python true ML vs JS statistical).
+  Key: NASA API → nasa-api.txt → dual paths (Python static CLI / JS browser) → nasa-ml.txt (Feb21-28 predict vs actual daily stats + metrics). Verified current output has proper spacing Feb21-28 data.
 [b]
 Files Summary:
   nasa-api.txt: Raw input (JS parses).
-  ml-nasa.py: scripts/ml-nasa.py = py ML 
-  ml-nasa-output.txt: data-a, data-b, metric
-  ml-nasa.js: JS stats 
-  ml-nasa.html: Vizes both (py-gen + JS charts)
+  nasa-ml.py: py ML 
+  nasa-ml.txt: data-a, data-b, metric
+  nasa-ml.js: JS stats 
+  nasa-ml.html: Vizes both (py-gen + JS charts)
 
 ================================================
 ..notes 2026-04-02;
