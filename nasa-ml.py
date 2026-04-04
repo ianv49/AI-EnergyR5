@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime, timedelta
 
 nasa_file      = Path("data/nasa-api.txt")
-ml_output_file = Path("data/ml-nasa-output.txt")
+ml_output_file = Path("data/nasa-ml.txt")
 
 def load_csv_skip_comments(file_path):
     with open(file_path, newline="") as f:
@@ -172,7 +172,7 @@ def main():
             f.write(f"R²: {r2:.3f}\n")
             f.write(f"Correlation: {corr:.3f}\n")
 
-    print(f"✅ data/ml-nasa-output.txt generated with NASA ML (Data-A/B + metrics) - FIXED SPACING")
+    print(f"✅ nasa-ml.txt generated with NASA ML (Data-A/B + metrics)")
 
 if __name__ == "__main__":
     main()

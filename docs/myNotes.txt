@@ -6,6 +6,12 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 
 ================================================
+..notes 2026-04-04;
+[a] align files of nasa ml, put it in the list in log of apr3.
+[b] nasa-ml.txt already has result of nasa-ml.py.
+  try to sill align the result/metric after rename of files.
+
+================================================
 ..notes 2026-04-03;
 [a]
 Files/Modules:
