@@ -23,15 +23,15 @@ jobs:
     - name: Check for exposed secrets
       run: |
         echo "🔐 Scanning for potential secrets..."
-        python -c "
+        python << 'EOF'
         import re
         import os
         
         secret_patterns = {
-            'API_KEY': r'api[_-]?key\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
-            'PASSWORD': r'password\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
-            'TOKEN': r'token\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
-            'SECRET': r'secret\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
+            'API_KEY': r'api[_-]?key\s*[:=]\s*["\x27][^"\x27]{10,}',
+            'PASSWORD': r'password\s*[:=]\s*["\x27][^"\x27]{10,}',
+            'TOKEN': r'token\s*[:=]\s*["\x27][^"\x27]{10,}',
+            'SECRET': r'secret\s*[:=]\s*["\x27][^"\x27]{10,}',
         }
         
         found_issues = False
@@ -55,7 +55,7 @@ jobs:
             print('❌ Potential secrets detected. Please review.')
         else:
             print('✓ No obvious secrets detected.')
-        "
+        EOF
 
     - name: Check dependencies for vulnerabilities
       run: |
