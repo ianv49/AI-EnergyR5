@@ -1,28 +1,51 @@
-# Core libraries
-requests            # For API calls and HTTP requests
-pandas              # For data handling and analysis
-numpy               # For numerical computations
+# ============================================
+# Core Libraries
+# ============================================
+requests>=2.28.0            # For API calls and HTTP requests
+pandas>=1.5.0               # For data handling and analysis
+numpy>=1.23.0               # For numerical computations
 
+# ============================================
 # Database
-psycopg2-binary     # PostgreSQL connector (binary build for Windows)
+# ============================================
+psycopg2-binary>=2.9.0      # PostgreSQL connector (binary build for Windows)
+psycopg2>=2.9.0             # PostgreSQL connector (alternative)
 
+# ============================================
 # Machine Learning
-scikit-learn        # Classical ML models
-torch               # PyTorch deep learning framework
+# ============================================
+scikit-learn>=1.1.0         # Classical ML models
+torch>=1.12.0               # PyTorch deep learning framework
+tensorflow>=2.10.0          # TensorFlow framework (optional)
 
-# Visualization
-matplotlib          # Static plotting
-plotly              # Interactive charts
+# ============================================
+# Visualization & Web
+# ============================================
+matplotlib>=3.5.0           # Static plotting
+plotly>=5.0.0               # Interactive charts
+Flask>=2.2.0                # Lightweight web framework
+Werkzeug>=2.2.0             # WSGI utility library
 
+# ============================================
 # IoT / Sensors
-paho-mqtt           # MQTT protocol for sensor communication
+# ============================================
+paho-mqtt>=1.6.0            # MQTT protocol for sensor communication
 
-# Web Framework
-Flask               # Lightweight web framework for API endpoints
+# ============================================
+# Configuration & Utilities
+# ============================================
+python-dotenv>=0.20.0       # Environment variable management
+tabulate>=0.9.0             # ASCII table formatting
 
-#Install dotenv support (so Python can read .env):
-#...Add to requirements.txt:
-psycopg2
-tabulate
-python-dotenv
+# ============================================
+# Development & Testing (optional)
+# ============================================
+# Install with: pip install -r requirements-dev.txt
+# pytest>=7.0.0
+# pytest-cov>=3.0.0
+# flake8>=4.0.0
+# black>=22.0.0
+# isort>=5.10.0
+# pylint>=2.13.0
+# pip-audit>=1.1.0
 
