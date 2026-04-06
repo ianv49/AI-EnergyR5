@@ -59,7 +59,7 @@ async function fetchAndParseMeteorMLData() {
     
     for (const line of dataALines) {
       const cols = line.split(',');
-      if (cols.length >= 8) {
+      if (cols.length >= 9) {  // Ensure all 9 columns: id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
         predict_wind_min.push(parseFloat(cols[2]));
         predict_wind_avg.push(parseFloat(cols[3]));
         predict_wind_max.push(parseFloat(cols[4]));
@@ -78,7 +78,7 @@ async function fetchAndParseMeteorMLData() {
     
     for (const line of dataBLines) {
       const cols = line.split(',');
-      if (cols.length >= 8) {
+      if (cols.length >= 9) {  // Ensure all 9 columns: id,timestamp,wind-min,wind-avg,wind-max,solar-min,solar-avg,solar-max,source
         actual_wind_min.push(parseFloat(cols[2]));
         actual_wind_avg.push(parseFloat(cols[3]));
         actual_wind_max.push(parseFloat(cols[4]));
