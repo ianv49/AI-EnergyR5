@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-ML | Unified Renewable Energy Predictions</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .chart-wrapper {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        .chart-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        canvas {
+            max-height: 400px;
+        }
+        .legend {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-top: 8px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .data-info {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #333;
+        }
+        .sources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0 0 0;
+        }
+        .source-badge {
+            background: #fff;
+            border: 1px solid #2196F3;
+            color: #2196F3;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .metric-value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ All-ML Unified Predictions</h1>
+        <p class="subtitle">Consolidated machine learning predictions across all weather data sources</p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Mean Absolute Error</div>
+                <div class="metric-value" id="mae-val">1.224</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Root Mean Squared Error</div>
+                <div class="metric-value" id="rmse-val">1.246</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">R² Score</div>
+                <div class="metric-value" id="r2-val">-129.957</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Correlation Coefficient</div>
+                <div class="metric-value" id="corr-val">-0.596</div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">🌬️ Wind Speed Forecast</div>
+                <canvas id="combined_wind"></canvas>
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #22c55e;"></span>
+                        <span>Predict Avg (solid)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #ef4444; border: 2px dashed #ef4444;"></span>
+                        <span>Predict Min/Max (dashed)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #3b82f6;"></span>
+                        <span>Actual Avg (solid)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #ff9800;"></span>
+                        <span>Actual Min/Max</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <div class="chart-title">☀️ Solar Irradiance Forecast</div>
+                <canvas id="combined_solar"></canvas>
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #22c55e;"></span>
+                        <span>Predict Avg (solid)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #ef4444; border: 2px dashed #ef4444;"></span>
+                        <span>Predict Min/Max (dashed)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #3b82f6;"></span>
+                        <span>Actual Avg (solid)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #ff9800;"></span>
+                        <span>Actual Min/Max</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-info">
+            <strong>📊 Data Sources:</strong>
+            <div class="sources-list">
+                <span class="source-badge">NASA POWER</span>
+                <span class="source-badge">Open-Meteo</span>
+                <span class="source-badge">Meteostat</span>
+                <span class="source-badge">Tomorrow.io</span>
+                <span class="source-badge">WeatherBit</span>
+            </div>
+            <p style="margin-top: 15px;">
+                <strong>Predictions:</strong> 14-day RandomForest ensemble trained on consolidated multi-source data (Jan 1 - Feb 20, 2026)
+                | <strong>Period:</strong> Feb 21-28, 2026 | <strong>Metrics:</strong> Computed on wind-avg
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3"></script>
+    <script>
+        // Initialize charts with hardcoded default data
+        const label_days = ['Feb 21', 'Feb 22', 'Feb 23', 'Feb 24', 'Feb 25', 'Feb 26', 'Feb 27', 'Feb 28'];
+        
+        // Wind speed defaults (m/s)
+        window.predict_wind_avg = [3.39, 3.64, 3.02, 3.25, 3.58, 3.92, 3.08, 3.47];
+        window.predict_wind_min = [3.23, 3.55, 2.89, 3.12, 3.45, 3.78, 2.95, 3.34];
+        window.predict_wind_max = [3.81, 3.84, 3.18, 3.42, 3.78, 4.14, 3.28, 3.68];
+        
+        window.actual_wind_avg = [2.49, 3.15, 2.75, 3.42, 3.85, 4.10, 3.28, 3.65];
+        window.actual_wind_min = [1.50, 2.10, 1.80, 2.40, 2.90, 3.20, 2.15, 2.75];
+        window.actual_wind_max = [3.40, 4.20, 3.65, 4.50, 4.90, 5.20, 4.35, 4.55];
+        
+        // Solar irradiance defaults (kWh/m²)
+        window.predict_solar_avg = [0.24, 0.24, 0.35, 0.42, 0.28, 0.22, 0.48, 0.38];
+        window.predict_solar_min = [0.00, 0.00, 0.10, 0.15, 0.08, 0.05, 0.18, 0.12];
+        window.predict_solar_max = [0.67, 0.68, 0.72, 0.75, 0.65, 0.58, 0.82, 0.71];
+        
+        window.actual_solar_avg = [1.15, 0.95, 1.35, 1.58, 1.25, 1.05, 1.75, 1.45];
+        window.actual_solar_min = [0.00, 0.00, 0.20, 0.30, 0.15, 0.10, 0.35, 0.20];
+        window.actual_solar_max = [4.89, 3.50, 4.20, 4.80, 4.10, 3.80, 5.15, 4.65];
+
+        // Create wind chart
+        const windCtx = document.getElementById('combined_wind').getContext('2d');
+        new Chart(windCtx, {
+            type: 'line',
+            data: {
+                labels: label_days,
+                datasets: [
+                    {
+                        label: 'Predict Avg',
+                        data: window.predict_wind_avg,
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Predict Min',
+                        data: window.predict_wind_min,
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Predict Max',
+                        data: window.predict_wind_max,
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Avg',
+                        data: window.actual_wind_avg,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Min',
+                        data: window.actual_wind_min,
+                        borderColor: '#ff9800',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Max',
+                        data: window.actual_wind_max,
+                        borderColor: '#ff9800',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 12 }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        beginAtZero: true,
+                        title: { display: true, text: 'Wind Speed (m/s)' }
+                    }
+                }
+            }
+        });
+
+        // Create solar chart (log scale)
+        const solarCtx = document.getElementById('combined_solar').getContext('2d');
+        new Chart(solarCtx, {
+            type: 'line',
+            data: {
+                labels: label_days,
+                datasets: [
+                    {
+                        label: 'Predict Avg',
+                        data: window.predict_solar_avg,
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Predict Min',
+                        data: window.predict_solar_min,
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Predict Max',
+                        data: window.predict_solar_max,
+                        borderColor: '#ef4444',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Avg',
+                        data: window.actual_solar_avg,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Min',
+                        data: window.actual_solar_min,
+                        borderColor: '#ff9800',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                    {
+                        label: 'Actual Max',
+                        data: window.actual_solar_max,
+                        borderColor: '#ff9800',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        fill: false,
+                    },
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 12 }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'logarithmic',
+                        position: 'left',
+                        title: { display: true, text: 'Solar Irradiance (kWh/m²)' }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="all-ml.js"></script>
+</body>
+</html>
