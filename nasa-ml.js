@@ -125,45 +125,78 @@ async function fetchAndParseMeteorMLData() {
     if (r2El) r2El.textContent = r2.toFixed(3);
     if (corrEl) corrEl.textContent = corr.toFixed(3);
     
-    // Update Chart.js if already instantiated
-    updateChartsWithData();
+    // Validate data before update
+    if (predict_wind_avg.length !== 8 || actual_wind_avg.length !== 8) {
+      throw new Error(`Invalid data lengths: predict=${predict_wind_avg.length}, actual=${actual_wind_avg.length}`);
+    }
     
-    console.log('✅ NASA-ML data injected & metrics displayed (static)');
+    console.log('✅ NASA-ML data validated & metrics displayed');
+    
+    // Wait for charts to be fully initialized, then update
+    setTimeout(() => {
+      updateChartsWithData();
+    }, 500);
     
   } catch (error) {
-    console.error('NASA-ML: Could not load nasa-ml.txt, using HTML defaults:', error);
-    // HTML already has defaults, just use them
+    console.error('NASA-ML ERROR:', error.message);
+    console.warn('Keeping HTML default hardcoded values for charts');
   }
 }
 
 function updateChartsWithData() {
-  // Update wind chart if it exists
+  console.log('updateChartsWithData() called - checking charts...');
+  
+  // Verify data exists
+  if (!window.predict_wind_avg || window.predict_wind_avg.length === 0) {
+    console.warn('⚠️ No wind prediction data - using defaults');
+    return;
+  }
+  
+  // Update wind chart
   const windChart = Chart.getChart('combined_wind');
-  if (windChart && window.predict_wind_avg) {
+  if (windChart) {
+    console.log('Updating wind chart with', window.predict_wind_avg.length, 'points');
     windChart.data.datasets[0].data = window.predict_wind_avg;
     windChart.data.datasets[1].data = window.predict_wind_min;
     windChart.data.datasets[2].data = window.predict_wind_max;
     windChart.data.datasets[3].data = window.actual_wind_avg;
     windChart.data.datasets[4].data = window.actual_wind_min;
     windChart.data.datasets[5].data = window.actual_wind_max;
-    windChart.update('none');
-    console.log('✅ Wind chart updated with data');
+    windChart.update();
+    console.log('✅ Wind chart updated');
+  } else {
+    console.warn('⚠️ Wind chart not found (Chart.getChart returned null)');
   }
   
-  // Update solar chart if it exists
+  // Update solar chart
   const solarChart = Chart.getChart('combined_solar');
-  if (solarChart && window.predict_solar_avg) {
+  if (solarChart) {
+    if (!window.predict_solar_avg || window.predict_solar_avg.length === 0) {
+      console.warn('⚠️ No solar prediction data - using defaults');
+      return;
+    }
+    console.log('Updating solar chart with', window.predict_solar_avg.length, 'points');
     solarChart.data.datasets[0].data = window.predict_solar_avg;
     solarChart.data.datasets[1].data = window.predict_solar_min;
     solarChart.data.datasets[2].data = window.predict_solar_max;
     solarChart.data.datasets[3].data = window.actual_solar_avg;
     solarChart.data.datasets[4].data = window.actual_solar_min;
     solarChart.data.datasets[5].data = window.actual_solar_max;
-    solarChart.update('none');
-    console.log('✅ Solar chart updated with data');
+    solarChart.update();
+    console.log('✅ Solar chart updated');
+  } else {
+    console.warn('⚠️ Solar chart not found (Chart.getChart returned null)');
   }
 }
 
-// Run on page load
-window.addEventListener('load', fetchAndParseMeteorMLData);
+// Run on page load - wait for DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded: scheduling fetch...');
+    setTimeout(fetchAndParseMeteorMLData, 100);
+  });
+} else {
+  console.log('DOM already loaded: scheduling fetch...');
+  setTimeout(fetchAndParseMeteorMLData, 100);
+}
 
