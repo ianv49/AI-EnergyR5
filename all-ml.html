@@ -94,26 +94,6 @@
         canvas {
             max-height: 400px;
         }
-        .legend {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
-        }
-        .legend-item {
-            display: inline-block;
-            margin-right: 20px;
-            margin-top: 8px;
-        }
-        .legend-color {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            margin-right: 6px;
-            vertical-align: middle;
-        }
         .data-info {
             background: #e7f3ff;
             border-left: 4px solid #2196F3;
@@ -188,47 +168,11 @@
             <div class="chart-wrapper">
                 <div class="chart-title">🌬️ Wind Speed Forecast</div>
                 <canvas id="combined_wind"></canvas>
-                <div class="legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #22c55e;"></span>
-                        <span>Predict Avg (solid)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #ef4444; border: 2px dashed #ef4444;"></span>
-                        <span>Predict Min/Max (dashed)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #3b82f6;"></span>
-                        <span>Actual Avg (solid)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #ff9800;"></span>
-                        <span>Actual Min/Max</span>
-                    </div>
-                </div>
             </div>
 
             <div class="chart-wrapper">
                 <div class="chart-title">☀️ Solar Irradiance Forecast</div>
                 <canvas id="combined_solar"></canvas>
-                <div class="legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #22c55e;"></span>
-                        <span>Predict Avg (solid)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #ef4444; border: 2px dashed #ef4444;"></span>
-                        <span>Predict Min/Max (dashed)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #3b82f6;"></span>
-                        <span>Actual Avg (solid)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #ff9800;"></span>
-                        <span>Actual Min/Max</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -343,8 +287,11 @@
                         position: 'top',
                         labels: {
                             usePointStyle: true,
-                            padding: 15,
-                            font: { size: 12 }
+                            pointStyle: 'circle',
+                            padding: 20,
+                            font: { size: 13, weight: '500' },
+                            color: '#333',
+                            boxWidth: 8,
                         }
                     }
                 },
@@ -431,8 +378,11 @@
                         position: 'top',
                         labels: {
                             usePointStyle: true,
-                            padding: 15,
-                            font: { size: 12 }
+                            pointStyle: 'circle',
+                            padding: 20,
+                            font: { size: 13, weight: '500' },
+                            color: '#333',
+                            boxWidth: 8,
                         }
                     }
                 },
