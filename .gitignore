@@ -13,3 +13,4 @@ config.py
 # Data and Logs (Only keep placeholders if needed)
 logs/*.log
 data/*.txt
+.DS_Store
