@@ -14,4 +14,11 @@ config.py
 logs/*.log
 data/*.txt
 !data/nasa-ml.txt
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+.Spotlight-V100
+.Trashes
