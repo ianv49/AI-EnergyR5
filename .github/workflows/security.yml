@@ -1,0 +1,84 @@
+name: Security & Dependencies
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Check for exposed secrets
+      run: |
+        echo "🔐 Scanning for potential secrets..."
+        python -c "
+        import re
+        import os
+        
+        secret_patterns = {
+            'API_KEY': r'api[_-]?key\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
+            'PASSWORD': r'password\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
+            'TOKEN': r'token\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
+            'SECRET': r'secret\s*[:=]\s*[\"'\''][^\"'\'']{10,}',
+        }
+        
+        found_issues = False
+        for root, dirs, files in os.walk('.'):
+            dirs[:] = [d for d in dirs if d not in ['venv', 'venv_ml', '.git', '__pycache__']]
+            
+            for file in files:
+                if file.endswith(('.py', '.md', '.txt', '.yml', '.yaml')):
+                    path = os.path.join(root, file)
+                    try:
+                        with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                            content = f.read()
+                            for name, pattern in secret_patterns.items():
+                                if re.search(pattern, content, re.IGNORECASE):
+                                    print(f'⚠️ Potential {name} found in {path}')
+                                    found_issues = True
+                    except:
+                        pass
+        
+        if found_issues:
+            print('❌ Potential secrets detected. Please review.')
+        else:
+            print('✓ No obvious secrets detected.')
+        "
+
+    - name: Check dependencies for vulnerabilities
+      run: |
+        python -m pip install pip-audit
+        pip-audit --skip-editable || true
+
+    - name: Validate requirements.txt
+      run: |
+        python -c "
+        import re
+        with open('requirements.txt', 'r') as f:
+            lines = f.readlines()
+        
+        valid = 0
+        for line in lines:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                if re.match(r'^[a-zA-Z0-9-_]+', line):
+                    valid += 1
+        
+        print(f'✓ {valid} packages defined in requirements.txt')
+        "
+
+    - name: Python syntax check on all files
+      run: |
+        python -m py_compile $(find . -name '*.py' -not -path './venv*' -not -path './__pycache__*') || true

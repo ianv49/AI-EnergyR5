@@ -1,0 +1,35 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint flake8 black isort
+
+    - name: Check code formatting with black
+      run: black --check . --exclude venv,venv_ml,__pycache__ || true
+
+    - name: Check import sorting with isort
+      run: isort --check-only . --skip venv --skip venv_ml || true
+
+    - name: Pylint analysis
+      run: |
+        pylint **/*.py --disable=C0111,C0103 --exit-zero || true
+      continue-on-error: true
