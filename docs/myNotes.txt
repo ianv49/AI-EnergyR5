@@ -6,7 +6,7 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 - Separate logs with '================================================'
 
 ================================================
-..notes 2026-04-04;
+..notes 2026-04-06;
 [a] Data Flow
 nasa-api.txt (hourly) 
   ↓ nasa-ml.py (train + predict)
