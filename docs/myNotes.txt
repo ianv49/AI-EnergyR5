@@ -7,6 +7,15 @@ Instructions for AI: How to use this file (myNotes.txt) for logging:
 
 ================================================
 ..notes 2026-04-04;
+[a] Data Flow
+nasa-api.txt (hourly) 
+  ↓ nasa-ml.py (train + predict)
+  ↓ nasa-ml.txt (Data-A, Data-B, Metrics)
+  ↓ nasa-ml.js (parse & inject)
+  ↓ nasa-ml.html (display metrics + charts)
+
+================================================
+..notes 2026-04-04;
 [a] align files of nasa ml, put it in the list in log of apr3.
 [b] nasa-ml.txt already has result of nasa-ml.py.
   try to sill align the result/metric after rename of files.
