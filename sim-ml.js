@@ -1,6 +1,6 @@
-// ml-sim.js - ML Predict vs Actual Baseline: Feb 21-28 2026 wind/solar charts.
-// CORE FILES: CSS=style.css (via HTML link), JS=ml-sim.js (this file), TXT=data/sim-api.txt (fetch for hist data), data/ml-sim-output.txt (write predictions).
-// Updated: Removed old collect1.txt/Jan-Mar/Apr refs. Aligns with ml-sim.html hardcoded Feb21-28 data.
+// sim-ml.js - ML Predict vs Actual Baseline: Feb 21-28 2026 wind/solar charts.
+// CORE FILES: CSS=style.css (via HTML link), JS=sim-ml.js (this file), TXT=data/sim-api.txt (fetch for hist data), data/sim-ml.txt (write predictions).
+// Updated: Removed old collect1.txt/Jan-Mar/Apr refs. Aligns with sim-ml.html hardcoded Feb21-28 data.
 
 async function loadSimData() {
   console.log('loadSimData START'); // DEBUG
@@ -134,18 +134,18 @@ async function writeMLOutput(allStats) {
     csv += `${id+1},${day},${s.wind.min},${s.wind.avg},${s.wind.max},${s.solar.min},${s.solar.avg},${s.solar.max},sim-ML\n`;
   });
 
-    const response = await fetch('data/ml-sim-output.txt', {
+    const response = await fetch('data/sim-ml.txt', {
       method: 'PUT',
       headers: {'Content-Type': 'text/plain'},
       body: csv
     });
     if (response.ok) {
-      console.log('✅ ml-sim-output.txt written successfully');
+      console.log('✅ sim-ml.txt written successfully');
     } else {
       console.warn('Write warning:', response.status);
     }
   } catch (error) {
-    console.error('Error writing ml-sim-output.txt:', error);
+    console.error('Error writing sim-ml.txt:', error);
   }
 }
 

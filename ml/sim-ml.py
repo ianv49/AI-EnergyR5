@@ -154,7 +154,7 @@ def generate_predictions(scaler, models, n_days=7, start_date='2025-04-01'):
     logger.info(f"Generated {len(df_daily)} Apr predictions")
     return df_daily
 
-def append_predictions(df_daily, output_file='data/ml-sim-output.txt'):
+def append_predictions(df_daily, output_file='data/sim-ml.txt'):
     """Append predictions (unified output)"""
     if not os.path.exists(output_file):
         df_daily.to_csv(output_file, index=False)
@@ -162,7 +162,7 @@ def append_predictions(df_daily, output_file='data/ml-sim-output.txt'):
         df_daily.to_csv(output_file, mode='a', header=False, index=False)
     logger.info(f"Appended to {output_file}")
 
-def load_ml_predictions(ml_file='data/ml-sim-output.txt'):
+def load_ml_predictions(ml_file='data/sim-ml.txt'):
     """Load predictions for validation"""
     try:
         if not os.path.exists(ml_file):

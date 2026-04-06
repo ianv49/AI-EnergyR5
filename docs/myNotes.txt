@@ -53,7 +53,7 @@ Files Summary:
 [a]
 1. **✅ Complete**: Replicated files (nasa-api.txt, ml-nasa-output.txt, ml-nasa.js)
 2. **Understand files**: Read ml-nasa.html, ml-nasa.js, data/nasa-api.txt (done)
-3. **Create NASA-specific ml-nasa.js**: Adapt ml-sim.js logic:
+3. **Create NASA-specific ml-nasa.js**: Adapt sim-ml.js logic:
    - Load data/nasa-api.txt instead of sim-api.txt
    - Parse correct columns: wind_speed (col4, index 4), irradiance (col3, index 2)
    - Filter training data Jan1 2025 to Feb20 2026
@@ -73,22 +73,22 @@ Files Summary:
 ..notes 2026-04-01;
 [a] update filename of sim api
 Renamed data/collect1.txt to sim-api.txt, 
-  data/MLoutput.txt to ml-sim-output.txt, 
+  data/MLoutput.txt to sim-ml.txt, 
   ml/ml_forecast.py→ml to ml-sim-forecast.py.
-  ml.js to ml-sim.js.
-retain ml-sim.html
+  ml.js to sim-ml.js.
+retain sim-ml.html
 [b] align files, routine, codes.
-Updated py: paths sim-api.txt/ml-sim-output.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
-Updated ml-sim.js: filterFebData(≤Feb20), histDays Feb11-20→pred Feb21-28 baseline, getDailyStats(febData), log/console.
-Updated ml-sim.html: title/charts Feb21-28 dates, subtitle RF+range, dates=['Feb21'..'Feb28'].
-Fixed ml.js errors, aligned charts Predict/Actual. Run py ml/ml-sim-forecast.py && start ml-sim.html.
+Updated py: paths sim-api.txt/sim-ml.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
+Updated sim-ml.js: filterFebData(≤Feb20), histDays Feb11-20→pred Feb21-28 baseline, getDailyStats(febData), log/console.
+Updated sim-ml.html: title/charts Feb21-28 dates, subtitle RF+range, dates=['Feb21'..'Feb28'].
+Fixed ml.js errors, aligned charts Predict/Actual. Run py ml/ml-sim-forecast.py && start sim-ml.html.
 [c]
-Created new ml/ml-sim.py unifying routines from: ml/ml-sim-forecast.py, scripts/build_mlres1.py, extract_data_b.py, prepare_data.py, align_february_timestamps.py (data prep aspects), revise_mlres1.py, ml_validation.py.
+Created new ml/sim-ml.py unifying routines from: ml/ml-sim-forecast.py, scripts/build_mlres1.py, extract_data_b.py, prepare_data.py, align_february_timestamps.py (data prep aspects), revise_mlres1.py, ml_validation.py.
 No deletions or overwrites of original files.
 Full pipeline handles: data prep → train RF models → Apr1-7 forecasts → validation/metrics/charts → MLres1.txt.
 Outputs produced by pipeline:
 ml/training_set.csv
-data/ml-sim-output.txt (predictions)
+data/sim-ml.txt (predictions)
 data/MLres1.txt (results + metrics)
 charts/ml_sim_validation.png
 
@@ -1507,19 +1507,19 @@ ML Sim API Update Summary (BLACKBOXAI)
 
 **ML Models**: 3x RandomForestRegressor (sklearn, n_estimators=100, random_state=42). Trained on full historical, synthetic noise (sin seasonal + Gaussian), 14-day hourly → daily aggregates min/avg/max.
 
-**Predictions**: Feb 21-28 2026 (8 days, source='sim-api-ML-feb26') appended ml-sim-output.txt.
+**Predictions**: Feb 21-28 2026 (8 days, source='sim-api-ML-feb26') appended sim-ml.txt.
 
-**JS Baseline**: ml-sim.js (renamed from ml.js) filterFebData (<=Feb20), hist Feb11-20 → baseline mean±std pred Feb21-28, table/charts aligned.
+**JS Baseline**: sim-ml.js (renamed from ml.js) filterFebData (<=Feb20), hist Feb11-20 → baseline mean±std pred Feb21-28, table/charts aligned.
 
-**Frontend**: ml-sim.html charts Feb21-28 Predict(Dashed RF) vs Actual(Solid sim), log solar.
+**Frontend**: sim-ml.html charts Feb21-28 Predict(Dashed RF) vs Actual(Solid sim), log solar.
 
-**Cmd**: `py ml/ml-sim-forecast.py && start ml.html ml-sim.html`
+**Cmd**: `py ml/ml-sim-forecast.py && start ml.html sim-ml.html`
 
 **Status**: Complete, syntax fixed, NASA untouched.
 
 **Steps Done (Past 5h)**:
-1. Renamed `data/collect1.txt`→`sim-api.txt`, `data/MLoutput.txt`→`ml-sim-output.txt`, `ml/ml_forecast.py`→`ml/ml-sim-forecast.py`.
-2. Updated py: paths sim-api.txt/ml-sim-output.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
+1. Renamed `data/collect1.txt`→`sim-api.txt`, `data/MLoutput.txt`→`sim-ml.txt`, `ml/ml_forecast.py`→`ml/ml-sim-forecast.py`.
+2. Updated py: paths sim-api.txt/sim-ml.txt, 'sim-ML-new'→'sim-api-ML-feb26', train 2025-01-01~2026-02-20, predict Feb21-28 2026 daily (RFRegressor 3 models), syntax fix.
 3. Renamed `ml.js`→`ml-sim.js`.
 4. Updated `ml-sim.js`: filterFebData(≤Feb20), histDays Feb11-20→pred Feb21-28 baseline, getDailyStats(febData), log/console.
 5. Updated `ml-sim.html`: title/charts Feb21-28 dates, subtitle RF+range, dates=['Feb21'..'Feb28'].

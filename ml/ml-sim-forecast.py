@@ -140,7 +140,7 @@ def daily_aggregates(predictions):
 
 def append_to_mloutput(df_new):
     """Append new predictions to data/MLoutput.txt"""
-    ml_file = 'data/ml-sim-output.txt'
+    ml_file = 'data/sim-ml.txt'
     if not os.path.exists(ml_file):
         logger.warning(f"{ml_file} not found - creating")
         df_new.to_csv(ml_file, index=False)
