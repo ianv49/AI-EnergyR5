@@ -13,4 +13,5 @@ config.py
 # Data and Logs (Only keep placeholders if needed)
 logs/*.log
 data/*.txt
+!data/nasa-ml.txt
 .DS_Store
