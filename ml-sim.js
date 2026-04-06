@@ -1,10 +1,11 @@
-// ml.js - Simple ML Baseline for AI-EnergyR5 (Mar 2025 historical + Apr preds)
-// Updated per task: parse collect1.txt (parts[5]=wind, [8]=solar), Jan-Mar filter, daily stats, baseline pred, table + MLoutput.txt
+// ml-sim.js - ML Predict vs Actual Baseline: Feb 21-28 2026 wind/solar charts.
+// CORE FILES: CSS=style.css (via HTML link), JS=ml-sim.js (this file), TXT=data/sim-api.txt (fetch for hist data), data/ml-sim-output.txt (write predictions).
+// Updated: Removed old collect1.txt/Jan-Mar/Apr refs. Aligns with ml-sim.html hardcoded Feb21-28 data.
 
 async function loadSimData() {
   console.log('loadSimData START'); // DEBUG
   try {
-fetch('data/sim-api.txt')
+    const response = await fetch('data/sim-api.txt');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const text = await response.text();
     const lines = text.trim().split('\n');
@@ -27,7 +28,7 @@ fetch('data/sim-api.txt')
       return { timestamp, wind, solar };
     }).filter(row => row !== null);
     
-  console.log(`Loaded ${rows.length} valid data points from collect1.txt (Q1: ${quarterData.length} after filter)`);
+    console.log(`Loaded ${rows.length} valid data points from sim-api.txt`);
     return rows;
   } catch (error) {
     console.error('Error loading data:', error);
@@ -133,15 +134,18 @@ async function writeMLOutput(allStats) {
     csv += `${id+1},${day},${s.wind.min},${s.wind.avg},${s.wind.max},${s.solar.min},${s.solar.avg},${s.solar.max},sim-ML\n`;
   });
 
-  try {
-fetch('data/ml-sim-output.txt'
+    const response = await fetch('data/ml-sim-output.txt', {
       method: 'PUT',
       headers: {'Content-Type': 'text/plain'},
       body: csv
     });
-    console.log('✅ MLoutput.txt written successfully');
+    if (response.ok) {
+      console.log('✅ ml-sim-output.txt written successfully');
+    } else {
+      console.warn('Write warning:', response.status);
+    }
   } catch (error) {
-    console.error('Error writing MLoutput.txt:', error);
+    console.error('Error writing ml-sim-output.txt:', error);
   }
 }
 
@@ -167,7 +171,7 @@ function populateTable(allStats) {
 }
 
 async function runMLBaseline() {
-  console.log('AI-EnergyR5 Simple ML Baseline - Mar 25-31 stats + Apr 01-07 predictions');
+  console.log('AI-EnergyR5 ML-Sim Baseline - Feb21-28 predict vs actual');
   
   const rows = await loadSimData();
   const febData = filterFebData(rows);
@@ -175,16 +179,16 @@ async function runMLBaseline() {
 
   const histDays = ['2026-02-11','2026-02-12','2026-02-13','2026-02-14','2026-02-15','2026-02-16','2026-02-17','2026-02-18','2026-02-19','2026-02-20'];
   const histStats = getDailyStats(febData, histDays);
-  console.log('Historical Mar stats:', histStats);
+  console.log('Historical Feb stats:', histStats);
 
   const predStats = generatePredictions(histStats);
-  console.log('Predicted Apr stats:', predStats);
+  console.log('Predicted Feb stats:', predStats);
 
   const allStats = {...histStats, ...predStats};
   populateTable(allStats);
   await writeMLOutput(allStats);
 
-  console.log('✅ ML Baseline complete - table + MLoutput.txt ready!');
+    console.log('✅ ML-Sim complete - data ready for charts!');
 }
 
 // Run on load

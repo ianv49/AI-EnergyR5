@@ -1,0 +1,15 @@
+# Virtual Environment
+venv_ml/
+venv/
+
+# Python bytecode
+**/__pycache__/
+*.py[cod]
+
+# Local configuration and secrets
+.env
+config.py
+
+# Data and Logs (Only keep placeholders if needed)
+logs/*.log
+data/*.txt
