@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 
+    ================================================
+    ALL-ML UNIFIED DASHBOARD
+    ================================================
+    BEFORE USING THE RE-TRAIN BUTTON:
+    1. Start the Flask backend server:
+       python web/ingestion_trigger.py
+    
+    2. Navigate to: http://127.0.0.1:5000
+       (The dashboard will still work on GitHub Pages but re-train won't function)
+    
+    THE RE-TRAIN BUTTON:
+    - Requires Flask server running on http://127.0.0.1:5000
+    - Calls POST /api/retrain endpoint
+    - Runs all-ml.py to train RandomForest models
+    - Updates data/all-ml.txt with new predictions
+    - Auto-refreshes charts after successful training
+    
+    THE RE-DISPLAY BUTTON:
+    - Fetches latest data from data/all-ml.txt
+    - Updates all charts and metrics
+    - Works with local server or GitHub Pages
+    
+    ERROR: "Connection error: Is the Flask server running?"
+    - Start Flask: python web/ingestion_trigger.py
+    - Check port 5000 is listening
+    ================================================
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All-ML | Unified Renewable Energy Predictions</title>
@@ -619,7 +647,7 @@
             setTimeout(() => { el.classList.remove('show'); }, 5000);
         }
 
-        function retrainModel() {
+        async function retrainModel() {
             const selected = [];
             if (document.getElementById('cb-nasa').checked) selected.push('nasa');
             if (document.getElementById('cb-opmet').checked) selected.push('opmet');
@@ -633,8 +661,32 @@
             }
 
             showStatus(`🔄 Re-training on: ${selected.join(', ')}...`, 'info');
-            console.log('Re-training with sources:', selected);
-            showStatus(`✅ Re-training complete! Output saved to all-ml.txt`, 'success');
+            
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/retrain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sources: selected })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showStatus(`✅ Re-training complete! Trained on: ${result.sources.join(', ')}`, 'success');
+                    console.log('Retraining result:', result);
+                    // Auto-refresh after successful retraining
+                    setTimeout(() => {
+                        showStatus('🔃 Auto-refreshing display...', 'info');
+                        refreshDisplay();
+                    }, 1000);
+                } else {
+                    showStatus(`❌ Retraining failed: ${result.message}`, 'error');
+                    console.error('Retrain error:', result);
+                }
+            } catch (error) {
+                showStatus(`❌ Connection error: Is the Flask server running on port 5000? (${error.message})`, 'error');
+                console.error('Retrain fetch error:', error);
+            }
         }
 
         function refreshDisplay() {
