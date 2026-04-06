@@ -1,0 +1,36 @@
+# Development Dependencies for AI-EnergyR5
+# Install with: pip install -r requirements-dev.txt
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=3.0.0
+pytest-timeout>=2.1.0
+pytest-mock>=3.6.0
+
+# Code Quality & Linting
+flake8>=4.0.0
+black>=22.0.0
+isort>=5.10.0
+pylint>=2.13.0
+mypy>=0.950
+
+# Security
+pip-audit>=1.1.0
+bandit>=1.7.0
+
+# Documentation
+sphinx>=4.5.0
+sphinx-rtd-theme>=1.0.0
+
+# Development Tools
+ipython>=8.0.0
+jupyter>=1.0.0
+notebook>=6.4.0
+ipdb>=0.13.0
+
+# Version Control
+pre-commit>=2.17.0
+
+# Performance Profiling
+memory-profiler>=0.60.0
+line-profiler>=3.5.0
