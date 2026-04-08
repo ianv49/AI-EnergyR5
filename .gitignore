@@ -19,6 +19,8 @@ data/*.txt
 !data/metstat-api.txt
 !data/tomr-api.txt
 !data/wethbit-api.txt
+!data/ltsm-ml.txt
+!data/rf-ml.txt
 
 # macOS
 .DS_Store

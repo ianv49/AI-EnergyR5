@@ -1,12 +1,13 @@
-# TODO.md - all-lstm.py Update Plan Execution
+# File Rename & Push Plan Progress
 
-## Approved Plan Steps:
-1. ✅ Explored repo/files with list_files, read_file, search_files.
-2. ✅ Analyzed all-lstm.py and confirmed it already loads all 5 API files and outputs to data/all-lstm.txt.
-3. ✅ Created TODO.md to track progress.
-4. ✅ Ran `py all-lstm.py` to train LSTM and generate data/all-lstm.txt (note: 0 records loaded due to parsing issues).
-5. ✅ Verified no output file created (script exited early).
-6. [ ] Fix parsing issues and rerun.
-7. [ ] Complete task.
+## Steps from Approved Plan:
+1. ✅ Updated .gitignore to except !data/ltsm-ml.txt and !data/rf-ml.txt
+2. [ ] Force add data/ltsm-ml.txt (`git add -f data/ltsm-ml.txt`)
+3. [ ] Create branch `blackboxai/file-renames-ltsm-push` 
+4. [ ] Commit "Add data/ltsm-ml.txt after RF/LSTM file renames"
+5. [ ] Push branch
+6. [ ] Open GH PR via `gh pr create`
+7. [ ] Verify GH CLI install/auth (`gh auth status`)
+8. [ ] Test scripts: `python rf-ml.py`, `python lstm-ml.py`
 
-**Status**: Ready to execute script (no code changes needed).
+**Next**: Execute git add -f and proceed.
